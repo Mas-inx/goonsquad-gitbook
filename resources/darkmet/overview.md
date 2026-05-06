@@ -2,7 +2,7 @@
 
 A feature-rich, immersive dark-web trading script for FiveM servers. Supports **QBCore**, **QBox**, and **ESX** out of the box.
 
-**Price:** $29.99 | [Buy on Tebex](https://goonsquad-inc.tebex.io/package/7365474)
+**Price:** $29.99 | [Buy on Tebex](https://goonsquad-inc.tebex.io/package/7365474) | [Watch Preview](https://www.youtube.com/watch?v=0SsuHWrsMx0)
 
 ---
 
