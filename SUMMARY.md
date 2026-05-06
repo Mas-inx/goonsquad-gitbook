@@ -23,9 +23,6 @@
 
 ### Zombies/Cannibals
 - [Overview](resources/zombies-cannibals/overview.md)
-- [Installation](resources/zombies-cannibals/installation.md)
-- [Configuration](resources/zombies-cannibals/configuration.md)
-- [Usage](resources/zombies-cannibals/usage.md)
 
 ### Paintball
 - [Overview](resources/paintball/overview.md)
