@@ -52,15 +52,4 @@
 - [Installation](resources/multicharacter/installation.md)
 - [Configuration](resources/multicharacter/configuration.md)
 
-### Characters (ESX)
-- [Overview](resources/characters-esx/overview.md)
-- [Installation](resources/characters-esx/installation.md)
-- [Configuration](resources/characters-esx/configuration.md)
-- [Usage](resources/characters-esx/usage.md)
 
-### Leveling System
-- [Overview](resources/leveling/overview.md)
-- [Installation](resources/leveling/installation.md)
-- [Configuration](resources/leveling/configuration.md)
-- [Usage](resources/leveling/usage.md)
-- [API & Exports](resources/leveling/exports.md)
