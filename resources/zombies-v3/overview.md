@@ -2,7 +2,9 @@
 
 Advanced zombie survival system for FiveM. Standalone — no framework required, but supports ESX, QBCore, and Qbox.
 
-**Price:** $10.00 (was $35) | [Buy on Tebex](https://goonsquad-inc.tebex.io/package/7404344) | [Watch Preview](https://www.youtube.com/watch?v=e5gFJBduIQQ)
+**Price:** $10.00 (was $35) | [Buy on Tebex](https://goonsquad-inc.tebex.io/package/7404344)
+
+{% embed url="https://www.youtube.com/watch?v=e5gFJBduIQQ" %}
 
 ---
 
