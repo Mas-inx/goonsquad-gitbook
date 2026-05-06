@@ -36,4 +36,10 @@
 ### Multicharacter (QBCore)
 - [Overview](resources/multicharacter/overview.md)
 
+### Custom Sirens
+- [Overview](resources/custom-sirens/overview.md)
+- [Installation](resources/custom-sirens/installation.md)
+- [Configuration](resources/custom-sirens/configuration.md)
+- [Usage](resources/custom-sirens/usage.md)
+- [API & Exports](resources/custom-sirens/exports.md)
 
