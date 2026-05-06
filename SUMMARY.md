@@ -26,27 +26,14 @@
 
 ### Paintball
 - [Overview](resources/paintball/overview.md)
-- [Installation](resources/paintball/installation.md)
-- [Configuration](resources/paintball/configuration.md)
-- [Usage](resources/paintball/usage.md)
-- [API & Exports](resources/paintball/exports.md)
 
 ### Fueling System
 - [Overview](resources/fueling/overview.md)
-- [Installation](resources/fueling/installation.md)
-- [Configuration](resources/fueling/configuration.md)
-- [Usage](resources/fueling/usage.md)
-- [API & Exports](resources/fueling/exports.md)
 
 ### Arenas
 - [Overview](resources/arenas/overview.md)
-- [Installation](resources/arenas/installation.md)
-- [Configuration](resources/arenas/configuration.md)
-- [Usage](resources/arenas/usage.md)
 
 ### Multicharacter (QBCore)
 - [Overview](resources/multicharacter/overview.md)
-- [Installation](resources/multicharacter/installation.md)
-- [Configuration](resources/multicharacter/configuration.md)
 
 
