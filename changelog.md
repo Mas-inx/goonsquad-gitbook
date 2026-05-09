@@ -4,6 +4,9 @@ All notable changes to Goonsquad Studios resources will be documented here.
 
 ## [Unreleased]
 
+### ClothDesigner
+- Initial release
+
 ### DarkMet
 - Initial release
 

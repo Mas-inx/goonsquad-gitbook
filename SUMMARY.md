@@ -7,6 +7,13 @@
 
 ## Resources
 
+### ClothDesigner
+- [Overview](resources/clothdesigner/overview.md)
+- [Installation](resources/clothdesigner/installation.md)
+- [Configuration](resources/clothdesigner/configuration.md)
+- [Usage](resources/clothdesigner/usage.md)
+- [API & Exports](resources/clothdesigner/exports.md)
+
 ### DarkMet
 - [Overview](resources/darkmet/overview.md)
 - [Installation](resources/darkmet/installation.md)
