@@ -18,32 +18,17 @@
    ensure gs-clothdesigner
    ```
 
-   `gs-clothdesigner` **must** start after `oxmysql` and your framework. The Node-side discovery + pool allocator wait for `oxmysql` to be ready before they touch the DB.
+   `gs-clothdesigner` **must** start after `oxmysql` and your framework.
 
 ## Step 2: Database Setup
 
-The resource auto-creates and migrates every table it needs at boot, but it expects `oxmysql` to be reachable. You can also manually pre-create the schema:
+The resource auto-creates and migrates every table it needs at boot — no manual import required. Just make sure `oxmysql` is reachable.
+
+If you'd rather pre-create the schema by hand, run the bundled SQL file:
 
 ```bash
 mysql -u YOUR_USER -p YOUR_DB < resources/gs-clothdesigner/sql/schema.sql
 ```
-
-This creates the following tables:
-
-| Table | Purpose |
-|-------|---------|
-| `gs_clothdesigner_designs` | Saved designs (layers JSON + preview image + slot metadata) |
-| `gs_clothdesigner_design_versions` | Historical preview snapshots per design |
-| `gs_clothdesigner_assets` | Player-uploaded images and imported asset URLs |
-| `gs_clothdesigner_silhouettes` | Discovered cloth templates (one row per `.ydd`) |
-| `gs_clothdesigner_silhouette_batches` | Synthetic bridge rows linking sessions to pool packs |
-| `gs_clothdesigner_silhouette_sessions` | In-progress design sessions (ephemeral, wiped on boot) |
-| `gs_clothdesigner_pool_packs` | Multi-drawable apparel packs (one row per generated MP DLC pack) |
-| `gs_clothdesigner_pack_drawables` | Per-silhouette drawable assignments inside a pack + texture-slot bitmap |
-| `gs_clothdesigner_active_wearables` | Persists each player's equipped designs across disconnects |
-| `gs_clothdesigner_audit` | Audit log for create / publish / delete actions |
-
-> The Node bundle in `dist/server/silhouettes.js` also runs its own idempotent `CREATE TABLE IF NOT EXISTS` + `ALTER TABLE` passes when it boots, so legacy installs from older versions are migrated automatically.
 
 ## Step 3: Add the Inventory Item
 
@@ -78,7 +63,7 @@ ClothDesigner ships ready-to-paste item definitions in the `install/` folder.
 }
 ```
 
-> When `ox_inventory` is the active backend, ClothDesigner attaches the design's preview image to the item's `imageurl` metadata, so each printed shirt shows its own design as the inventory thumbnail. No PNGs need to be added to `ox_inventory/web/images/`.
+> When `ox_inventory` is the active backend, ClothDesigner attaches the design's preview image to the item, so each printed shirt shows its own design as the inventory thumbnail. No PNGs need to be added to `ox_inventory/web/images/`.
 
 ### ESX — database insert
 
@@ -87,26 +72,26 @@ INSERT IGNORE INTO `items` (`name`, `label`, `weight`) VALUES
 ('gs_customshirt', 'Custom T-Shirt', 1);
 ```
 
-> The item name itself is configurable via `Config.InventoryItemName`. If you change it, update the `useable` registration to match.
+> The item name is configurable via `Config.InventoryItemName`.
 
 ## Step 4: Configure Credentials
 
-Open `server/credentials.lua`. This file is **not** in the shared config because the secrets in it must never reach the client.
+Open `server/credentials.lua`. This file is server-only and is where API keys and webhook URLs live.
 
 ```lua
 GSCD = GSCD or {}
 GSCD.Credentials = GSCD.Credentials or {}
 
-GSCD.Credentials.GoogleApiKey = ''        -- required only if AI Mode is enabled
-GSCD.Credentials.DiscordWebhookUrl = ''   -- required for image hosting / AI output
+GSCD.Credentials.GoogleApiKey = ''        -- only required if AI Mode is enabled
+GSCD.Credentials.DiscordWebhookUrl = ''   -- recommended; required for AI Mode
 ```
 
 | Credential | Required for |
 |------------|--------------|
-| `DiscordWebhookUrl` | AI image hosting + large user uploads. Without it, AI Mode fails and large image uploads (>~12 KB base64) fall back to inline DB storage. |
-| `GoogleApiKey` | AI Mode only. Get a free key at [aistudio.google.com](https://aistudio.google.com/apikey). Disable AI in `shared/config.lua` if you don't want it. |
+| `DiscordWebhookUrl` | AI image hosting and large user uploads. Without it, AI Mode fails and large image uploads may be rejected. |
+| `GoogleApiKey` | AI Mode only. Get a free key at [aistudio.google.com](https://aistudio.google.com/apikey). Set `Config.AI.enabled = false` if you don't want AI Mode. |
 
-> **Important:** `server/credentials.lua` is loaded server-side only. Treat it like any other secret — do not commit a real key to a public git repo.
+> **Important:** `server/credentials.lua` is loaded server-side only. Treat the values like any other secret — do not commit a real key to a public git repo.
 
 ## Step 5: Configure Designer Stations & Jobs
 
@@ -140,14 +125,7 @@ exports['gs-clothdesigner']:openDesigner()
 
 ## Step 6: Restart the Server
 
-The first start will:
-
-1. Discover every `.ydd` in `cloth_templates/` and write `data/manifest.json`
-2. Pre-allocate one drawable slot per silhouette across multi-drawable apparel packs
-3. Materialise every pack to `generated/` and `stream/generated/` inside the resource
-4. Append the new pack list to `fxmanifest.lua` (between the `[GENERATED APPAREL START/END]` markers)
-
-You'll see a console banner like this on the **first** boot:
+The first start will automatically discover every `.ydd` in `cloth_templates/` and prepare your apparel pool. You'll see a console banner like this:
 
 ```
 ==========================================================
@@ -163,15 +141,14 @@ Restart **once more**. From that point on, boots are instant and no further acti
 
 ## Adding More Cloth Templates
 
-Drop more `.ydd` files into `cloth_templates/<gender>/<category>/` following the existing naming pattern, then run `gscd_rescan` (server console / RCON):
+1. Drop your new `.ydd` files into `cloth_templates/<gender>/<category>/` following the existing naming pattern.
+2. **Restart the server.**
 
-```
-gscd_rescan
-```
+That's it. The resource auto-detects new templates on boot, prepares the apparel for them, and you're ready to design.
 
-This re-scans the disk, upserts new silhouettes into the database, allocates fresh drawable slots, and writes any new packs to disk. Restart the server **once** for the new packs to take effect, then everything works without further restarts.
-
-`gscd_rebuild_pool` does the same thing, but also re-materialises packs whose on-disk files are missing or out of sync.
+> **Recommended:** just restarting the server is the easiest, most reliable way to add new templates. Two short restarts (one to materialise the apparel, one for FiveM to register it) handle everything end-to-end, the same as the very first install.
+>
+> *(Advanced)* If you'd rather not restart immediately, you can run `gscd_rescan` followed by `gscd_rebuild_pool` from the server console. You'll still need a server restart at the end for the new apparel to register — restarting up front is simpler.
 
 ---
 
@@ -195,11 +172,9 @@ This re-scans the disk, upserts new silhouettes into the database, allocates fre
 
 ---
 
-## Permissions
+## Permissions (Optional)
 
-ClothDesigner only writes inside its own resource folder (`generated/`, `stream/generated/`, `data/`, `fxmanifest.lua`). FiveM grants resources unrestricted file access to their own directory by default — no `add_filesystem_permission` lines are required.
-
-If you want to gate the rescan / rebuild commands behind ACE permissions:
+By default the admin commands (`gscd_rescan`, `gscd_rebuild_pool`, etc.) are server-console / RCON only. To expose them in-game, add ACE permissions:
 
 ```
 add_ace group.admin command.gscd_rescan allow
@@ -208,37 +183,33 @@ add_ace group.admin command.gscd_fill_slots allow
 add_ace group.admin command.gscd_delete_design allow
 ```
 
-By default these commands are server-console / RCON only.
-
 ---
 
 ## Troubleshooting
 
-**Pool not provisioned / no silhouettes loaded**
+**No silhouettes show up in the studio**
 - Confirm `cloth_templates/` actually contains `.ydd` files at the expected paths (e.g. `cloth_templates/male/tops/jbib_000_u.ydd`).
-- Run `gscd_rescan` from the server console and watch for `[gscd][discovery]` log lines.
-- If `[gscd][pool] rebuild failed` appears, check the error message — it's almost always a database connection issue.
+- Run `gscd_rescan` from the server console.
 
-**Designs don't apply / I see the yellow placeholder texture**
-- The first ever boot needs **two** restarts — one to materialise the packs, one for FiveM to register them as MP DLC apparel.
-- Check that `gs-clothdesigner` is starting after `oxmysql` in `server.cfg`.
-- Use `/gscd_test_reload` (client console) on a player wearing a custom design to confirm the variation collection is recognised.
+**Designs don't apply / I see a yellow placeholder texture**
+- The first ever boot needs **two** restarts — one to materialise the apparel, one for FiveM to register it.
+- Check that `gs-clothdesigner` starts after `oxmysql` in `server.cfg`.
 
 **`Serialization of the -92836328 packet failed` when uploading or AI-generating**
-- This is FiveM's NUI packet size limit. Configure a `DiscordWebhookUrl` in `server/credentials.lua` — uploads switch to chunked Discord-CDN hosting and the limit goes away.
+- This is FiveM's NUI packet size limit. Configure a `DiscordWebhookUrl` in `server/credentials.lua` and the limit goes away.
 
-**AI Mode not enabled / disabled message in the UI**
+**AI Mode shows "disabled" or "not configured"**
 - Set `Config.AI.enabled = true` in `shared/config.lua`.
 - Configure `GSCD.Credentials.GoogleApiKey` in `server/credentials.lua`.
 - Configure `GSCD.Credentials.DiscordWebhookUrl` (required to host the result).
 
-**Pack-full lock overlay won't go away**
-- A silhouette is locked when every drawable assignment for it has used all 26 texture variants. The next server restart will auto-expand by allocating a new pack with a fresh drawable slot for that silhouette.
-- Run `gscd_rebuild_pool` to trigger expansion immediately (it will print how many packs were added and prompt for a final restart).
+**A silhouette card shows "Pack full"**
+- The next server restart will auto-expand and clear the lock automatically.
+- To trigger expansion immediately, run `gscd_rebuild_pool` and then restart the server.
 
 **Custom textures don't reapply on rejoin**
-- Verify the `gs_clothdesigner_active_wearables` table exists. The schema migration runs automatically — restart the resource if the table is missing.
-- Confirm your framework's `playerLoaded` event fires (`QBCore:Server:OnPlayerLoaded`, `qbx_core:playerLoaded`, or `esx:playerLoaded`).
+- Restart the resource and try again — the persistence layer is created automatically on first boot.
+- Confirm your framework's player-loaded event is firing normally for other systems on your server.
 
 **`oxmysql exports are not available`**
-- The Node side runs before `oxmysql` is ready. Move `ensure oxmysql` above `ensure gs-clothdesigner` in `server.cfg`.
+- Move `ensure oxmysql` above `ensure gs-clothdesigner` in `server.cfg`.

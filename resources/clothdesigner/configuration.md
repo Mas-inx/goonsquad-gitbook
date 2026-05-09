@@ -2,8 +2,8 @@
 
 ClothDesigner has **two** config files:
 
-- `shared/config.lua` — runs on both client and server. Safe to edit, no secrets.
-- `server/credentials.lua` — server-only. API keys and webhook URLs live here.
+- `shared/config.lua` — most options live here
+- `server/credentials.lua` — server-only. API keys and webhook URLs
 
 ---
 
@@ -20,7 +20,7 @@ GSCD.Credentials.DiscordWebhookUrl = ''
 | Field | Purpose |
 |-------|---------|
 | `GoogleApiKey` | Google Gemini API key. Only required if `Config.AI.enabled = true`. Get one at [aistudio.google.com](https://aistudio.google.com/apikey). |
-| `DiscordWebhookUrl` | Discord webhook used as a CDN for AI outputs and large user uploads. Required for AI Mode. Required for any user upload above ~12 KB base64 (otherwise FiveM's NUI packet limit kills the upload). |
+| `DiscordWebhookUrl` | Discord webhook used for hosting AI outputs and large user uploads. Required for AI Mode. Recommended for any server that allows player image uploads. |
 
 > Never put these values in `shared/config.lua` — that file is read by clients too.
 
@@ -31,18 +31,7 @@ GSCD.Credentials.DiscordWebhookUrl = ''
 ```lua
 Config.Debug = true
 ```
-`true` = verbose `[gs-clothdesigner]` server prints + `GSCD.Utils.Debug(...)` client prints. Turn off in production.
-
-```lua
-Config.StateBagKey = 'gs_clothdesigner:wearable'
-```
-Key used on `Player(src).state` to broadcast equipped wearables to all clients. Only change if it conflicts with another resource.
-
-```lua
-Config.CallbackEvent         = 'gs-clothdesigner:server:callback'
-Config.CallbackResponseEvent = 'gs-clothdesigner:client:callback'
-```
-Event names used by the internal client/server callback bridge.
+Verbose console logs. Turn off in production.
 
 ```lua
 Config.InventoryItemName  = 'gs_customshirt'
@@ -62,15 +51,15 @@ Config.AssetUploadProvider  = 'discord'
 
 | Field | Description |
 |-------|-------------|
-| `AllowAssetUrlImports` | Players can paste an HTTPS image URL into the studio's asset library. The server downloads it once and stores it as a referenceable asset. |
+| `AllowAssetUrlImports` | Players can paste an HTTPS image URL into the studio's asset library. |
 | `AllowFileUploads` | Players can drag & drop or pick a file from the asset library. |
-| `AssetUploadProvider` | `'discord'` (recommended) hosts uploaded media on a Discord CDN via webhook. Anything else falls back to inline base64 storage in MySQL. |
+| `AssetUploadProvider` | `'discord'` (recommended) hosts uploaded media on a Discord CDN via webhook. Anything else falls back to in-database storage. |
 
 ```lua
 Config.MaxUploadBytes  = 4 * 1024 * 1024
 Config.MaxPreviewBytes = 4 * 1024 * 1024
 ```
-Maximum size of a single uploaded image, and of a saved design's flat preview PNG. 4 MB is enough for 1024×1024 PNG previews with full-canvas detail.
+Maximum size of a single uploaded image and a saved design's preview. 4 MB is a comfortable default.
 
 ```lua
 Config.SupportedMimeTypes = {
@@ -83,20 +72,9 @@ Whitelisted MIME types for uploads and URL imports.
 
 ---
 
-## Discord Bridge
-
-```lua
-Config.Discord = {
-    filenamePrefix = 'gscd_media',
-}
-```
-Prefix used when sending uploads to the Discord webhook. Filenames look like `gscd_media_<purpose>_<name>_<timestamp>.<ext>`.
-
----
-
 ## Layer Validation
 
-These hard limits are checked on the server when a design is saved. They protect the database and the wire from absurd payloads.
+Hard limits applied when a design is saved. They protect the database and the server from oversized payloads.
 
 ```lua
 Config.LayerValidation = {
@@ -114,44 +92,37 @@ Config.LayerValidation = {
 | Field | Description |
 |-------|-------------|
 | `maxLayers` | Total layer count per design. |
-| `maxJsonBytes` | Total size of the layer JSON sent to the server. |
+| `maxJsonBytes` | Total size of a single saved design's data. |
 | `maxTextLength` | Max characters for a text layer. |
 | `maxStrokePoints` | Max points in a single brush / shape stroke. |
-| `maxEmbeddedImageBytes` | Max size of an inline base64 image inside a layer. |
-| `maxDimension` | Max width or height in pixels for any layer transform. |
+| `maxEmbeddedImageBytes` | Max size of an inline image inside a layer. |
+| `maxDimension` | Max width or height in pixels for any layer. |
 | `maxScale` | Cap on a layer's `scale` transform. |
 | `maxRotation` | Cap on a layer's `rotation` transform (degrees). |
 
+The defaults work for the vast majority of servers. Raise the limits if your players want more layers per design.
+
 ---
 
-## Runtime (DUI Texture Replacement)
+## Performance
 
 ```lua
 Config.Runtime = {
     scanInterval         = 750,
     renderDistance       = 45.0,
     losGraceMs           = 2500,
-    duiWidth             = 1024,
-    duiHeight            = 1024,
     imageRequestCooldown = 2500,
-    duiInitialDelayMs    = 400,
-    duiRetryIntervalMs   = 450,
-    duiRetryWindowMs     = 4500,
 }
 ```
 
 | Field | Description |
 |-------|-------------|
-| `scanInterval` | Milliseconds between sweeps that look for nearby players with active wearables to bind. |
-| `renderDistance` | Maximum distance in metres at which a remote player's DUI texture is allocated. Beyond this the texture is freed to save memory. |
-| `losGraceMs` | Grace window after a remote player goes out of line-of-sight before their DUI handle is released. Prevents flicker as players walk behind cover. |
-| `duiWidth` / `duiHeight` | Size of the runtime-rendered texture. 1024×1024 matches every shipped silhouette's UV layout. |
-| `imageRequestCooldown` | Per-design cooldown on requesting the design preview from the server. Prevents request storms when a player walks past a crowd. |
-| `duiInitialDelayMs` | Wait after creating a DUI before binding the texture, so CEF has a frame to render. |
-| `duiRetryIntervalMs` | Re-bind retry interval if `AddReplaceTexture` reports the texture isn't ready yet. |
-| `duiRetryWindowMs` | Total time spent retrying before giving up on a single bind attempt. |
+| `scanInterval` | How often (in ms) clients scan for nearby players wearing custom designs. |
+| `renderDistance` | Maximum distance in metres at which a remote player's custom texture is rendered. Beyond this it's released to save memory. |
+| `losGraceMs` | Grace window (ms) after a remote player goes out of sight before their texture handle is released. Prevents flicker as players walk behind cover. |
+| `imageRequestCooldown` | Per-design cooldown (ms) on requesting design previews. Prevents request storms in crowds. |
 
-For most servers, the defaults are correct. Lower `renderDistance` if you're hitting the FiveM DUI handle limit on heavily-populated servers (~32 active DUIs is a safe cap).
+For most servers, the defaults are correct. Lower `renderDistance` on heavily-populated servers if you see performance issues from too many simultaneous custom textures rendering.
 
 ---
 
@@ -187,7 +158,7 @@ jobs = {
 }
 ```
 
-To bypass job gating entirely, call the export from your own job/UI flow:
+To bypass job gating entirely, call the export from your own resource:
 
 ```lua
 exports['gs-clothdesigner']:openDesigner()
@@ -221,9 +192,9 @@ Config.AI = {
 | Field | Description |
 |-------|-------------|
 | `enabled` | Master switch for AI Mode in the studio. Set `false` to hide the AI tool entirely. |
-| `model` | Gemini model name. The default is the latest image-capable preview as of release. Any model that supports `IMAGE` `responseModalities` will work. |
+| `model` | Gemini model name. The default is the latest image-capable preview at release. |
 
-> AI Mode also requires `GSCD.Credentials.GoogleApiKey` and `GSCD.Credentials.DiscordWebhookUrl`. With either missing, the studio shows a "AI design generation is disabled / not configured" message instead of generating.
+> AI Mode also requires `GSCD.Credentials.GoogleApiKey` and `GSCD.Credentials.DiscordWebhookUrl`. With either missing, the studio shows an "AI design generation is not configured" message instead of generating.
 
 ---
 
@@ -238,9 +209,7 @@ Config.ComponentCategories = {
 }
 ```
 
-Maps `cloth_templates/<gender>/<category>/` directory names to GTA ped component IDs. Category folders that don't appear in this map are skipped during discovery.
-
-The default mapping covers the four most common slots; you can add/remove entries to match your `cloth_templates/` layout.
+Maps `cloth_templates/<gender>/<category>/` directory names to GTA ped component IDs. Add or remove entries to match the categories you want available in the studio.
 
 ---
 
@@ -253,38 +222,6 @@ Config.SupportedPlayerModels = {
 }
 ```
 
-Whitelisted ped models. A player whose model isn't in this map can't open the studio and can't equip a custom shirt — the resource is built around MP freemode UVs and won't apply correctly to non-freemode peds.
+Whitelisted ped models. A player whose model isn't in this map can't open the studio and can't equip a custom shirt — the resource is built around MP freemode peds.
 
-> The dict is keyed by model **hash** — use the backtick syntax to convert a model name to its joaat at parse time.
-
----
-
-## Generation Pipeline
-
-```lua
-Config.Generation = {
-    sourceTemplateManifest = 'data/manifest.json',
-    slotCapacity           = 26,
-}
-```
-
-| Field | Description |
-|-------|-------------|
-| `sourceTemplateManifest` | Path the JS discovery module writes its silhouette catalog to. The Lua side reads this on boot. Don't change unless you also fork the JS bundle. |
-| `slotCapacity` | Number of texture variants per drawable. **Hard-capped at 26 by GTA** (the variant letters `a..z`). Lowering this is allowed for testing but loses storage. |
-
----
-
-## FiveManage (Optional Asset Provider)
-
-```lua
-Config.FiveManage = {
-    apiKey              = '',
-    base64Endpoint      = 'https://api.fivemanage.com/api/v3/file/base64',
-    filenamePrefix      = 'gscd_asset',
-    metadataName        = 'GS Cloth Designer Asset',
-    metadataDescription = 'Uploaded from gs-clothdesigner',
-}
-```
-
-> By default ClothDesigner uses `Config.AssetUploadProvider = 'discord'`. The FiveManage block is included for completeness — if you set `AssetUploadProvider = 'fivemanage'` and supply an `apiKey`, uploads will route through FiveManage instead of Discord.
+> The dict is keyed by model **hash** — use the backtick syntax to convert a model name automatically.

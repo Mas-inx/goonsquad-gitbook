@@ -6,7 +6,7 @@ Welcome to the official documentation for Goonsquad Studios' premium FiveM resou
 
 | Resource | Price | Framework |
 |----------|-------|-----------|
-| [ClothDesigner](resources/clothdesigner/overview.md) | TBD | QBCore / ESX / Qbox |
+| [ClothDesigner](resources/clothdesigner/overview.md) | $55.00 | QBCore / ESX / Qbox |
 | [DarkMet](resources/darkmet/overview.md) | $29.99 | QBCore / ESX / Qbox |
 | [Zombies V3](resources/zombies-v3/overview.md) | $10.00 | Standalone |
 | [Paintball](resources/paintball/overview.md) | $35.00 | QBCore / ESX |
