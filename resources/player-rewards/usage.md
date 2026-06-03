@@ -57,9 +57,6 @@ Open the ledger and click **Overseer** (top-right) to access the admin panel. Re
 | Item | Item name | `payload`, `amount` |
 | Weapon | Weapon name | `payload` (e.g. WEAPON_PISTOL) |
 | Vehicle | Model name | `payload` (e.g. adder) |
-| Clothing | Item name | `payload` (outfit metadata) |
-| XP | Amount | `amount` (notification only) |
-| Custom | Label | `label`, optional `amount` |
 
 ### Season + Relay Tab
 

@@ -11,7 +11,7 @@ A season battlepass / playtime rewards system for FiveM. Players earn rewards ba
 ### Season Battlepass
 - Dual-track system: **Free** and **Prime** reward lanes
 - Configurable tiers with hour-based unlock requirements
-- Rewards: cash, items, weapons, vehicles, clothing, XP, and custom
+- Rewards: cash, items, weapons, and vehicles
 - Overseer in-game admin panel for full season management
 - Push-live editing with broadcast to all open ledgers
 
