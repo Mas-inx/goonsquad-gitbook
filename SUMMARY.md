@@ -50,3 +50,10 @@
 - [Usage](resources/custom-sirens/usage.md)
 - [API & Exports](resources/custom-sirens/exports.md)
 
+### Player Rewards
+- [Overview](resources/player-rewards/overview.md)
+- [Installation](resources/player-rewards/installation.md)
+- [Configuration](resources/player-rewards/configuration.md)
+- [Usage](resources/player-rewards/usage.md)
+- [API & Exports](resources/player-rewards/exports.md)
+
