@@ -2,7 +2,9 @@
 
 A season battlepass / playtime rewards system for FiveM. Players earn rewards based on hours played across Free and Prime tracks.
 
-**Version:** 1.0.0 | **Price:** TBD
+**Version:** 1.0.0 | **Price:** $14.99
+
+{% embed url="https://www.youtube.com/watch?v=Qa7bq5jLsQQ" %}
 
 ---
 

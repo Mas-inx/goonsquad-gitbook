@@ -2,7 +2,9 @@
 
 A full-featured FiveM loading screen with an in-game visual builder. Design custom loading screens with drag-and-drop widgets, customize backgrounds, themes, audio, and server content.
 
-**Version:** 1.0.0 | **Price:** TBD
+**Version:** 1.0.0 | **Price:** $14.99
+
+{% embed url="https://www.youtube.com/watch?v=L9knbJixkAc" %}
 
 ---
 

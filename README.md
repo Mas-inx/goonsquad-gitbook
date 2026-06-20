@@ -15,8 +15,8 @@ Welcome to the official documentation for Goonsquad Studios' premium FiveM resou
 | [Multicharacter (QBCore)](resources/multicharacter/overview.md) | $14.99 | QBCore |
 | [Zombies/Cannibals](resources/zombies-cannibals/overview.md) | $10.00 | Standalone (Deprecated) |
 | [Custom Sirens](resources/custom-sirens/overview.md) | TBD | Standalone |
-| [Player Rewards](resources/player-rewards/overview.md) | TBD | QBCore / ESX / Qbox |
-| [Loading Screen](resources/loading-screen/overview.md) | TBD | Standalone |
+| [Player Rewards](resources/player-rewards/overview.md) | $14.99 | QBCore / ESX / Qbox |
+| [Loading Screen](resources/loading-screen/overview.md) | $14.99 | Standalone |
 
 ## Support
 
