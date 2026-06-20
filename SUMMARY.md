@@ -57,3 +57,10 @@
 - [Usage](resources/player-rewards/usage.md)
 - [API & Exports](resources/player-rewards/exports.md)
 
+### Loading Screen
+- [Overview](resources/loading-screen/overview.md)
+- [Installation](resources/loading-screen/installation.md)
+- [Configuration](resources/loading-screen/configuration.md)
+- [Usage](resources/loading-screen/usage.md)
+- [API & Exports](resources/loading-screen/exports.md)
+

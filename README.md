@@ -16,6 +16,7 @@ Welcome to the official documentation for Goonsquad Studios' premium FiveM resou
 | [Zombies/Cannibals](resources/zombies-cannibals/overview.md) | $10.00 | Standalone (Deprecated) |
 | [Custom Sirens](resources/custom-sirens/overview.md) | TBD | Standalone |
 | [Player Rewards](resources/player-rewards/overview.md) | TBD | QBCore / ESX / Qbox |
+| [Loading Screen](resources/loading-screen/overview.md) | TBD | Standalone |
 
 ## Support
 
