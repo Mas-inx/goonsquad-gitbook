@@ -12,7 +12,9 @@
 - [Installation](resources/clothdesigner/installation.md)
 - [Configuration](resources/clothdesigner/configuration.md)
 - [Usage](resources/clothdesigner/usage.md)
+- [Tebex Integration](resources/clothdesigner/tebex.md)
 - [API & Exports](resources/clothdesigner/exports.md)
+- [Troubleshooting](resources/clothdesigner/troubleshooting.md)
 
 ### DarkMet
 - [Overview](resources/darkmet/overview.md)

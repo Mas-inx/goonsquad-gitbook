@@ -2,105 +2,150 @@
 
 {% embed url="https://www.youtube.com/watch?v=BOuWPZYtwQw" %}
 
-> Prefer reading? The full step-by-step is below.
+This guide covers a new GS Cloth Designer 1.3.0 RC installation. Existing installations can keep their database; startup migrations add new columns and tables automatically.
 
 ---
 
-## Step 1: Add to Server
+## 1. Install the Resource
 
-1. Drop the `gs-clothdesigner` folder into your server's `resources/` directory.
-2. Add to `server.cfg`, after `oxmysql` and your framework:
+Place the `gs-clothdesigner` folder in your server's resources directory. Do not rename the resource because its exports and integration events use the name `gs-clothdesigner`.
 
-   ```
-   ensure oxmysql
-   ensure qb-core      # or qbx_core / es_extended
-   ensure ox_inventory # if you use ox_inventory
-   ensure gs-clothdesigner
-   ```
+Start it after `oxmysql`, your framework, and your inventory:
 
-   `gs-clothdesigner` **must** start after `oxmysql` and your framework.
-
-## Step 2: Database Setup
-
-The resource auto-creates and migrates every table it needs at boot — no manual import required. Just make sure `oxmysql` is reachable.
-
-If you'd rather pre-create the schema by hand, run the bundled SQL file:
-
-```bash
-mysql -u YOUR_USER -p YOUR_DB < resources/gs-clothdesigner/sql/schema.sql
+```cfg
+ensure oxmysql
+ensure qb-core          # or qbx_core / es_extended
+ensure ox_inventory     # or your supported inventory resource
+ensure gs-clothdesigner
 ```
 
-## Step 3: Add the Inventory Item
+`oxmysql` is required even when your inventory does not use it.
 
-ClothDesigner ships ready-to-paste item definitions in the `install/` folder.
+---
 
-### QBCore — `qb-core/shared/items.lua`
+## 2. Database
+
+The resource creates and migrates its database tables during startup. No manual SQL import is normally required.
+
+For a manual or managed deployment, the complete schema is available at:
+
+```text
+gs-clothdesigner/sql/schema.sql
+```
+
+The 1.3.0 migrations include Tebex entitlements, design approval fields, prop support, and `previous_appearance_json` for restoring the clothing or prop that was worn before a custom design.
+
+---
+
+## 3. Inventory Setup
+
+The inventory item name defaults to `gs_customshirt`. It must be unique or non-stackable because every printed item carries design metadata.
+
+Ready-to-use definitions are included in `gs-clothdesigner/install/`:
+
+| Backend | Install file | Destination |
+|---|---|---|
+| QBCore inventory | `install/qbcore.lua` | `qb-core/shared/items.lua` |
+| `ox_inventory` | `install/ox_inventory.lua` | `ox_inventory/data/items.lua` |
+| Jaksam Inventory | `install/jaksam_inventory.lua` | Jaksam item definitions |
+| CodeM Inventory | `install/codem_inventory.lua` | `codem-inventory/config/itemlist.lua` |
+| Quasar Advanced Inventory | `install/qs_inventory.lua` | QB shared items or `qs-inventory/shared/items.lua` |
+| AK47 Inventory | `install/ak47_inventory.lua` | AK47 item definitions |
+| ESX inventory | `install/esx.sql` | Run against the ESX database |
+
+### QBCore
+
+Add the contents of `install/qbcore.lua` to `qb-core/shared/items.lua`. Make sure `gs_customshirt.png` exists in the image directory used by your inventory UI.
+
+### ox_inventory and Qbox
+
+Add the contents of `install/ox_inventory.lua` to `ox_inventory/data/items.lua`. Printed items receive hosted design previews and readable metadata automatically.
+
+Qbox requires a supported external inventory. `ox_inventory` is the usual choice, but Jaksam, CodeM, Quasar, and AK47 are also detected when started.
+
+### Jaksam Inventory
+
+Add `install/jaksam_inventory.lua` to the Jaksam item definitions. The included `displayFields` show the design name, category, and printed version.
+
+### CodeM Inventory
+
+Add `install/codem_inventory.lua` to `codem-inventory/config/itemlist.lua`. The optional `install/codem_metadata.js` block can be added to `codem-inventory/config/metadata.js` to show design metadata in the tooltip.
+
+### Quasar Advanced Inventory
+
+For QB, add `install/qs_inventory.lua` to `qb-core/shared/items.lua`. For ESX, add it to `qs-inventory/shared/items.lua`. Place `gscd_custom_design.png` in `qs-inventory/html/images/` so the fallback item image resolves.
+
+### AK47 Inventory
+
+Add `install/ak47_inventory.lua` to the inventory's item definitions. Keep its `server.onUse` callback; that callback forwards the exact item and metadata to Cloth Designer. Place `gscd_custom_design.png` in the AK47 inventory image directory.
+
+### ESX Inventory
+
+Run `install/esx.sql`. If you use a supported external inventory on ESX, install the matching Lua item definition instead.
+
+{% hint style="warning" %}
+If you change `Config.InventoryItemName`, update the item name in both `shared/config.lua` and the inventory definition. The server prints a missing-item warning when the active backend cannot find it.
+{% endhint %}
+
+---
+
+## 4. Media Storage
+
+Choose a provider in `shared/config.lua`:
 
 ```lua
-['gs_customshirt'] = {
-    name = 'gs_customshirt',
-    label = 'Custom T-Shirt',
-    weight = 250,
-    type = 'item',
-    image = 'gs_customshirt.png',
-    unique = true,
-    useable = true,
-    shouldClose = true,
-    combinable = nil,
-    description = 'A shirt printed in the clothing design studio.'
+AssetUploadProvider = 'fivemanage' -- 'database', 'fivemanage', or 'discord'
+```
+
+### FiveManage
+
+Put the API token in the server-only credentials file:
+
+```lua
+GSCD.Credentials.FiveManageApiKey = 'YOUR_API_KEY'
+GSCD.Credentials.DiscordWebhookUrl = ''
+```
+
+The default API endpoint is already configured in `shared/config.lua`:
+
+```lua
+FiveManage = {
+    base64Endpoint = 'https://api.fivemanage.com/api/v3/file/base64',
+    filenamePrefix = 'gscd_asset',
+    path = 'gs-clothdesigner',
+    retentionExempt = false,
 }
 ```
 
-### Qbox / ox_inventory — `ox_inventory/data/items.lua`
+Normally, only the API key and optional folder path need changing. The endpoint is FiveManage's API URL, not a server-specific URL copied from your account.
+
+### Discord
+
+Create a webhook in the channel that will hold uploaded media, then set:
 
 ```lua
-['gs_customshirt'] = {
-    label = 'Custom T-Shirt',
-    weight = 250,
-    stack = false,
-    close = true,
-    description = 'A shirt printed in the clothing design studio.'
-}
+GSCD.Credentials.FiveManageApiKey = ''
+GSCD.Credentials.DiscordWebhookUrl = 'YOUR_DISCORD_WEBHOOK_URL'
 ```
 
-> When `ox_inventory` is the active backend, ClothDesigner attaches the design's preview image to the item, so each printed shirt shows its own design as the inventory thumbnail. No PNGs need to be added to `ox_inventory/web/images/`.
+### Database
 
-### ESX — database insert
+Set `AssetUploadProvider = 'database'`. No credential is required. This stores image payloads in MySQL and can grow the database faster than a hosted media provider.
 
-```sql
-INSERT IGNORE INTO `items` (`name`, `label`, `weight`) VALUES
-('gs_customshirt', 'Custom T-Shirt', 1);
-```
+{% hint style="danger" %}
+Never place real API keys or webhook URLs in `shared/config.lua`. Clients can read shared files. Keep secrets in `server/credentials.lua` and do not publish that file with live values.
+{% endhint %}
 
-> The item name is configurable via `Config.InventoryItemName`.
+---
 
-## Step 4: Configure Credentials
+## 5. Designer Access
 
-Open `server/credentials.lua`. This file is server-only and is where API keys and webhook URLs live.
-
-```lua
-GSCD = GSCD or {}
-GSCD.Credentials = GSCD.Credentials or {}
-
-GSCD.Credentials.GoogleApiKey = ''        -- only required if AI Mode is enabled
-GSCD.Credentials.DiscordWebhookUrl = ''   -- recommended; required for AI Mode
-```
-
-| Credential | Required for |
-|------------|--------------|
-| `DiscordWebhookUrl` | AI image hosting and large user uploads. Without it, AI Mode fails and large image uploads may be rejected. |
-| `GoogleApiKey` | AI Mode only. Get a free key at [aistudio.google.com](https://aistudio.google.com/apikey). Set `Config.AI.enabled = false` if you don't want AI Mode. |
-
-> **Important:** `server/credentials.lua` is loaded server-side only. Treat the values like any other secret — do not commit a real key to a public git repo.
-
-## Step 5: Configure Designer Stations & Jobs
-
-In `shared/config.lua`:
+Edit the jobs and stations in `shared/config.lua`:
 
 ```lua
 Designer = {
     jobs = {
-        clothingdesigner = 0,    -- job name -> minimum grade
+        clothingdesigner = 0,
         ambulance = 0,
     },
     stations = {
@@ -115,101 +160,86 @@ Designer = {
 }
 ```
 
-Players whose framework job + grade match an entry in `Designer.jobs` can walk up to any station and press **E** to open the studio.
+The regular station and `openDesigner()` flow validate the player's job and grade. To grant a one-time limited session from another resource, use `summonDesigner()` instead. See [API & Exports](exports.md#limited-designer-access).
 
-To make the studio public, add an `unemployed = 0` entry (or any other catch-all job) — or call the export from your own resource:
+---
+
+## 6. Wardrobe and Approval
+
+The player wardrobe is enabled by default:
 
 ```lua
-exports['gs-clothdesigner']:openDesigner()
+Wardrobe = {
+    Enabled = true,
+    Command = 'gscd_wardrobe',
+    AdminCommand = 'gscd_clothing_review',
+    AdminAce = 'gscd.clothdesigner.admin',
+    RequireApproval = false,
+}
 ```
 
-## Step 6: Restart the Server
+To require review before clothing is published, set `RequireApproval = true` and grant the configured ACE:
 
-The first start will automatically discover every `.ydd` in `cloth_templates/` and prepare your apparel pool. You'll see a console banner like this:
-
+```cfg
+add_ace group.admin gscd.clothdesigner.admin allow
 ```
-==========================================================
+
+See [Usage](usage.md#approval-workflow) for the full player and admin flow.
+
+---
+
+## 7. First Start
+
+On the first start, Cloth Designer discovers the `.ydd` files in `cloth_templates/` and materializes the generated apparel pool. When the console asks for a restart, restart once more so FiveM registers the generated clothing resource.
+
+```text
 [gs-clothdesigner] New packs were materialised.
 Restart the server for the apparel to take effect.
-(Subsequent restarts will be instant — no action needed.)
-==========================================================
 ```
 
-Restart **once more**. From that point on, boots are instant and no further action is needed unless you add new `.ydd` files.
+Subsequent starts reuse the pool unless templates changed or capacity needs to expand.
+
+### Adding Templates Later
+
+1. Put each `.ydd` in `cloth_templates/<gender>/<category>/`.
+2. Add its companion `.ytd` when that drawable requires one.
+3. Restart the server and follow any restart message printed by Cloth Designer.
+
+The pack generator now reports the exact source YDD, companion YTD, and generated YDD when it finds an invalid or stale drawable reference. Valid templates continue to process.
 
 ---
 
-## Adding More Cloth Templates
+## 8. Optional Tebex Setup
 
-1. Drop your new `.ydd` files into `cloth_templates/<gender>/<category>/` following the existing naming pattern.
-2. **Restart the server.**
-
-That's it. The resource auto-detects new templates on boot, prepares the apparel for them, and you're ready to design.
-
-> **Recommended:** just restarting the server is the easiest, most reliable way to add new templates. Two short restarts (one to materialise the apparel, one for FiveM to register it) handle everything end-to-end, the same as the very first install.
->
-> *(Advanced)* If you'd rather not restart immediately, you can run `gscd_rescan` followed by `gscd_rebuild_pool` from the server console. You'll still need a server restart at the end for the new apparel to register — restarting up front is simpler.
+Tebex integration is disabled until configured. Follow [Tebex Integration](tebex.md) to define packages, allowances, grant commands, and claim behavior.
 
 ---
 
-## Framework-Specific Setup
+## 9. Permissions
 
-### QBCore
+The following examples allow an admin group to run protected maintenance commands in game:
 
-1. Add `gs_customshirt` to `qb-core/shared/items.lua` (see Step 3).
-2. Ensure `qb-core` and `oxmysql` start before `gs-clothdesigner`.
-3. (Optional) If you want `ox_inventory`-style item images, also start `ox_inventory` and use the ox_inventory definition instead.
-
-### Qbox (qbx_core + ox_inventory)
-
-1. Add `gs_customshirt` to `ox_inventory/data/items.lua` (see Step 3).
-2. Ensure `qbx_core`, `oxmysql`, and `ox_inventory` start before `gs-clothdesigner`.
-
-### ESX
-
-1. Insert `gs_customshirt` into the `items` table (see Step 3).
-2. Ensure `es_extended` and `oxmysql` start before `gs-clothdesigner`.
-
----
-
-## Permissions (Optional)
-
-By default the admin commands (`gscd_rescan`, `gscd_rebuild_pool`, etc.) are server-console / RCON only. To expose them in-game, add ACE permissions:
-
-```
+```cfg
 add_ace group.admin command.gscd_rescan allow
 add_ace group.admin command.gscd_rebuild_pool allow
 add_ace group.admin command.gscd_fill_slots allow
 add_ace group.admin command.gscd_delete_design allow
+add_ace group.admin gscd.clothdesigner.admin allow
+add_ace group.admin gscd.tebex allow
 ```
+
+`gscd_fill_slots` is a development command and should not be granted on a production server.
 
 ---
 
-## Troubleshooting
+## 10. Verify the Installation
 
-**No silhouettes show up in the studio**
-- Confirm `cloth_templates/` actually contains `.ydd` files at the expected paths (e.g. `cloth_templates/male/tops/jbib_000_u.ydd`).
-- Run `gscd_rescan` from the server console.
+1. Confirm there are no `oxmysql` or missing-item errors during startup.
+2. Join with a supported freemode ped and an allowed job.
+3. Open the default station and load a template.
+4. Upload an image below the configured limit.
+5. Save and print a design.
+6. Use the item twice to verify equip and unequip.
+7. Reconnect and confirm equipped custom clothing is restored.
 
-**Designs don't apply / I see a yellow placeholder texture**
-- The first ever boot needs **two** restarts — one to materialise the apparel, one for FiveM to register it.
-- Check that `gs-clothdesigner` starts after `oxmysql` in `server.cfg`.
-
-**`Serialization of the -92836328 packet failed` when uploading or AI-generating**
-- This is FiveM's NUI packet size limit. Configure a `DiscordWebhookUrl` in `server/credentials.lua` and the limit goes away.
-
-**AI Mode shows "disabled" or "not configured"**
-- Set `Config.AI.enabled = true` in `shared/config.lua`.
-- Configure `GSCD.Credentials.GoogleApiKey` in `server/credentials.lua`.
-- Configure `GSCD.Credentials.DiscordWebhookUrl` (required to host the result).
-
-**A silhouette card shows "Pack full"**
-- The next server restart will auto-expand and clear the lock automatically.
-- To trigger expansion immediately, run `gscd_rebuild_pool` and then restart the server.
-
-**Custom textures don't reapply on rejoin**
-- Restart the resource and try again — the persistence layer is created automatically on first boot.
-- Confirm your framework's player-loaded event is firing normally for other systems on your server.
-
-**`oxmysql exports are not available`**
-- Move `ensure oxmysql` above `ensure gs-clothdesigner` in `server.cfg`.
+See [Troubleshooting](troubleshooting.md) if any step fails.

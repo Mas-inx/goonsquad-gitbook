@@ -25,5 +25,7 @@ Welcome to the official documentation for Goonsquad Studios' premium FiveM resou
 
 ## Quick Links
 
+- [ClothDesigner Installation](resources/clothdesigner/installation.md)
+- [ClothDesigner 1.3.0 RC Changelog](changelog.md)
 - [Installation Guide](resources/darkmet/installation.md)
 - [Changelog](changelog.md)

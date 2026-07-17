@@ -1,120 +1,168 @@
 # Usage
 
----
-
-## Player Guide
-
-### Opening the Studio
-
-1. Get a job that's listed in `Config.Designer.jobs` (default: `clothingdesigner` or `ambulance`).
-2. Walk up to a designer station. The default station is at `-1194.96, -767.87, 17.32` (the clothing store on Hawick Ave). A blue marker shows you where it is.
-3. Press **E** when prompted.
-
-The studio opens in fullscreen with three panes:
-
-| Pane | What's in it |
-|------|--------------|
-| **Left** | Library of every available silhouette and **My Designs** (your saved designs) |
-| **Center** | The design canvas — a 1024×1024 surface with a faint UV guide showing where the print area sits on the actual garment |
-| **Right** | Live 3D preview of the current canvas wrapped onto the silhouette |
-
-### Starting a Design
-
-1. In the **Library** pane, filter by gender and category (Tops, Bottoms, Undershirts, Shoes).
-2. Click a silhouette card to start designing.
-3. The 3D preview swaps to that silhouette and a fresh canvas loads with the silhouette's UV guide.
-
-> If a silhouette card shows a **Pack full** overlay, all of its slots are temporarily occupied — pick a different one or wait for the next server restart.
-
-### Drawing Tools
-
-The toolbar across the top of the canvas covers:
-
-| Tool | Use |
-|------|-----|
-| **Brush** | Freehand paint with adjustable size and colour |
-| **Shapes** | Rectangle, ellipse, line, polygon — drag on the canvas to place |
-| **Text** | Click to place a text layer; pick a font from the dropdown |
-| **Image** | Drag-and-drop an image, paste a URL, or pick from the asset library |
-| **AI** | Type a prompt; the server generates a design that's added as a new image layer |
-| **Eraser / Selection** | Standard transform handles, undo/redo, layer reordering |
-
-Layers are listed in the right side of the toolbar. Click a layer to select it, drag to reorder. The right panel shows transform properties (position, scale, rotation, opacity) for the selected layer.
-
-### Live 3D Preview
-
-Every change you make on the canvas updates the 3D preview within a frame. Rotate the model by dragging in the preview pane. The preview uses the actual garment you'll be wearing, so what you see is what you get when you save and equip.
-
-### Saving & Printing
-
-- **Save** stores the design as a draft. You can come back and edit it later from **My Designs**.
-- **Save & Print** does the same as Save, then publishes the design and adds a printed shirt item to your inventory.
-
-Once printed, the design is published and ready to wear. You can use the shirt item, hand it to another player, or sell it.
-
-### Wearing a Custom Shirt
-
-1. Open your inventory and **use** a printed shirt.
-2. Your character's relevant component (top / bottoms / undershirt / shoes — depends on which silhouette the design was made for) instantly swaps to the design.
-3. Other players see the design in real time, no character refresh required.
-
-The custom texture stays on you across:
-
-- Server restarts
-- Disconnects and reconnects
-- Ped model swaps (the texture is re-applied if you swap to another supported MP freemode model)
-
-### Removing a Custom Shirt
-
-Equip a different outfit (any clothing menu, character editor, or job uniform) and the custom shirt for that component clears automatically.
-
-To wipe **all** custom textures from your character at once, you can wire a "Clear outfit" button in your menu — see [API & Exports](exports.md).
+This page covers the player, designer, and admin workflows in GS Cloth Designer 1.3.0 RC.
 
 ---
 
-## AI Mode
+## Open the Designer
 
-> AI Mode requires `Config.AI.enabled = true` plus a `GoogleApiKey` and `DiscordWebhookUrl` in `server/credentials.lua`. See [Configuration](configuration.md).
+Players with a configured job and grade can approach a designer station and press the interaction key. The default station is at:
 
-1. Click the **AI** tool in the toolbar.
-2. Type a prompt describing what you want, e.g. *"neon cyberpunk dragon wrapping around the torso, holographic blue and pink"*.
-3. Click **Generate**.
+```text
+-1194.96, -767.87, 17.32
+```
 
-A few seconds later, the result is added as a new image layer on your canvas. The output is a normal layer — you can move it, scale it, paint over it, or delete it like anything else.
+A server owner can also open the UI through an integration:
 
-The current canvas is sent along with the prompt as a guide, so the AI knows where the garment is and paints inside the print area instead of generating a free-form image.
+- `openDesigner()` opens the normal job-validated studio.
+- `summonDesigner(componentAmount, aiGenAmount)` opens a limited session for the local player.
+- The matching server export opens a limited session for a target server ID.
 
----
-
-## Capacity & Auto-Expansion
-
-ClothDesigner is designed to host effectively unlimited designs. The system pre-allocates space for every garment template you have, and **automatically expands** when any individual silhouette runs out of slots — no manual intervention needed.
-
-If a silhouette card shows a **Pack full** overlay, just restart the server. Auto-expansion runs on every boot and the lock clears automatically.
-
-> Adding new garment templates? Just drop the `.ydd` files in and restart — the boot routine handles discovery, expansion, and apparel preparation in one go. See [Installation → Adding More Cloth Templates](installation.md#adding-more-cloth-templates).
+See [API & Exports](exports.md#limited-designer-access).
 
 ---
 
-## Admin Commands
+## Create a Design
 
-All commands are server-console / RCON only by default. Add ACE permissions if you want to expose them in-game (see [Installation → Permissions](installation.md#permissions-optional)).
+1. Choose male or female and select a clothing or prop category.
+2. Select an available silhouette.
+3. Add drawing, shape, text, image, or externally registered studio-tool layers.
+4. Reorder and transform layers until the canvas and preview match the intended result.
+5. Save a draft or print the finished design.
 
-| Command | Description |
-|---------|-------------|
-| `gscd_delete_design [designId]` | Delete a published design and unequip it from any online player wearing it. |
-| `gscd_rescan` | *(Advanced)* Re-scan `cloth_templates/` for new garment templates without restarting. A server restart still does the same thing automatically. |
-| `gscd_rebuild_pool` | *(Advanced)* Re-prepare the apparel pool without restarting. A server restart still does the same thing automatically. |
+The library only mounts previews close to the visible scroll area. Off-screen preview images and 3D models are released as the player scrolls, which keeps large template libraries responsive.
 
-> For day-to-day use, you'll rarely (if ever) need the rescan / rebuild commands — restarting the server triggers everything they do, plus the final apparel registration step. They're included for hot-reload scenarios where a restart is inconvenient.
+### Image Uploads
+
+The UI accepts PNG, JPEG, and WebP by default. When a selected file exceeds `MaxUploadBytes`, the player is notified before the browser reads it. The server validates MIME type, dimensions, base64 size, and payload limits again before saving or forwarding it.
+
+Uploads, URL imports, previews, and generated-media hosting share the configured upload queue. A full queue returns the configured busy message instead of starting more expensive work.
+
+### 3D Preview Background
+
+The preview starts with a black background. Use the small switch below the preview to change it to light gray. The choice is stored in the player's NUI browser data and is restored the next time the designer opens.
+
+### AI or Other Studio Tools
+
+AI is shown only when a compatible companion or third-party resource registers a studio tool. A generation returns an image layer that can be moved, resized, edited, or removed like another image.
+
+In a limited session:
+
+- Each successful AI request consumes one AI generation through the provider integration.
+- Failed generations can be refunded by the provider integration.
+- When `RequireRemainingComponentsForAI = true`, generation is blocked after the clothing allowance reaches zero even if AI uses remain.
 
 ---
 
-## Common Fixes
+## Save and Print
 
-| Problem | Fix |
-|---------|-----|
-| Pack-full overlay on a silhouette | Restart the server — auto-expansion runs on boot. |
-| Just dropped new `.ydd` files | Restart the server. |
-| AI Mode error in the UI | Check server console — the most common cause is a missing `GoogleApiKey` or `DiscordWebhookUrl`. |
-| Player rejoined and lost their custom textures | Restart `gs-clothdesigner`. |
+**Save** stores a draft that the creator can continue editing.
+
+**Print** publishes the design and adds a metadata-bearing custom clothing item, unless approval is required. With the recommended limited-pass setting, a clothing use is consumed only when printing succeeds or an admin approves the print request.
+
+The active allowance appears in the limited designer UI:
+
+```text
+2/2 pieces | 4/4 AI
+```
+
+If a pass allows two clothing pieces, the player chooses which two templates to create. A top, pants, shoes, or prop each consumes one clothing use when printed. Reprinting the same design in the same active pass does not consume a second clothing use.
+
+{% hint style="info" %}
+`ConsumeComponentOn = 'save'` changes the flow so a new saved design consumes the clothing use immediately. `print` is the recommended value.
+{% endhint %}
+
+---
+
+## Wear and Remove Clothing
+
+### Inventory Item
+
+Use a printed item once to equip its design. Use that same item again while its design is equipped to remove it and restore the previous component or prop appearance.
+
+When several matching custom items exist and the inventory backend cannot identify the exact used slot, Cloth Designer opens a picker so the player can select the intended design.
+
+### Player Wardrobe
+
+Open the created-clothing UI with:
+
+```text
+/gscd_wardrobe
+```
+
+The wardrobe lists up to the 100 most recently updated published, pending, or rejected designs owned by that player. Players can preview approved clothing, wear it, or take it off.
+
+Inventory-item and wardrobe actions use the same server wearable state. Equipping in one UI is reflected in the other, and removing a design clears its persisted state so it does not return a moment later or after reconnecting.
+
+### Persistence
+
+Equipped designs are restored after supported QBCore, Qbox, and ESX player-load events. The runtime stores the previous appearance for each component or prop so removing custom clothing restores the correct pants, footwear, hat, or other base item.
+
+---
+
+## Approval Workflow
+
+Set `Wardrobe.RequireApproval = true` to moderate prints.
+
+### Player Flow
+
+1. The player finishes a design and selects Print.
+2. The design enters `pending_approval`; no wearable item is granted yet.
+3. The player can see its pending status in `/gscd_wardrobe`.
+4. Approval publishes the design and attempts to add the inventory item.
+5. Rejection records the admin note and shows the rejected status in the player's wardrobe.
+
+### Admin Flow
+
+Admins with the configured ACE open:
+
+```text
+/gscd_clothing_review
+```
+
+The review UI shows the oldest pending requests first. Admins can preview, approve, or reject a design with a note.
+
+```cfg
+add_ace group.admin gscd.clothdesigner.admin allow
+```
+
+For limited or Tebex sessions, approval consumes the clothing use. This can happen while the creator is offline. If the item cannot be delivered, the approved design is still available through the player's wardrobe when they return.
+
+---
+
+## Tebex Passes
+
+When Tebex integration is enabled, a package can grant any configured combination of clothing and AI allowances.
+
+If `AutoOpenOnPurchase = true`, an online buyer is taken directly into the limited designer. Offline entitlements remain pending. Players claim their next available pass with:
+
+```text
+/gscd_claim_designer
+```
+
+The command name is configurable. See [Tebex Integration](tebex.md).
+
+---
+
+## Template Capacity
+
+Each generated drawable has 26 texture variants. Cloth Designer allocates additional drawables when a silhouette runs out of texture slots. A template can temporarily show as full until pool expansion is materialized and the generated clothing resource is restarted.
+
+To add a template, place its YDD and any companion YTD in the correct `cloth_templates/<gender>/<category>/` folder, then restart. See [Installation](installation.md#adding-templates-later).
+
+---
+
+## Commands
+
+| Command | Purpose | Access |
+|---|---|---|
+| `/gscd_wardrobe` | Preview, wear, and remove the player's created clothing | Player |
+| `/gscd_clothing_review` | Review pending designs | Configured wardrobe admin ACE |
+| `/gscd_claim_designer [package]` | Claim the next or named Tebex pass | Player |
+| `gscd_tebex_grant <package> <target> <transaction>` | Grant a configured Tebex pass | Console or `gscd.tebex` ACE |
+| `gscd_delete_design <designId>` | Delete a design and release its wearable state and slot | Protected command ACE |
+| `gscd_rescan` | Rescan source templates | Protected command ACE |
+| `gscd_rebuild_pool` | Reattach and rebuild the generated pool | Protected command ACE |
+| `gscd_fill_slots [sourceKey]` | Fill slots for development testing | Development only |
+
+Maintenance commands are advanced tools. Normal template installation still ends with a server restart so FiveM can register generated apparel.

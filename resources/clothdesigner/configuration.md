@@ -1,227 +1,318 @@
 # Configuration
 
-ClothDesigner has **two** config files:
+GS Cloth Designer uses three configuration files:
 
-- `shared/config.lua` — most options live here
-- `server/credentials.lua` — server-only. API keys and webhook URLs
+| File | Purpose | Client-readable |
+|---|---|---|
+| `shared/config.lua` | Main resource, media, runtime, station, wardrobe, and category settings | Yes |
+| `shared/tebex.lua` | Tebex packages and limited-pass usage rules | Yes |
+| `server/credentials.lua` | FiveManage token and Discord webhook | No |
 
----
-
-## Credentials (`server/credentials.lua`)
-
-```lua
-GSCD = GSCD or {}
-GSCD.Credentials = GSCD.Credentials or {}
-
-GSCD.Credentials.GoogleApiKey      = ''
-GSCD.Credentials.DiscordWebhookUrl = ''
-```
-
-| Field | Purpose |
-|-------|---------|
-| `GoogleApiKey` | Google Gemini API key. Only required if `Config.AI.enabled = true`. Get one at [aistudio.google.com](https://aistudio.google.com/apikey). |
-| `DiscordWebhookUrl` | Discord webhook used for hosting AI outputs and large user uploads. Required for AI Mode. Recommended for any server that allows player image uploads. |
-
-> Never put these values in `shared/config.lua` — that file is read by clients too.
+{% hint style="warning" %}
+Keep API tokens and webhook URLs in `server/credentials.lua`. Never move secrets into either shared file.
+{% endhint %}
 
 ---
 
 ## General
 
 ```lua
-Config.Debug = true
+Debug = true
+InventoryItemName = 'gs_customshirt'
+InventoryItemLabel = 'Custom Clothing'
 ```
-Verbose console logs. Turn off in production.
 
-```lua
-Config.InventoryItemName  = 'gs_customshirt'
-Config.InventoryItemLabel = 'Custom T-Shirt'
-```
-Item the studio prints when a design is published. Must match the entry you added in your inventory items file.
+| Setting | Description |
+|---|---|
+| `Debug` | Adds detailed client and server diagnostics. Use it while installing or investigating an issue; disable it for normal production use. |
+| `InventoryItemName` | Item added when clothing is printed. It must match the active inventory definition. |
+| `InventoryItemLabel` | Fallback display label used by integrations and notifications. |
+
+`StateBagKey`, `CallbackEvent`, and `CallbackResponseEvent` are protocol settings. Change them only when another resource conflicts and every integration is updated to match.
 
 ---
 
-## Asset Uploads
+## Rendering and Pack Export
 
 ```lua
-Config.AllowAssetUrlImports = true
-Config.AllowFileUploads     = true
-Config.AssetUploadProvider  = 'discord'
+RenderSystem = 'runtime'
+ExportPacks = false
 ```
 
-| Field | Description |
-|-------|-------------|
-| `AllowAssetUrlImports` | Players can paste an HTTPS image URL into the studio's asset library. |
-| `AllowFileUploads` | Players can drag & drop or pick a file from the asset library. |
-| `AssetUploadProvider` | `'discord'` (recommended) hosts uploaded media on a Discord CDN via webhook. Anything else falls back to in-database storage. |
+`runtime` is the recommended render system. It applies saved textures through managed DUI runtime textures and restores them after supported player-load events.
+
+`hybrid` is experimental and may cause crashes. Do not enable it on a live server unless Goonsquad support specifically asks you to test it.
+
+`ExportPacks` creates standalone resources under `output/` while printing. It is intended for development and should remain `false` on production servers.
+
+---
+
+## Uploads and Imports
 
 ```lua
-Config.MaxUploadBytes  = 4 * 1024 * 1024
-Config.MaxPreviewBytes = 4 * 1024 * 1024
+AllowAssetUrlImports = true
+AllowFileUploads = true
+AssetUploadProvider = 'discord'
+MaxUploadBytes = 4 * 1024 * 1024
+MaxPreviewBytes = 4 * 1024 * 1024
 ```
-Maximum size of a single uploaded image and a saved design's preview. 4 MB is a comfortable default.
+
+| Setting | Description |
+|---|---|
+| `AllowAssetUrlImports` | Allows players to import public HTTP or HTTPS image URLs. |
+| `AllowFileUploads` | Allows local image selection and drag-and-drop uploads. |
+| `AssetUploadProvider` | `database`, `fivemanage`, or `discord`. |
+| `MaxUploadBytes` | Maximum uploaded asset size. The UI checks this before `FileReader` reads the file, and the server validates it again. |
+| `MaxPreviewBytes` | Maximum generated design-preview or studio-tool reference size. |
+
+Accepted MIME types are configured separately:
 
 ```lua
-Config.SupportedMimeTypes = {
-    ['image/png']  = 'png',
+SupportedMimeTypes = {
+    ['image/png'] = 'png',
     ['image/jpeg'] = 'jpg',
     ['image/webp'] = 'webp',
 }
 ```
-Whitelisted MIME types for uploads and URL imports.
+
+Players receive an immediate error when a selected file exceeds the client-side limit. The server still rejects oversized, invalid, or unsupported payloads so a modified NUI cannot bypass the limit.
+
+### Upload Queue
+
+```lua
+Queues = {
+    Upload = {
+        Enabled = true,
+        MaxConcurrent = 1,
+        MaxPending = 12,
+        BusyMessage = 'The media upload queue is busy. Please try again in a moment.',
+    },
+}
+```
+
+The upload queue covers asset uploads, URL imports, design previews, studio-tool reference images, and generated-media hosting. It prevents many simultaneous HTTP and base64 operations from hitting the server or provider at once.
+
+| Setting | Description |
+|---|---|
+| `Enabled` | Set `false` to execute media jobs immediately. Keeping it enabled is recommended. |
+| `MaxConcurrent` | Media jobs allowed to run at the same time. Start at `1`; increase only after measuring your host and provider. |
+| `MaxPending` | Waiting jobs accepted before new requests receive `BusyMessage`. `0` allows no waiting jobs. |
+| `BusyMessage` | Error shown when the pending queue is full. |
+
+### FiveManage
+
+```lua
+FiveManage = {
+    base64Endpoint = 'https://api.fivemanage.com/api/v3/file/base64',
+    filenamePrefix = 'gscd_asset',
+    metadataName = 'GS Cloth Designer Asset',
+    metadataDescription = 'Uploaded from gs-clothdesigner',
+    path = 'gs-clothdesigner',
+    retentionExempt = false,
+}
+```
+
+Set `AssetUploadProvider = 'fivemanage'` and place the token in `server/credentials.lua`:
+
+```lua
+GSCD.Credentials.FiveManageApiKey = 'YOUR_API_KEY'
+```
+
+The resource sends a base64 data URL to the endpoint. Keep the default endpoint unless FiveManage documents a replacement. `path` is the optional folder in the FiveManage team, while `retentionExempt` should only be enabled when the token and account permit it.
+
+### Discord
+
+```lua
+Discord = {
+    filenamePrefix = 'gscd_media',
+}
+```
+
+Set `AssetUploadProvider = 'discord'` and configure:
+
+```lua
+GSCD.Credentials.DiscordWebhookUrl = 'YOUR_DISCORD_WEBHOOK_URL'
+```
+
+### Database
+
+Set `AssetUploadProvider = 'database'`. Assets and previews are stored as data in MySQL, so monitor database size on an active server.
 
 ---
 
 ## Layer Validation
 
-Hard limits applied when a design is saved. They protect the database and the server from oversized payloads.
-
 ```lua
-Config.LayerValidation = {
-    maxLayers              = 64,
-    maxJsonBytes           = 2 * 1024 * 1024,
-    maxTextLength          = 256,
-    maxStrokePoints        = 8192,
-    maxEmbeddedImageBytes  = 2 * 1024 * 1024,
-    maxDimension           = 4096,
-    maxScale               = 10.0,
-    maxRotation            = 3600.0,
+LayerValidation = {
+    maxLayers = 64,
+    maxJsonBytes = 2 * 1024 * 1024,
+    maxTextLength = 256,
+    maxStrokePoints = 8192,
+    maxEmbeddedImageBytes = 2 * 1024 * 1024,
+    maxDimension = 4096,
+    maxScale = 10.0,
+    maxRotation = 3600.0,
 }
 ```
 
-| Field | Description |
-|-------|-------------|
-| `maxLayers` | Total layer count per design. |
-| `maxJsonBytes` | Total size of a single saved design's data. |
-| `maxTextLength` | Max characters for a text layer. |
-| `maxStrokePoints` | Max points in a single brush / shape stroke. |
-| `maxEmbeddedImageBytes` | Max size of an inline image inside a layer. |
-| `maxDimension` | Max width or height in pixels for any layer. |
-| `maxScale` | Cap on a layer's `scale` transform. |
-| `maxRotation` | Cap on a layer's `rotation` transform (degrees). |
+These server-side limits protect save operations and the database from excessively large designs.
 
-The defaults work for the vast majority of servers. Raise the limits if your players want more layers per design.
+| Setting | Description |
+|---|---|
+| `maxLayers` | Total layers allowed in one design. |
+| `maxJsonBytes` | Maximum serialized layer JSON size. |
+| `maxTextLength` | Characters allowed in one text layer. |
+| `maxStrokePoints` | Stored points allowed in one freehand stroke. |
+| `maxEmbeddedImageBytes` | Maximum image data embedded in a layer. |
+| `maxDimension` | Maximum accepted width or height for uploaded or generated images. |
+| `maxScale` | Maximum layer scale multiplier. |
+| `maxRotation` | Maximum absolute rotation value in degrees. |
 
 ---
 
-## Performance
+## Runtime Textures
 
 ```lua
-Config.Runtime = {
-    scanInterval         = 750,
-    renderDistance       = 45.0,
-    losGraceMs           = 2500,
+Runtime = {
+    scanInterval = 750,
+    renderDistance = 100.0,
+    prepareDistance = 200.0,
+    losGraceMs = 30000,
+    preApplyTimeoutMs = 3000,
+    postApplyHardReloadComponents = { [4] = true },
+    postApplyHardReloadFallbackMs = 650,
+    duiWidth = 1024,
+    duiHeight = 1024,
     imageRequestCooldown = 2500,
+    duiInitialDelayMs = 450,
+    duiRetryIntervalMs = 500,
+    duiRetryWindowMs = 2500,
 }
 ```
 
-| Field | Description |
-|-------|-------------|
-| `scanInterval` | How often (in ms) clients scan for nearby players wearing custom designs. |
-| `renderDistance` | Maximum distance in metres at which a remote player's custom texture is rendered. Beyond this it's released to save memory. |
-| `losGraceMs` | Grace window (ms) after a remote player goes out of sight before their texture handle is released. Prevents flicker as players walk behind cover. |
-| `imageRequestCooldown` | Per-design cooldown (ms) on requesting design previews. Prevents request storms in crowds. |
+| Setting | Description |
+|---|---|
+| `scanInterval` | Milliseconds between nearby-player wearable scans. |
+| `renderDistance` | Fallback distance used when `prepareDistance` is absent. |
+| `prepareDistance` | Maximum distance at which a client prepares another player's custom textures. |
+| `losGraceMs` | How long a prepared texture is retained after range or line of sight is lost. |
+| `preApplyTimeoutMs` | Maximum preparation wait before the clothing variation is applied. |
+| `postApplyHardReloadComponents` | Components allowed one delayed hard reload when GTA keeps a stale local material cache. Component `4` is pants. |
+| `postApplyHardReloadFallbackMs` | Delay before that one-shot fallback. |
+| `duiWidth`, `duiHeight` | Hidden runtime texture canvas resolution. |
+| `imageRequestCooldown` | Per-design render-image request cooldown. |
+| `duiInitialDelayMs` | Initial wait before binding a new DUI texture. |
+| `duiRetryIntervalMs` | Delay between binding retries. |
+| `duiRetryWindowMs` | Total retry window. |
 
-For most servers, the defaults are correct. Lower `renderDistance` on heavily-populated servers if you see performance issues from too many simultaneous custom textures rendering.
+The 1.3.0 UI automatically virtualizes library previews and reuses or disposes WebGL renderers. There is no separate switch for those optimizations.
+
+{% hint style="info" %}
+For a high-population server, reduce `prepareDistance` before making scans more frequent. Raising DUI resolution, distance, or queue concurrency increases resource use.
+{% endhint %}
 
 ---
 
-## Designer Stations & Job Gating
+## Designer Stations and Jobs
 
 ```lua
-Config.Designer = {
+Designer = {
     jobs = {
         clothingdesigner = 0,
-        ambulance        = 0,
+        ambulance = 0,
     },
     stations = {
         {
-            label            = 'Clothing Designer Station',
-            coords           = vec3(-1194.96, -767.87, 17.32),
-            marker           = vec3(1.4, 1.4, 0.6),
+            label = 'Clothing Designer Station',
+            coords = vec3(-1194.96, -767.87, 17.32),
+            marker = vec3(1.4, 1.4, 0.6),
             interactDistance = 1.7,
-            drawDistance     = 20.0,
+            drawDistance = 20.0,
         },
     },
 }
 ```
 
-### `jobs`
-
-Map of `jobName -> minimumGrade`. A player can open the studio at any station if their current job is in this map and their grade is at least the listed value.
-
-To make the studio public, add a catch-all job:
-
-```lua
-jobs = {
-    unemployed = 0,
-}
-```
-
-To bypass job gating entirely, call the export from your own resource:
-
-```lua
-exports['gs-clothdesigner']:openDesigner()
-```
-
-### `stations`
-
-Array of design stations. Each entry:
-
-| Field | Description |
-|-------|-------------|
-| `label` | Help text shown above the marker. |
-| `coords` | World position of the marker (XYZ). |
-| `marker` | Marker scale (X/Y/Z dimensions). |
-| `interactDistance` | Distance at which the **E** prompt appears. |
-| `drawDistance` | Distance at which the marker is drawn (for performance). |
-
-You can add as many stations as you like — every one of them opens the same studio.
+`jobs` maps a framework job name to its minimum grade. Add any number of stations. `openDesigner()` uses the same server-side job validation; limited designer exports create a separate allowance-based session.
 
 ---
 
-## AI Mode
+## Wardrobe and Approval
 
 ```lua
-Config.AI = {
-    enabled = true,
-    model   = 'gemini-3.1-flash-image-preview',
+Wardrobe = {
+    Enabled = true,
+    Command = 'gscd_wardrobe',
+    AdminCommand = 'gscd_clothing_review',
+    AdminAce = 'gscd.clothdesigner.admin',
+    RequireApproval = false,
 }
 ```
 
-| Field | Description |
-|-------|-------------|
-| `enabled` | Master switch for AI Mode in the studio. Set `false` to hide the AI tool entirely. |
-| `model` | Gemini model name. The default is the latest image-capable preview at release. |
+| Setting | Description |
+|---|---|
+| `Enabled` | Enables the player wardrobe and admin review UI. |
+| `Command` | Player command for created clothing. Use an empty string to avoid registering it. |
+| `AdminCommand` | Command that opens pending designs for review. |
+| `AdminAce` | ACE checked by the server before admin data or actions are returned. |
+| `RequireApproval` | Sends print requests to the review queue instead of immediately publishing and granting the item. |
 
-> AI Mode also requires `GSCD.Credentials.GoogleApiKey` and `GSCD.Credentials.DiscordWebhookUrl`. With either missing, the studio shows an "AI design generation is not configured" message instead of generating.
-
----
-
-## Component Categories
-
-```lua
-Config.ComponentCategories = {
-    tops        = { component = 11, article = 'shirt',      label = 'Tops'        },
-    bottoms     = { component = 4,  article = 'pants',      label = 'Bottoms'     },
-    undershirts = { component = 8,  article = 'undershirt', label = 'Undershirts' },
-    shoes       = { component = 6,  article = 'shoes',      label = 'Shoes'       },
-}
+```cfg
+add_ace group.admin gscd.clothdesigner.admin allow
 ```
 
-Maps `cloth_templates/<gender>/<category>/` directory names to GTA ped component IDs. Add or remove entries to match the categories you want available in the studio.
+---
+
+## Clothing and Prop Categories
+
+Component folders map to GTA component IDs:
+
+| Folder | ID | Label |
+|---|---:|---|
+| `masks` | 1 | Masks |
+| `arms` | 3 | Arms |
+| `bottoms` | 4 | Bottoms |
+| `bags` | 5 | Bags |
+| `shoes` | 6 | Shoes |
+| `accessories` | 7 | Accessories |
+| `undershirts` | 8 | Undershirts |
+| `armor` | 9 | Armor |
+| `decals` | 10 | Decals |
+| `tops` | 11 | Tops |
+
+Prop folders use GTA prop IDs:
+
+| Folder | ID | Label |
+|---|---:|---|
+| `hats` | 0 | Hats |
+| `glasses` | 1 | Glasses |
+| `ears` | 2 | Earwear |
+| `watches` | 6 | Watches |
+| `bracelets` | 7 | Bracelets |
+
+Component `0` and component `2` are intentionally excluded. Only add a category when the matching templates follow the expected GTA naming and texture structure.
 
 ---
 
-## Supported Player Models
+## Supported Peds
 
 ```lua
-Config.SupportedPlayerModels = {
+SupportedPlayerModels = {
     [`mp_m_freemode_01`] = true,
     [`mp_f_freemode_01`] = true,
 }
 ```
 
-Whitelisted ped models. A player whose model isn't in this map can't open the studio and can't equip a custom shirt — the resource is built around MP freemode peds.
+Custom clothing is designed for the GTA Online male and female freemode peds. Other models cannot open or wear designs unless the resource and all templates are adapted for them.
 
-> The dict is keyed by model **hash** — use the backtick syntax to convert a model name automatically.
+---
+
+## Tebex Configuration
+
+Package allowances and claiming rules live in `shared/tebex.lua`, not the main config. See [Tebex Integration](tebex.md).
+
+---
+
+## AI and Studio Tools
+
+There is no `Config.AI` or Google API key in GS Cloth Designer 1.3.0. AI appears when another resource registers a studio tool through `registerStudioTool`. That integration should consume or refund an AI allowance through the server exports documented in [API & Exports](exports.md#studio-tool-and-ai-integration).
