@@ -4,13 +4,23 @@
 
 ## How Zombies Work (Server Owner Guide)
 
-Zombies spawn in waves around random players. Each wave selects `SpawnVendors` random players and spawns `SpawnAmount` zombies within `SpawnRadius` of each.
+Zombies spawn in waves around random players. Each wave selects `SpawnVendors` random players and spawns `SpawnAmount` zombies within `SpawnRadius` of each. Every candidate position is checked against safe zones, then profile zones. The selected profile controls the model and replicated tuning while the existing server-authoritative spawn and command system remains in control.
 
 Zombies use a perception system:
 - **Sight**: Line-of-sight check within configured angle and distance
 - **Hearing**: GTA native `CanPedHearPlayer` detection
 
 When a zombie detects a player, it transitions: `wander -> alert -> chase -> attack`
+
+### Zone Selection
+
+1. Safe zones reject the candidate spawn position.
+2. Matching profile zones are ordered by highest `priority`, then by zone ID for a stable tie-break.
+3. A linked profile is selected by weight.
+4. Outside profile zones, `Config.Zombies.DefaultProfile` is used.
+5. If no valid default profile exists, legacy model and global tuning settings are used.
+
+Profiles affect newly spawned zombies. Replacing a dynamic profile does not retroactively retune zombies that already exist.
 
 ---
 
@@ -111,9 +121,11 @@ When enabled, audio is muffled when line-of-sight is blocked between the zombie 
 ### `client/openclient.lua`
 
 ```lua
-function OnZombieSpawn(Zombie)
+function OnZombieSpawn(Zombie, ProfileName, ProfileTuning)
     -- Called when a zombie ped becomes ready on the client
     -- Zombie = ped handle
+    -- ProfileName = selected profile, or "legacy"
+    -- ProfileTuning = resolved per-profile overrides replicated on the entity
 end
 ```
 
@@ -127,9 +139,11 @@ Default applies:
 ### `server/openserver.lua`
 
 ```lua
-function OnZombieSpawn(zombie)
+function OnZombieSpawn(zombie, profileName, profileZoneId)
     -- Called when a zombie is spawned on the server
     -- zombie = server entity handle
+    -- profileName = selected profile, or nil when using legacy fallback
+    -- profileZoneId = matching zone ID, or nil outside profile zones
 end
 
 function CanLootZombie(source, zombie)

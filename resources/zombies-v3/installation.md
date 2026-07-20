@@ -7,7 +7,7 @@
    ```
    ensure gs_zombies
    ```
-   Ensure it starts after any framework or inventory resources.
+   Ensure it starts after any framework, inventory, target, or optional `ox_lib` resource that you use.
 
 ## Step 2: Requirements
 
@@ -19,15 +19,15 @@
   ```
   sv_enforceGameBuild 3258
   ```
-- **Lua 5.4** is recommended for best performance.
+- **Lua 5.4** is enabled by the resource manifest.
 
 ## Step 3: Configuration
 
 All configuration is in `config/jagdauifgaiu.lua`. Key settings to review:
 
 ```lua
-Config.Framework = 'auto'  -- or set to your framework
 Config.Zombies.MaxAmount = 50  -- adjust based on server size
+Config.Zombies.DefaultProfile = "walker"
 ```
 
 See [Configuration](configuration.md) for the full reference.
@@ -75,6 +75,7 @@ No encryption means you can modify freely.
 - Check `Config.Zombies.MaxAmount` isn't too high for your server.
 - Ensure game build is 3258+.
 - Check server console for debug messages (enable `Config.Debug = true`).
+- If using profile zones, confirm the zone contains at least one valid linked profile and that its models have positive weights.
 
 **Zombies don't attack:**
 - Verify `Config.EnableZombieTasks = true`.

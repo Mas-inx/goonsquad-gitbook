@@ -18,6 +18,15 @@ Advanced zombie survival system for FiveM. Standalone — no framework required,
 - DLC zombie native melee support (Bottom Dollar Bounties)
 - Legacy GTA zombie ped support
 - Configurable combat attributes and movement
+- Named zombie profiles with per-profile models, health, armor, movement, combat, and locomotion
+- Weighted profile selection for different infected variants
+
+### Profile Zones & Safe Zones
+- ox_lib-compatible sphere, rotated box, and polygon/prism zones
+- Different zombie profiles in different areas
+- Priority handling for overlapping profile zones
+- Built-in geometry fallback when ox_lib is not running
+- Runtime profile, profile-zone, linking, and safe-zone exports
 
 ### Infected Animals
 - Cougar, dog, and boar variants
@@ -86,6 +95,7 @@ Advanced zombie survival system for FiveM. Standalone — no framework required,
 | Lua 5.4 | Recommended |
 | ox_target / qb-target | Optional (for loot interaction) |
 | ox_inventory / qb-inventory | Optional (for loot system) |
+| ox_lib | Optional (zone integration; built-in fallback included) |
 
 ---
 

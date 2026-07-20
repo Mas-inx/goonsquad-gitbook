@@ -2,6 +2,15 @@
 
 All notable changes to Goonsquad Studios resources will be documented here.
 
+## Zombies V3 3.1.0
+
+- Added named zombie profiles with weighted models and per-profile stats, combat, movement speed, and locomotion.
+- Added profile zones with weighted links and deterministic overlap priority.
+- Added ox_lib-compatible sphere, box, and polygon/prism zones with a built-in fallback when ox_lib is unavailable.
+- Added server exports for runtime profile, profile-zone, profile-link, and safe-zone management.
+- Added client exports for managed-zombie detection and profile inspection.
+- Extended client and server spawn hooks with backward-compatible profile context.
+
 ## ClothDesigner 1.3.0 RC
 
 - Added limited designer client and server exports with separate clothing and AI allowances.

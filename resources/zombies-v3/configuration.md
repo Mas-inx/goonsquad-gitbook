@@ -126,17 +126,112 @@ Config.Zombies.ServerCommandThreadTime = 5
 
 ---
 
+## Zombie Profiles
+
+Profiles let you define named infected variants. Omitted `Stats`, `Combat`, and `HumanLocomotion` values inherit from the global settings later in this file. If a profile omits `Model` and `Models`, it uses the existing human/animal spawn pool.
+
+```lua
+Config.Zombies.DefaultProfile = "walker"
+
+Config.Zombies.Profiles = {
+    walker = {
+        -- No model override: retain the normal human/animal pool.
+        Stats = {
+            Health = 300,
+            Armour = 25,
+        },
+        Combat = {
+            MoveRateOverride = 1.05,
+        },
+    },
+    runner = {
+        Models = {
+            { model = `g_m_m_zombie_02`, weight = 2 },
+            { model = `g_m_m_zombie_03`, weight = 1 },
+        },
+        Stats = {
+            Health = 225,
+            Armour = 0,
+        },
+        Combat = {
+            MoveRateOverride = 1.35,
+        },
+    },
+}
+```
+
+| Option | Description |
+|--------|-------------|
+| `DefaultProfile` | Profile used when a spawn position is outside every valid profile zone |
+| `Model` | A single model name or hash |
+| `Models` | Weighted model entries or a simple model array |
+| `Stats` | Overrides any global zombie stat, including health, armor, ragdoll, critical-hit, and proof settings |
+| `Combat` | Overrides any global combat setting, including `MoveRateOverride` |
+| `HumanLocomotion` | Overrides human locomotion and zombie clipset settings |
+| `Walking` | Profile-specific array of legacy movement clipsets |
+| `Locomotion` | A fixed movement clipset, or `"zombie"` for DLC zombie locomotion |
+| `Animal` / `IsAnimal` | Marks all profile models as animals |
+
+Model entries accept `model`, `weight`, and optional `animal = true`. Mark custom animal models so the server uses animal locomotion and combat behavior.
+
+For compact dynamic profiles, `Health`, `Armor`/`Armour`, and `MovementSpeed` are accepted as shorthand for `Stats.Health`, `Stats.Armour`, and `Combat.MoveRateOverride`.
+
+---
+
+## Profile Zones
+
+Profile zones decide which profiles can spawn at a position. Definitions are compatible with ox_lib's `/zone` output. `type` can be omitted for boxes and polygons because `size` or `points` identifies the shape.
+
+```lua
+Config.Zombies.ProfileZones = {
+    Enabled = true,
+    Zones = {
+        {
+            name = "sandy_runners",
+            type = "sphere",
+            coords = vec3(1700.0, 3600.0, 35.0),
+            radius = 300.0,
+            priority = 10,
+            profiles = {
+                { name = "runner", weight = 70 },
+                { name = "walker", weight = 30 },
+            },
+        },
+    },
+}
+```
+
+Supported shapes:
+
+| Shape | Required values |
+|-------|-----------------|
+| Sphere | `type = "sphere"`, `coords`, `radius` |
+| Rotated box | `type = "box"`, `coords`, `size`, optional `rotation` |
+| Polygon/prism | `type = "poly"`, at least three `points`, optional `thickness` or `minZ`/`maxZ` |
+
+When zones overlap, the zone with the highest `priority` is evaluated first. A profile is selected from that zone using its `weight`. If a matching zone has no valid profiles, the next matching zone is checked, followed by `DefaultProfile`.
+
+If `ox_lib` is started, the resource mirrors definitions through its server-side zone system. If it is missing or unavailable, the built-in geometry engine handles the same shapes automatically.
+
+---
+
 ## Safe Zones
 
 ```lua
 Config.Zombies.SafeZones = {
     Enabled = false,
     Zones = {
-        -- { x = -1370.75, y = -2937.86, z = 13.94, radius = 100.0 },
+        {
+            name = "airport_safe",
+            type = "sphere",
+            coords = vec3(-1370.75, -2937.86, 13.94),
+            radius = 100.0,
+        },
     }
 }
 ```
-Prevents new zombie spawns inside zones. Existing zombies can still wander in.
+
+Safe zones support the same sphere, box, and polygon definitions as profile zones. Legacy `{ x, y, z, radius }` entries also remain supported. They prevent new zombie spawns but do not remove existing zombies or stop them from wandering into the area. Runtime safe zones created through exports work even when static `SafeZones.Enabled` is `false`.
 
 ---
 
