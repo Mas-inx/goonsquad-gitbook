@@ -7,6 +7,15 @@
 
 ## Resources
 
+### GS Banking
+- [Overview](resources/banking/overview.md)
+- [Installation](resources/banking/installation.md)
+- [Configuration](resources/banking/configuration.md)
+- [Usage](resources/banking/usage.md)
+- [Administration](resources/banking/administration.md)
+- [API & Exports](resources/banking/exports.md)
+- [Troubleshooting](resources/banking/troubleshooting.md)
+
 ### ClothDesigner
 - [Overview](resources/clothdesigner/overview.md)
 - [Installation](resources/clothdesigner/installation.md)

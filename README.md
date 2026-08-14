@@ -6,6 +6,7 @@ Welcome to the official documentation for Goonsquad Studios' premium FiveM resou
 
 | Resource | Price | Framework |
 |----------|-------|-----------|
+| [GS Banking](resources/banking/overview.md) | TBD | QBCore / ESX / Qbox |
 | [ClothDesigner](resources/clothdesigner/overview.md) | $55.00 | QBCore / ESX / Qbox |
 | [DarkMet](resources/darkmet/overview.md) | $29.99 | QBCore / ESX / Qbox |
 | [Zombies V3](resources/zombies-v3/overview.md) | $10.00 | Standalone |
@@ -25,6 +26,7 @@ Welcome to the official documentation for Goonsquad Studios' premium FiveM resou
 
 ## Quick Links
 
+- [GS Banking Installation](resources/banking/installation.md)
 - [ClothDesigner Installation](resources/clothdesigner/installation.md)
 - [ClothDesigner 1.3.0 RC Changelog](changelog.md)
 - [Installation Guide](resources/darkmet/installation.md)
