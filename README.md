@@ -18,6 +18,7 @@ Welcome to the official documentation for Goonsquad Studios' premium FiveM resou
 | [Custom Sirens](resources/custom-sirens/overview.md) | TBD | Standalone |
 | [Player Rewards](resources/player-rewards/overview.md) | $14.99 | QBCore / ESX / Qbox |
 | [Loading Screen](resources/loading-screen/overview.md) | $14.99 | Standalone |
+| [GS Announcements](resources/announcements/overview.md) | $20.00 | Qbox / QBCore / ESX / Standalone |
 
 ## Support
 

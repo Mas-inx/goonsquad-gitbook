@@ -75,3 +75,12 @@
 - [Usage](resources/loading-screen/usage.md)
 - [API & Exports](resources/loading-screen/exports.md)
 
+### GS Announcements
+- [Overview](resources/announcements/overview.md)
+- [Installation](resources/announcements/installation.md)
+- [Configuration](resources/announcements/configuration.md)
+- [Usage](resources/announcements/usage.md)
+- [Administration](resources/announcements/administration.md)
+- [API & Exports](resources/announcements/exports.md)
+- [Troubleshooting](resources/announcements/troubleshooting.md)
+

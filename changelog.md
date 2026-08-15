@@ -2,6 +2,15 @@
 
 All notable changes to Goonsquad Studios resources will be documented here.
 
+## GS Announcements 2.6.0
+
+- Added the full announcement Builder with seven layouts, animated backgrounds, media, lightshows, sizing, sounds, GPS actions, and scheduling.
+- Added limited player publishing with job locking and an administrator approval queue.
+- Added MySQL-backed access control for jobs, players, one-time passes, super admins, minimum grades, and content restrictions.
+- Added an approved asset-library workflow for announcement backgrounds, logos, and artwork.
+- Added profiles, broadcast history, recurring schedules, business statuses, CSV history export, and live engagement analytics.
+- Added Qbox, QBCore, and ESX job detection with standalone administrator operation.
+
 ## Zombies V3 3.1.0
 
 - Added named zombie profiles with weighted models and per-profile stats, combat, movement speed, and locomotion.
