@@ -2,7 +2,7 @@
 
 A premium business announcement system for FiveM. Staff and approved business employees can create branded announcements in-game, send them immediately or on a schedule, and measure reach and engagement from a single admin suite.
 
-**Version:** 2.6.0 | **Price:** $20.00 | [Buy on Tebex](https://store.goonsquadstudios.com/package/7626066)
+**Version:** 1.0.0 | **Price:** $20.00 | [Buy on Tebex](https://store.goonsquadstudios.com/package/7626066)
 
 {% embed url="https://youtu.be/JISMSUGXW80" %}
 

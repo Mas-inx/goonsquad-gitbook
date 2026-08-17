@@ -2,7 +2,7 @@
 
 All notable changes to Goonsquad Studios resources will be documented here.
 
-## GS Announcements 2.6.0
+## GS Announcements 1.0.0
 
 - Added the full announcement Builder with seven layouts, animated backgrounds, media, lightshows, sizing, sounds, GPS actions, and scheduling.
 - Added limited player publishing with job locking and an administrator approval queue.

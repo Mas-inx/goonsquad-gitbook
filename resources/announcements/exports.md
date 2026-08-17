@@ -1,6 +1,6 @@
 # API & Exports
 
-GS Announcements 2.6.0 does not expose public Lua exports. Use the documented server event below for business-status integrations.
+GS Announcements 1.0.0 does not expose public Lua exports. Use the documented server event below for business-status integrations.
 
 ---
 
