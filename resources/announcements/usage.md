@@ -21,7 +21,7 @@ Admins see the full suite. Regular players see the Dashboard and a limited Build
 7. Choose immediate publishing or enable a schedule.
 8. Preview the card and click **Publish**.
 
-Admins publish immediately. Limited players submit the same design to **Approvals**.
+Admins publish immediately. Limited players submit the same design to **Approvals** — unless `Config.PlayerMode.RequireApproval = false`, in which case their publish broadcasts or schedules directly and the Builder's buttons say so.
 
 ---
 
@@ -69,12 +69,14 @@ Ready-made options include police, sheriff, EMS, fire, taxi, tow, roadworks, gov
 
 ## Asset Library
 
-All announcement media must be approved before it can be published. The Asset Library page is part of the admin suite; limited players can select assets an admin has already made available to them.
+All announcement media must be approved before it can be published. The Asset Library page is open to admins and to whitelisted players — everyone submits into their own library, and nothing becomes usable until an approver signs it off.
 
-1. As an admin, open **Create → Asset Library**.
+1. Open **Create → Asset Library**.
 2. Submit a name and a direct HTTPS or `media/...` URL.
 3. Wait for an asset approver to approve it.
 4. Select the approved asset from the Builder's Background, Logo, or Artwork picker.
+
+Players see their own submissions and statuses under **My library**; the **Review** tab appears only for approvers. Players can delete their own entries at any time.
 
 ```text
 submit → pending review → approved → available in Builder

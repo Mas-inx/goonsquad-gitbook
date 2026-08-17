@@ -33,7 +33,7 @@ Use a stable identifier, preferably `license:`. Players can run `/gsid`, or an a
 | Tier | Job | Player | Behavior |
 |------|-----|--------|----------|
 | Permanent | Yes | Yes | Builder access until the entry is removed |
-| One-time | Yes | Yes | Entry is consumed after the first successful submission |
+| One-time | Yes | Yes | Entry is consumed by the first successful publish — the submission to Approvals, or the direct broadcast when approval is disabled |
 | Super admin | No | Yes | Full admin dashboard and immediate publishing |
 
 Super-admin access is managed live in MySQL and does not require a resource restart.
@@ -60,6 +60,8 @@ The limited Builder hides restricted choices, and the server rejects a crafted p
 
 ## Reviewing Player Announcements
 
+The approval queue is used while `Config.PlayerMode.RequireApproval = true` (the default). With it set to `false`, player publishes skip the queue and broadcast or schedule directly.
+
 Open **Manage → Approvals**. Pending submissions include the submitter, business, tagline, saved design, and any requested schedule.
 
 ### Approve
@@ -78,7 +80,7 @@ Pending rows cannot be deleted directly; approve or reject them first.
 
 ## Reviewing Assets
 
-By default, every admin can review media. To create a narrower reviewer tier, add identifiers to `Config.AssetApprovers`.
+Admins and whitelisted players submit media into their own libraries; every submission lands as pending. By default, every admin can review media. To create a narrower reviewer tier, add identifiers to `Config.AssetApprovers`.
 
 On **Asset Library → Review**:
 

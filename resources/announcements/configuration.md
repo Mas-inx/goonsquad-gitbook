@@ -59,6 +59,7 @@ Matching ignores case and surrounding whitespace. A raw identifier without a typ
 Config.PlayerMode = {
     Enabled = true,
     JobProvider = "auto",
+    RequireApproval = true,
     MaxPending = 10,
 }
 ```
@@ -67,9 +68,12 @@ Config.PlayerMode = {
 |--------|--------|-------------|
 | `Enabled` | `true` / `false` | Allow non-admins to open the limited Builder |
 | `JobProvider` | `auto`, `qbx`, `qb`, `esx`, `none` | Source used for the player's job name and grade |
-| `MaxPending` | Number | Maximum pending submissions owned by one player |
+| `RequireApproval` | `true` / `false` | `true` routes player publishes through the admin approval queue; `false` broadcasts or schedules them directly |
+| `MaxPending` | Number | Maximum pending submissions owned by one player (used while `RequireApproval` is `true`) |
 
 Automatic detection checks `qbx_core`, then `qb-core`, then `es_extended`. Players without a detected job cannot publish.
+
+With `RequireApproval = false`, every other guard still applies: the whitelist and its role locks, the job-locked business name, the approved-media requirement, and any content restrictions. Only the review step is skipped, and the Builder relabels its publish flow accordingly.
 
 ---
 

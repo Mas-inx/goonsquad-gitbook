@@ -83,6 +83,7 @@ Player mode lets non-admins create announcements for their own jobs and submit t
 Config.PlayerMode = {
     Enabled = true,
     JobProvider = "auto",
+    RequireApproval = true,
     MaxPending = 10,
 }
 
@@ -90,6 +91,8 @@ Config.Whitelist = {
     Enabled = true,
 }
 ```
+
+Set `RequireApproval = false` to let whitelisted players broadcast directly instead of queueing for admin review.
 
 With the whitelist enabled, add allowed jobs or players from **Manage → Access Control** after the first admin signs in. Set `Config.Whitelist.Enabled = false` to let every detected job use the limited Builder.
 

@@ -2,7 +2,9 @@
 
 A premium business announcement system for FiveM. Staff and approved business employees can create branded announcements in-game, send them immediately or on a schedule, and measure reach and engagement from a single admin suite.
 
-**Version:** 2.6.0 | **Price:** $20.00
+**Version:** 2.6.0 | **Price:** $20.00 | [Buy on Tebex](https://store.goonsquadstudios.com/package/7626066)
+
+{% embed url="https://www.youtube.com/watch?v=JISMSUGXW80" %}
 
 ---
 
@@ -25,13 +27,14 @@ A premium business announcement system for FiveM. Staff and approved business em
 - Broadcast history with reach, GPS activity, stored announcement snapshots, and CSV export
 - Configurable history retention limit
 
-### Player Approval Workflow
+### Player Publishing
 - Optional limited mode for regular players
 - Automatic Qbox, QBCore, and ESX job detection
 - Server-enforced business-name lock to the player's job
 - Pending approval queue for player broadcasts and schedules
 - Approve or reject submissions with a reviewer note
 - Per-player pending-submission limit
+- Optional direct publishing: with `Config.PlayerMode.RequireApproval = false`, whitelisted players broadcast or schedule immediately with no review step
 
 ### Access and Media Control
 - Identifier or ACE-based administrator access
@@ -40,6 +43,7 @@ A premium business announcement system for FiveM. Staff and approved business em
 - Minimum job-grade requirements
 - Per-layout, background-preset, and lightshow restrictions
 - Asset Library with submit, review, approve, reject, and delete flows
+- Player media submissions: whitelisted players add their own backgrounds, GIFs, images, and videos, which stay pending until an approver signs them off
 - Server-side approved-media enforcement
 
 ### Analytics

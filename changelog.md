@@ -8,6 +8,8 @@ All notable changes to Goonsquad Studios resources will be documented here.
 - Added limited player publishing with job locking and an administrator approval queue.
 - Added MySQL-backed access control for jobs, players, one-time passes, super admins, minimum grades, and content restrictions.
 - Added an approved asset-library workflow for announcement backgrounds, logos, and artwork.
+- Opened Asset Library submissions to whitelisted players; media stays pending until an approver signs it off.
+- Added `Config.PlayerMode.RequireApproval` to switch player publishing between the admin approval queue and direct broadcasting.
 - Added profiles, broadcast history, recurring schedules, business statuses, CSV history export, and live engagement analytics.
 - Added Qbox, QBCore, and ESX job detection with standalone administrator operation.
 

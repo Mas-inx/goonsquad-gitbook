@@ -61,12 +61,12 @@ If old data did not import, confirm the files match the paths in `Config.Storage
 - Confirm the selected framework started before GS Announcements.
 - Check `Config.PlayerMode.JobProvider` and the player's internal job name.
 - Confirm their job grade meets the Access Control entry's minimum grade.
-- Confirm they have fewer than `Config.PlayerMode.MaxPending` pending submissions.
+- With `RequireApproval = true`, confirm they have fewer than `Config.PlayerMode.MaxPending` pending submissions.
 - Run `gsannounce:whitelist` to inspect effective entries and content rules.
 
 ### One-time access disappeared
 
-One-time access is consumed after the first successful player submission. Add a new one-time or permanent entry from Access Control.
+One-time access is consumed by the player's first successful publish — the submission to Approvals, or the direct broadcast when `Config.PlayerMode.RequireApproval = false`. Add a new one-time or permanent entry from Access Control.
 
 ---
 
