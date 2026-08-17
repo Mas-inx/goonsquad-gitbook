@@ -4,7 +4,7 @@ A premium business announcement system for FiveM. Staff and approved business em
 
 **Version:** 2.6.0 | **Price:** $20.00 | [Buy on Tebex](https://store.goonsquadstudios.com/package/7626066)
 
-{% embed url="https://www.youtube.com/watch?v=JISMSUGXW80" %}
+{% embed url="https://youtu.be/JISMSUGXW80" %}
 
 ---
 
