@@ -2,7 +2,9 @@
 
 A drag-and-drop, server-authoritative garage system for FiveM with an AAA racing-game interface, a live 3D vehicle preview, in-world park and open prompts, impound lots, job and gang fleets, automatic housing integration, and a full in-game admin suite. It runs on a clean ESX, QBCore, Qbox, or standalone server with no edits to any framework file.
 
-**Version:** 1.0.0 | **Price:** TBD | [Buy on Tebex](https://goonsquad-inc.tebex.io/)
+**Version:** 1.0.0 | **Price:** $19.99 | [Buy on Tebex](https://store.goonsquadstudios.com/package/7641428)
+
+{% embed url="https://www.youtube.com/watch?v=9GhWrYPadbE" %}
 
 ---
 

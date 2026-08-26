@@ -7,7 +7,7 @@ Welcome to the official documentation for Goonsquad Studios' premium FiveM resou
 | Resource | Price | Framework |
 |----------|-------|-----------|
 | [GS Banking](resources/banking/overview.md) | $35.00 | QBCore / ESX / Qbox |
-| [GS Garages](resources/garages/overview.md) | TBD | Qbox / QBCore / ESX / Standalone |
+| [GS Garages](resources/garages/overview.md) | $19.99 | Qbox / QBCore / ESX / Standalone |
 | [ClothDesigner](resources/clothdesigner/overview.md) | $55.00 | QBCore / ESX / Qbox |
 | [DarkMet](resources/darkmet/overview.md) | $29.99 | QBCore / ESX / Qbox |
 | [Zombies V3](resources/zombies-v3/overview.md) | $25.00 | Standalone |
