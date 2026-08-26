@@ -16,6 +16,16 @@
 - [API & Exports](resources/banking/exports.md)
 - [Troubleshooting](resources/banking/troubleshooting.md)
 
+### GS Garages
+- [Overview](resources/garages/overview.md)
+- [Installation](resources/garages/installation.md)
+- [Configuration](resources/garages/configuration.md)
+- [Usage](resources/garages/usage.md)
+- [Administration](resources/garages/administration.md)
+- [Integrations](resources/garages/integrations.md)
+- [API & Exports](resources/garages/exports.md)
+- [Troubleshooting](resources/garages/troubleshooting.md)
+
 ### ClothDesigner
 - [Overview](resources/clothdesigner/overview.md)
 - [Installation](resources/clothdesigner/installation.md)

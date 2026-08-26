@@ -2,6 +2,20 @@
 
 All notable changes to Goonsquad Studios resources will be documented here.
 
+## GS Garages 1.0.0
+
+- Initial release with public, house, job, gang, and impound garages, all defined as data in `config/garages.lua`.
+- Added the showroom interface with a live 3D turntable preview, composed camera presets, cinematic mode, and real handling-data performance bars.
+- Added in-world DUI surfaces: the nameplate behind the previewed vehicle, the `E — PARK` prompt at garage bays, and the `E — OPEN GARAGE` prompt on foot.
+- Added Qbox, QBCore, ESX, and standalone support with automatic framework detection and no framework file edits.
+- Added auto-detected fuel, vehicle key, and target adapters, each with a config override hook.
+- Added automatic house garages for ps-housing, qbx_properties, qs-housing, qb-houses, loaf_housing, esx_property, and rtx_housing, plus a custom provider hook.
+- Added favorites, nicknames, transfers, give-keys with persistent shared access, "find my car" waypoints, and odometer mileage.
+- Added impound lots with job-gated release, depot pricing, and police/tow exports.
+- Added the in-game admin suite: world-placed garage creation and live, database-persisted config editing.
+- Added additive idempotent schema migrations, a native import for incomplete dealership rows, and cross-script importers for qb-garages, jg-advancedgarages, cd_garage, and loaf_garage.
+- Added server-side ownership, fee, rate-limit, and duplicate-spawn protection, plus batched Discord webhook logging.
+
 ## GS Announcements 1.0.0
 
 - Added the full announcement Builder with seven layouts, animated backgrounds, media, lightshows, sizing, sounds, GPS actions, and scheduling.
