@@ -94,3 +94,10 @@
 - [API & Exports](resources/announcements/exports.md)
 - [Troubleshooting](resources/announcements/troubleshooting.md)
 
+
+### GS Handling Studio
+- [Overview](resources/handling-studio/overview.md)
+- [Installation](resources/handling-studio/installation.md)
+- [Configuration](resources/handling-studio/configuration.md)
+- [Usage](resources/handling-studio/usage.md)
+- [API & Exports](resources/handling-studio/exports.md)
