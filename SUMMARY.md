@@ -101,3 +101,12 @@
 - [Configuration](resources/handling-studio/configuration.md)
 - [Usage](resources/handling-studio/usage.md)
 - [API & Exports](resources/handling-studio/exports.md)
+
+### GS Weapon Designer
+- [Overview](resources/weapondesigner/overview.md)
+- [Installation](resources/weapondesigner/installation.md)
+- [Configuration](resources/weapondesigner/configuration.md)
+- [Usage](resources/weapondesigner/usage.md)
+- [Tebex Integration](resources/weapondesigner/tebex.md)
+- [API & Exports](resources/weapondesigner/exports.md)
+- [Troubleshooting](resources/weapondesigner/troubleshooting.md)

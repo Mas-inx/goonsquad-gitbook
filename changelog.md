@@ -2,6 +2,18 @@
 
 All notable changes to Goonsquad Studios resources will be documented here.
 
+## GS Weapon Designer 0.2.0
+
+- Added the in-game weapon skin studio with a layer-based canvas, UV wireframe guides, live 3D preview, and per-part editing for bodies, magazines, suppressors, scopes, grips, and flashlights.
+- Added the slot system: every published design occupies a pre-built addon weapon slot, with per-weapon counts and a server-wide ceiling controlled by `data/weapon_slots.json`.
+- Added runtime skin rendering visible to nearby players, with persistence across disconnects and server restarts.
+- Added 29 vanilla weapon templates covering rifles, pistols, SMGs, shotguns, and melee weapons.
+- Added the armory with design history, restore, equip, and delete, plus an optional staff approval queue with audit logging.
+- Added ox_inventory integration with real weapon items and working attachments via the bundled bridge module, plus support for QBCore, Qbox, ESX, Jaksam, CodeM, Quasar, and AK47 inventories through a ticket item.
+- Added Tebex designer passes with weapon and AI-generation allowances, offline claiming, and persistent entitlements.
+- Added the studio tool API for external addons, including the optional `gswd-ai` generation companion.
+- Added Qbox, QBCore, and ESX detection with a standalone fallback, and automatic database migration on first start.
+
 ## GS Garages 1.0.0
 
 - Initial release with public, house, job, gang, and impound garages, all defined as data in `config/garages.lua`.

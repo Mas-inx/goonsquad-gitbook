@@ -21,6 +21,7 @@ Welcome to the official documentation for Goonsquad Studios' premium FiveM resou
 | [Loading Screen](resources/loading-screen/overview.md) | $14.99 | Standalone |
 | [GS Announcements](resources/announcements/overview.md) | $20.00 | Qbox / QBCore / ESX / Standalone |
 | [GS Handling Studio](resources/handling-studio/overview.md) | Free | Standalone |
+| [GS Weapon Designer](resources/weapondesigner/overview.md) | $29.99 | QBCore / ESX / Qbox / Standalone |
 
 ## Support
 
