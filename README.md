@@ -22,6 +22,8 @@ Welcome to the official documentation for Goonsquad Studios' premium FiveM resou
 | [GS Announcements](resources/announcements/overview.md) | $20.00 | Qbox / QBCore / ESX / Standalone |
 | [GS Handling Studio](resources/handling-studio/overview.md) | Free | Standalone |
 | [GS Weapon Designer](resources/weapondesigner/overview.md) | $29.99 | QBCore / ESX / Qbox / Standalone |
+| [GS Vehicle Designer](resources/vehicledesigner/overview.md) | TBD | QBCore / ESX / Qbox / Standalone |
+| [GS Appearance](resources/appearance/overview.md) | TBD | Qbox / QBCore / ESX / ox / Standalone |
 
 ## Support
 
@@ -34,5 +36,9 @@ Welcome to the official documentation for Goonsquad Studios' premium FiveM resou
 - [GS Garages Installation](resources/garages/installation.md)
 - [ClothDesigner Installation](resources/clothdesigner/installation.md)
 - [ClothDesigner 1.3.0 RC Changelog](changelog.md)
+- [GS Vehicle Designer Installation](resources/vehicledesigner/installation.md)
+- [GS Vehicle Designer: Adding Vehicles](resources/vehicledesigner/vehicles.md)
+- [GS Appearance Installation](resources/appearance/installation.md)
+- [GS Appearance: Migrating from illenium / qb-clothing / esx_skin](resources/appearance/integrations.md)
 - [Installation Guide](resources/darkmet/installation.md)
 - [Changelog](changelog.md)

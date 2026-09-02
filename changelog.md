@@ -2,6 +2,22 @@
 
 All notable changes to Goonsquad Studios resources will be documented here.
 
+## GS Appearance 2.0.0
+
+- Added the cinematic appearance editor: arc category rails, a curved item carousel with real preview renders, a drag dial for mixes and sliders, a 64-swatch hair palette, and a scripted camera with face, shirt, pants, and shoes focus presets.
+- Added the full freemode pipeline: ped models, clothing components, props, head blend, 20 face-feature sliders, 12 head overlays, hair with tint, eye color, makeup, and tattoos by body zone.
+- Added four store types — clothing, barber, tattoo, and surgeon — with database-backed zones, per-type blips and prompts, job and gang locks, and server-side distance and cost enforcement.
+- Added `Config.StoreMenus`, so each shop type's customization sections are configurable and a single section skips the menu entirely.
+- Added the in-game admin dashboard: an interactive store map with create, move, toggle, and delete, a live server-wide accent color, and item rules with blacklist, job lock, and player whitelist types enforced on the server.
+- Added named outfits with in-place updates and verified writes, shareable outfit codes, and job and gang uniforms filtered by job, grade, and gender.
+- Added drop-in compatibility with `illenium-appearance`, `qb-clothing`, `skinchanger`, `esx_skin`, and `fivem-appearance`, including their exports, events, and callbacks.
+- Added an ox_lib-free callback bridge that reimplements ox_lib's wire protocol, so third-party scripts keep working on servers that do not run ox_lib.
+- Added automatic migration of `qb-clothing` and `esx_skin` / `skinchanger` skin formats, so existing characters keep their look and are never sent back through the character creator.
+- Added Qbox, QBCore, ESX, ox, and standalone detection with late-start recovery, plus character-creation hand-off for `qb-multicharacter`, `qbx_properties`, `esx_multicharacter`, and `esx_identity`.
+- Added automatic schema creation and self-healing migrations, including widening `player_outfits.citizenid` for ESX Legacy identifiers and adding the unique key non-destructively.
+- Added CDN preview hosting through Fivemanage with a bundled url map and a resumable upload tool, removing the ~7,900-file registration that made `ensure gs_appearance` hang.
+- Added startup conflict detection for competing appearance resources, the `/gsdiag` install diagnostic with a real database write round-trip, and `/gsrelease` as an emergency NUI and ped release.
+
 ## GS Weapon Designer 0.2.0
 
 - Added the in-game weapon skin studio with a layer-based canvas, UV wireframe guides, live 3D preview, and per-part editing for bodies, magazines, suppressors, scopes, grips, and flashlights.

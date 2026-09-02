@@ -110,3 +110,23 @@
 - [Tebex Integration](resources/weapondesigner/tebex.md)
 - [API & Exports](resources/weapondesigner/exports.md)
 - [Troubleshooting](resources/weapondesigner/troubleshooting.md)
+
+### GS Vehicle Designer
+- [Overview](resources/vehicledesigner/overview.md)
+- [Installation](resources/vehicledesigner/installation.md)
+- [Adding Vehicles](resources/vehicledesigner/vehicles.md)
+- [Configuration](resources/vehicledesigner/configuration.md)
+- [Usage](resources/vehicledesigner/usage.md)
+- [Tebex Integration](resources/vehicledesigner/tebex.md)
+- [API & Exports](resources/vehicledesigner/exports.md)
+- [Troubleshooting](resources/vehicledesigner/troubleshooting.md)
+
+### GS Appearance
+- [Overview](resources/appearance/overview.md)
+- [Installation](resources/appearance/installation.md)
+- [Configuration](resources/appearance/configuration.md)
+- [Usage](resources/appearance/usage.md)
+- [Administration](resources/appearance/administration.md)
+- [Integrations](resources/appearance/integrations.md)
+- [API & Exports](resources/appearance/exports.md)
+- [Troubleshooting](resources/appearance/troubleshooting.md)
