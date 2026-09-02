@@ -11,7 +11,8 @@ Almost every install runs on the shipped defaults. `shared/config.lua` is the on
 | `shared/config.lua` | Framework, branding, admin access, previews, stores, costs, behavior | Yes |
 | `shared/tattoos.lua` | Static tattoo and overlay catalogue by body zone | Yes |
 | `data/stores.json` | Optional seed list used on the very first run | Yes |
-| `data/fivemanage_captures.json` | Preview image url map for CDN mode | Yes |
+| `data/fivemanage_captures.json` | Optional per-file preview url map | Yes |
+| `server/credentials.lua` | Fivemanage upload key and endpoint | No |
 
 These stay open and editable under FiveM Asset Escrow, together with the bridge files you may need to adapt:
 
@@ -29,6 +30,11 @@ These stay open and editable under FiveM Asset Escrow, together with the bridge 
 | `sql/*.sql` | Manual schema import |
 | `tools/*` | Preview upload and index tooling |
 | `web/dist/**` | The built NUI |
+| `web/images/**` | Your own preview and icon overrides |
+
+{% hint style="danger" %}
+`shared/config.lua` is readable by any connected player. Keep the Fivemanage key in `server/credentials.lua`, which is a server script and is never sent to clients.
+{% endhint %}
 
 ---
 
@@ -75,6 +81,35 @@ Config.CustomIcons = true
 
 `AccentColor` is only the starting value. An admin changes the accent live in `/gsadmin`, and the choice is persisted server-side and pushed to every connected player, so it survives restarts and overrides this setting from then on.
 
+### Icon Overrides
+
+Swap any individual UI icon without rebuilding the NUI:
+
+```lua
+Config.IconOverrides = {
+    tops  = 'web/images/icons/my_tops.png',       -- a file inside this resource
+    hairs = 'https://cdn.example.com/hair.png',   -- or a hosted image
+}
+```
+
+The key is the icon name; the value is either a resource-relative path, served over `nui://`, or a full `http`/`https` url. Anything not listed keeps its bundled icon.
+
+A resource-relative file only has to sit somewhere already covered by the `files{}` block. `web/images/` is, so `web/images/icons/<name>.png` works with no manifest edit — drop the file in and restart the resource.
+
+That folder sits next to `web/dist`, not inside it. `npm run build` empties `web/dist` on every run, so files placed there would be deleted by the next UI build; nothing under `web/images/` is bundled or compiled, which is why no rebuild is ever needed.
+
+| Group | Icon names |
+|---|---|
+| Clothing | `shirt` `undershirt` `arms1` `legs1` `bottoms` `shoes` `hats` `glasses` `mask` `chain` `vests` `bags` `watches` `bracelets` `ears` `hanger` `design1` `hairs` |
+| Face | `face1` `head1` `nose1` `nose_bone_clean` `eyes1` `eyes-lips1` `lips1` `brows` `eyebrowforward1` `cheeks` `cheek_width_clean` `chin` `chin-size` `jaw-w` `jaw-back` `jaw-chin1` `bone-w1` `neck` `twist1` `peak1` `size1` `shape` |
+| Appearance | `beard` `skin` `skin1` `complexion` `blemish` `moles` `aging` `sun` `body` `body1` `highlight` `color1` `style1` `brush1` `lipstick1` `makeupcolor1` |
+| Blend | `father1` `mother1` `mix1` `race1` `ped1` |
+| Limbs | `l-arm1` `r-arms` |
+
+{% hint style="info" %}
+An override that fails to load falls back to the bundled icon, and then to the built-in SVG — a wrong path degrades to the shipped icon instead of a broken-image box. `Config.CustomIcons = false` turns images off entirely and overrides are ignored.
+{% endhint %}
+
 ---
 
 ## Admin Access
@@ -109,19 +144,31 @@ Leave `Config.Admins` empty. An identifier committed there has permanent appeara
 Config.CaptureRoot = 'default_captures/clothing'
 Config.AppearanceCaptureRoot = 'default_captures/appearance'
 Config.CaptureSource = 'fivemanage'
+Config.CaptureBaseUrl = 'https://r2.fivemanage.com/Uq1keb5kV28kz4FMy4EB3'
 ```
 
 | Setting | Description |
 |---|---|
 | `CaptureRoot` | Folder holding clothing and prop renders. |
 | `AppearanceCaptureRoot` | Folder holding hair, face, overlay, and tattoo renders. |
-| `CaptureSource` | `fivemanage` loads previews from the CDN map in `data/fivemanage_captures.json`; `local` serves them from this resource over `nui://`. |
+| `CaptureSource` | `fivemanage` loads previews from a CDN; `local` serves them from this resource over `nui://`. |
+| `CaptureBaseUrl` | The CDN to load from. Change this one line to repoint every preview. |
 
-In `fivemanage` mode, any image missing from the map falls back to its local path, so a partial map never leaves a tile blank. See [Installation](installation.md#5-preview-images) for hosting the previews on your own account.
+In `fivemanage` mode a preview resolves in three tiers:
 
-If you change either capture root, re-run the upload tool — the url map is keyed to the default layout.
+1. `Config.CaptureBaseUrl` + `/` + the resource-relative path
+2. the per-file map in `data/fivemanage_captures.json`, when no base url is set
+3. the local file over `nui://`, so nothing ever goes blank
 
-Local overrides can be dropped into the `images/` folder using the `{collection}_{index}.png` naming scheme; they are used when a capture is missing or fails to load.
+Because the base url is a plain config value, moving to another account or host is a config edit and a restart — no re-upload and no rebuild. Once it is set the url map is never read and can be deleted, saving about 1.4 MB. See [Installation](installation.md#5-preview-images) for hosting the previews on your own account.
+
+{% hint style="info" %}
+Any static host works. Upload `default_captures/` as-is and point `CaptureBaseUrl` at the folder above it. The per-file map is only for a host that does not mirror the folder layout — leave `CaptureBaseUrl = ''` and supply your own `path -> url` pairs.
+{% endhint %}
+
+If you change either capture root, re-upload with `--fresh` — the layout is keyed to the defaults.
+
+Local overrides can be dropped into the `web/images/` folder using the `{collection}_{index}.png` naming scheme; they are used when a capture is missing or fails to load. Preview overrides must sit directly in that folder — subfolders are only searched for icon overrides, which are addressed by their full path.
 
 ---
 

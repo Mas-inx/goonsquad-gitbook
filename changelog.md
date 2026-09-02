@@ -15,7 +15,9 @@ All notable changes to Goonsquad Studios resources will be documented here.
 - Added automatic migration of `qb-clothing` and `esx_skin` / `skinchanger` skin formats, so existing characters keep their look and are never sent back through the character creator.
 - Added Qbox, QBCore, ESX, ox, and standalone detection with late-start recovery, plus character-creation hand-off for `qb-multicharacter`, `qbx_properties`, `esx_multicharacter`, and `esx_identity`.
 - Added automatic schema creation and self-healing migrations, including widening `player_outfits.citizenid` for ESX Legacy identifiers and adding the unique key non-destructively.
-- Added CDN preview hosting through Fivemanage with a bundled url map and a resumable upload tool, removing the ~7,900-file registration that made `ensure gs_appearance` hang.
+- Added CDN preview hosting, removing the ~7,900-file registration that made `ensure gs_appearance` hang. `Config.CaptureBaseUrl` repoints every preview at another account or host in one line, with a per-file url map as a fallback for hosts that do not mirror the folder layout.
+- Added `server/credentials.lua`, a server-only file holding the Fivemanage upload key and endpoint, and a resumable upload tool that reads them and prints the base url to paste into the config.
+- Added `Config.IconOverrides`, which swaps any individual UI icon for a resource file or a hosted image without rebuilding the NUI, falling back to the shipped icon if an override fails to load.
 - Added startup conflict detection for competing appearance resources, the `/gsdiag` install diagnostic with a real database write round-trip, and `/gsrelease` as an emergency NUI and ped release.
 
 ## GS Weapon Designer 0.2.0

@@ -136,20 +136,49 @@ Known limitation. `qb-multicharacter` reads `playerskins.model` with `tonumber()
 
 ### Tiles are blank or show placeholder icons
 
-Run `/gscapcheck` in game. It prints how this client resolved the map:
+Run `/gscapcheck` in game. It prints how this client resolved previews:
 
 ```text
-[gscapcheck] source=fivemanage localFileBytes=1484751 manifestEntries=7907
-[gscapcheck] sample base_0 -> https://…/base_0.png
+[gscapcheck] source=fivemanage baseUrl=https://r2.fivemanage.com/abc123
+[gscapcheck] sample base_0 -> https://r2.fivemanage.com/abc123/default_captures/…/base_0.png
 ```
+
+Open the printed sample url in a browser. If it 404s, the images are not where `Config.CaptureBaseUrl` says they are.
 
 | Symptom | Cause |
 |---|---|
-| `manifestEntries=0` | `data/fivemanage_captures.json` was not read. Confirm it is listed in `files{}` and present on disk |
+| `baseUrl=none` and `manifestEntries=0` | Neither a base url nor a url map. Set `Config.CaptureBaseUrl` |
+| Sample url 404s | Wrong base url, or the upload never completed. Re-run with `--fresh` |
 | `source=local` with no images | `default_captures/` was deleted while `Config.CaptureSource` is `local` |
-| Entries present, images still blank | The CDN urls are unreachable from the player's network, or the hosting account is out of capacity |
+| Url resolves in a browser but tiles are still blank | The CDN is unreachable from the player's network, or the hosting account is out of capacity |
 
-A newly connected player and a player who was already online when the resource restarted can behave differently, because a client only receives resource files it was sent when it joined. The server hands the map over a callback for exactly this reason, so a rejoin is a useful test.
+The server also warns at startup when `CaptureSource` is `fivemanage` with no base url and no map:
+
+```text
+[gs_appearance] Config.CaptureSource is "fivemanage" but no Config.CaptureBaseUrl is set
+```
+
+With no base url set, the per-file map is used instead. A newly connected player and a player who was already online when the resource restarted can behave differently there, because a client only receives resource files it was sent when it joined — the server hands the map over a callback for exactly this reason, so a rejoin is a useful test. Setting a base url avoids the whole problem.
+
+### Previews still load from the seller's CDN after uploading
+
+The resource ships with a complete url map, so a plain upload run skips every file as "already mapped" and prints:
+
+```text
+Nothing to upload — every image is already in the manifest.
+```
+
+Re-run with `--fresh`, then paste the base url the run prints into `Config.CaptureBaseUrl`.
+
+### An icon override does not appear
+
+1. Confirm the key matches one of the names in [Configuration](configuration.md#icon-overrides) — an unknown key is ignored.
+2. Confirm `Config.CustomIcons` is `true`. With it off, images are disabled entirely and overrides do nothing.
+3. For a resource-relative path, confirm the file is covered by the `files{}` block. `web/images/` is; a new top-level folder is not. Note the path is `web/images/...`, not `images/...`.
+4. Confirm you did not put the file in `web/dist/` — `npm run build` empties that folder.
+5. Restart the resource — the override map is pushed to the NUI on start.
+
+An override that fails to load falls back to the bundled icon, so a broken path looks like "nothing changed" rather than a broken image.
 
 ### Barber or tattoo previews fall back to icons
 

@@ -104,18 +104,19 @@ add_ace group.admin gs_appearance.admin allow
 
 ## 5. Preview Images
 
-The editor shows a real render for every piece of clothing, prop, hairstyle, face, overlay, and tattoo — about 7,900 images in total. `Config.CaptureSource` decides where the UI loads them from.
+The editor shows a real render for every piece of clothing, prop, hairstyle, face, overlay, and tattoo — about 7,900 images in total. Two settings decide where the UI loads them from:
 
 ```lua
 Config.CaptureSource = 'fivemanage'
+Config.CaptureBaseUrl = 'https://r2.fivemanage.com/Uq1keb5kV28kz4FMy4EB3'
 ```
 
 | Value | Behavior |
 |---|---|
-| `fivemanage` | Images load from a CDN using the url map in `data/fivemanage_captures.json`. Anything missing from the map falls back to the local file. This is the shipped default. |
+| `fivemanage` | Images load from `Config.CaptureBaseUrl`. This is the shipped default. |
 | `local` | Images are served from this resource's `default_captures/` folder over `nui://`. |
 
-The resource ships in CDN mode with a map already filled in, so previews work with no setup.
+Every preview resolves as `<CaptureBaseUrl>/<resource-relative path>`, and anything that fails to resolve falls back to the local file, so a tile never goes blank. The resource ships pointed at a working CDN, so previews work with no setup.
 
 {% hint style="warning" %}
 Switching to `local` also means adding `'default_captures/**/*',` back to the `files{}` block in `fxmanifest.lua`. Registering those ~7,900 files on every start is what makes `ensure gs_appearance` slow enough to trip the `svMain seems hung` watchdog on a live restart. That glob is deliberately left out of the shipped manifest.
@@ -123,24 +124,51 @@ Switching to `local` also means adding `'default_captures/**/*',` back to the `f
 
 ### Hosting the Previews Yourself
 
-In CDN mode every server that runs the shipped map loads images from the same account. To point your server at your own storage instead, upload the images once with your own [Fivemanage](https://fivemanage.com/) key. Run this from the resource root with Node 18 or newer:
+Every server running the shipped `Config.CaptureBaseUrl` loads images from the same account. To use your own storage, upload the images once and change that one line.
 
-```bash
-FIVEMANAGE_API_KEY="YOUR_KEY_HERE" node tools/fivemanage_upload.mjs --limit=5
+**1. Add your key** to `server/credentials.lua`, which is a server-only file and is never sent to clients:
+
+```lua
+GSA.Credentials = {
+    FiveManageApiKey = 'YOUR_KEY_HERE',
+    FiveManageUploadEndpoint = 'https://api.fivemanage.com/api/v3/file',
+}
 ```
 
-Confirm the five test images appear, then run the full pass:
+**2. Upload** from the resource root with Node 18 or newer. Test five images first, then run the full pass:
 
 ```bash
-FIVEMANAGE_API_KEY="YOUR_KEY_HERE" node tools/fivemanage_upload.mjs
+node tools/fivemanage_upload.mjs --fresh --limit=5
 ```
 
-The tool is resumable — it skips anything already uploaded, so re-run the same command after a rate limit or a dropped connection. It rewrites `data/fivemanage_captures.json` with your own urls. Useful flags are `--dry-run`, `--limit=N`, and `--concurrency=N` (default 6).
+```bash
+node tools/fivemanage_upload.mjs --fresh
+```
 
-The full instructions are in `gs_appearance/tools/FIVEMANAGE.md`.
+**3. Paste the base url** the run prints when it finishes:
+
+```text
+Every url shares one prefix. Put this in shared/config.lua:
+
+    Config.CaptureBaseUrl = 'https://r2.fivemanage.com/abc123'
+```
+
+Restart the resource. Moving to another host later is that one line — no re-upload.
+
+{% hint style="warning" %}
+`--fresh` is required when repointing at a different account. The resource ships with a complete url map, and without `--fresh` every file is skipped as "already mapped", leaving your server pointed at the original account.
+{% endhint %}
+
+The tool is resumable: after the first `--fresh` pass, plain re-runs pick up only what is still missing, so a rate limit or a dropped connection just means running it again. Useful flags are `--dry-run`, `--limit=N`, `--concurrency=N` (default 6), and `--endpoint=`.
+
+Once `Config.CaptureBaseUrl` is set, `data/fivemanage_captures.json` is no longer read and can be deleted, which saves about 1.4 MB. The full instructions are in `gs_appearance/tools/FIVEMANAGE.md`.
+
+{% hint style="info" %}
+Any static host works, not just Fivemanage — upload `default_captures/` as-is and point `Config.CaptureBaseUrl` at the folder above it. There is nothing to run and no map to generate.
+{% endhint %}
 
 {% hint style="danger" %}
-Pass the API key as an environment variable, never by editing it into a file. Only the upload tool needs it; serving the images afterwards uses plain public urls with no key.
+The API key is a write credential for the upload only. Keep it in `server/credentials.lua` or an environment variable, never in `shared/config.lua`, which any connected player can read.
 {% endhint %}
 
 ---

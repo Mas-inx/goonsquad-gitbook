@@ -7,7 +7,7 @@ These pages document version **2.0.0**.
 **Price:** TBD | [Buy on Tebex](https://goonsquad-inc.tebex.io/)
 
 {% hint style="info" %}
-The release is protected by FiveM Asset Escrow. `shared/config.lua`, the tattoo catalogue, the framework and compat bridge files, the SQL schema, the seed and preview data, and the NUI bundle all remain open and editable. See [Configuration](configuration.md#file-layout).
+The release is protected by FiveM Asset Escrow. `shared/config.lua`, `server/credentials.lua`, the tattoo catalogue, the framework and compat bridge files, the SQL schema, the seed and preview data, and the NUI bundle all remain open and editable. See [Configuration](configuration.md#file-layout).
 {% endhint %}
 
 ---
@@ -29,7 +29,7 @@ The release is protected by FiveM Asset Escrow. `shared/config.lua`, the tattoo 
 - Scripted camera with rotate, zoom, pan and tilt, plus one-tap focus presets that frame the face, shirt, pants, or shoes
 - Full freemode pipeline: ped model, components, props, head blend, 20 face-feature sliders, 12 head overlays, hair with tint, eye color, makeup, and tattoos by body zone
 - Live preview thumbnails for clothing, props, hair, faces, overlays, and tattoos
-- Server-wide accent color, changed live from the admin panel
+- Server-wide accent color changed live from the admin panel, and per-icon overrides from config with no rebuild
 
 ### Shops and stores
 
