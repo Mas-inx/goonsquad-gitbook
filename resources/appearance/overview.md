@@ -4,7 +4,9 @@ GS Appearance is a clothing, barber, tattoo and character-creation system for Fi
 
 These pages document version **2.0.0**.
 
-**Price:** TBD | [Buy on Tebex](https://goonsquad-inc.tebex.io/)
+**Price:** $9.99 | [Buy on Tebex](https://store.goonsquadstudios.com/package/7652989)
+
+{% embed url="https://www.youtube.com/watch?v=ODhNO2fJ5H0" %}
 
 {% hint style="info" %}
 The release is protected by FiveM Asset Escrow. `shared/config.lua`, `server/credentials.lua`, the tattoo catalogue, the framework and compat bridge files, the SQL schema, the seed and preview data, and the NUI bundle all remain open and editable. See [Configuration](configuration.md#file-layout).
