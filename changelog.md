@@ -2,6 +2,20 @@
 
 All notable changes to Goonsquad Studios resources will be documented here.
 
+## GS Map Studio 1.0.0
+
+- Added the in-game map editor with a noclip freecam, FLY and EDIT camera modes, ped walk mode, focus-on-selection, and go-to-coordinates.
+- Added ghost placement with surface alignment, a 3-axis Move / Rotate / Scale gizmo with world and local space, grid, angle, and scale snapping, and arrow-key nudging.
+- Added the Array tool (line, grid, circle, path, stairs), the Scatter brush with weighted models, Polygon fill, Area select, Eyedropper, and World erase.
+- Added World Edit: select, move, and delete GTA's own map props at runtime using engine model hides, including static geometry by typed model or hash, with per-map restore.
+- Added dynamic point and spot lights with color, range, brightness, cone controls, pulse, flicker, and strobe animation, optional shadow, and attachment to props.
+- Added layers, groups, server-shared prefabs, copy and paste, align and distribute, and unlimited undo and redo with a browsable history page.
+- Added the prop library with categories, search, favorites, recently used, collections, direct spawn by model name, and `Config.CustomProps` for add-on packs.
+- Added server-side JSON file storage with rolling autosave, crash recovery, and Locked, Public, and Autoload flags per map.
+- Added live co-editing with validated, rate-limited operation batches and automatic resync on rejection.
+- Added export to YMAP XML, JSON, Lua, and CSV, and one-click publish of a standalone streaming resource.
+- Added Qbox, QBCore, ESX, and standalone support with ace, identifier, and job-based permissions, six interface languages, dark and light themes, and rebindable keys.
+
 ## GS Appearance 2.0.0
 
 - Added the cinematic appearance editor: arc category rails, a curved item carousel with real preview renders, a drag dial for mixes and sliders, a 64-swatch hair palette, and a scripted camera with face, shirt, pants, and shoes focus presets.

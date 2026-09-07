@@ -24,6 +24,7 @@ Welcome to the official documentation for Goonsquad Studios' premium FiveM resou
 | [GS Weapon Designer](resources/weapondesigner/overview.md) | $29.99 | QBCore / ESX / Qbox / Standalone |
 | [GS Vehicle Designer](resources/vehicledesigner/overview.md) | TBD | QBCore / ESX / Qbox / Standalone |
 | [GS Appearance](resources/appearance/overview.md) | $9.99 | Qbox / QBCore / ESX / ox / Standalone |
+| [GS Map Studio](resources/map-studio/overview.md) | TBD | Qbox / QBCore / ESX / Standalone |
 
 ## Support
 
@@ -40,5 +41,6 @@ Welcome to the official documentation for Goonsquad Studios' premium FiveM resou
 - [GS Vehicle Designer: Adding Vehicles](resources/vehicledesigner/vehicles.md)
 - [GS Appearance Installation](resources/appearance/installation.md)
 - [GS Appearance: Migrating from illenium / qb-clothing / esx_skin](resources/appearance/integrations.md)
+- [GS Map Studio Installation](resources/map-studio/installation.md)
 - [Installation Guide](resources/darkmet/installation.md)
 - [Changelog](changelog.md)

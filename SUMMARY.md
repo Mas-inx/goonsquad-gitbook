@@ -130,3 +130,12 @@
 - [Integrations](resources/appearance/integrations.md)
 - [API & Exports](resources/appearance/exports.md)
 - [Troubleshooting](resources/appearance/troubleshooting.md)
+
+### GS Map Studio
+- [Overview](resources/map-studio/overview.md)
+- [Installation](resources/map-studio/installation.md)
+- [Configuration](resources/map-studio/configuration.md)
+- [Usage](resources/map-studio/usage.md)
+- [Administration](resources/map-studio/administration.md)
+- [API & Exports](resources/map-studio/exports.md)
+- [Troubleshooting](resources/map-studio/troubleshooting.md)
