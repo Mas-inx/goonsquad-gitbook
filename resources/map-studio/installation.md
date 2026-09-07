@@ -2,7 +2,7 @@
 
 ## Step 1: Add the Resource
 
-1. Copy the `gs-map-studio` folder into your server's `resources` directory.
+1. Download the `gs-map-studio` folder from Tebex ([escrowed edition](https://store.goonsquadstudios.com/package/7661879) or [open source edition](https://store.goonsquadstudios.com/package/7661883)) and place it in your server's `resources` directory.
 2. Add the resource to `server.cfg`:
 
    ```cfg

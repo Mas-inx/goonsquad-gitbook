@@ -24,7 +24,7 @@ Welcome to the official documentation for Goonsquad Studios' premium FiveM resou
 | [GS Weapon Designer](resources/weapondesigner/overview.md) | $29.99 | QBCore / ESX / Qbox / Standalone |
 | [GS Vehicle Designer](resources/vehicledesigner/overview.md) | TBD | QBCore / ESX / Qbox / Standalone |
 | [GS Appearance](resources/appearance/overview.md) | $9.99 | Qbox / QBCore / ESX / ox / Standalone |
-| [GS Map Studio](resources/map-studio/overview.md) | TBD | Qbox / QBCore / ESX / Standalone |
+| [GS Map Studio](resources/map-studio/overview.md) | $14.99 (Open Source: $29.99) | Qbox / QBCore / ESX / Standalone |
 
 ## Support
 

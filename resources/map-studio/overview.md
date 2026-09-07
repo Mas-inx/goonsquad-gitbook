@@ -2,10 +2,12 @@
 
 GS Map Studio is a complete in-game map editor for FiveM. Builders fly a noclip freecam, place and transform props with a full 3D gizmo, edit or delete GTA's own world props, add dynamic lights, and save everything to the server **live** — no restarts, no CodeWalker, no database. Finished maps export to YMAP, JSON, Lua, or CSV, or publish as a standalone resource with one click.
 
-**Version:** 1.0.0 | **Price:** TBD
+**Version:** 1.0.0 | **Price:** $14.99 | [Buy on Tebex](https://store.goonsquadstudios.com/package/7661879) | Open Source edition: $29.99 | [Buy on Tebex](https://store.goonsquadstudios.com/package/7661883)
+
+{% embed url="https://www.youtube.com/watch?v=PyASvD-hS7k" %}
 
 {% hint style="info" %}
-GS Map Studio ships in two editions. The **open** edition has every Lua and interface file readable. The **escrowed** edition is protected by FiveM Asset Escrow; `config.lua`, the prop catalog, the framework bridge, the language files, and the built interface remain open and editable.
+GS Map Studio ships in two editions. The [escrowed edition](https://store.goonsquadstudios.com/package/7661879) is protected by FiveM Asset Escrow; `config.lua`, the prop catalog, the framework bridge, the language files, and the built interface remain open and editable. The [open source edition](https://store.goonsquadstudios.com/package/7661883) has every Lua and interface file readable.
 {% endhint %}
 
 ---
