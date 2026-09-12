@@ -2,7 +2,7 @@
 
 A hexagon-styled multicharacter selection screen for **QBCore** frameworks.
 
-**Price:** $14.99 | [Buy on Tebex](https://goonsquad-inc.tebex.io/)
+**Price:** $14.99 | [Buy on Tebex](https://store.goonsquadstudios.com/package/5889482)
 
 ---
 

@@ -2,7 +2,9 @@
 
 An advanced paintball script for FiveM. Available for both **QBCore** and **ESX**.
 
-**Price:** $35.00 | [Buy on Tebex](https://goonsquad-inc.tebex.io/)
+**Price:** $35.00 | [Buy on Tebex](https://store.goonsquadstudios.com/package/5341183)
+
+**Product page:** [goonsquadstudios.com/paintball](https://goonsquadstudios.com/paintball) — full feature breakdown, FAQ and guides
 
 ---
 

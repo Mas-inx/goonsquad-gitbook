@@ -6,6 +6,8 @@ These pages document version **0.1.0**.
 
 **Price:** TBD | [Buy on Tebex](https://store.goonsquadstudios.com/)
 
+**Product page:** [goonsquadstudios.com/vehicle-designer](https://goonsquadstudios.com/vehicle-designer) — full feature breakdown, FAQ and guides
+
 {% hint style="info" %}
 The release is protected by FiveM Asset Escrow. Configuration, credentials, install snippets, the SQL schema, the NUI bundle, and the framework, inventory, owned-vehicle, and notification bridge files remain open and editable. See [Configuration](configuration.md#file-layout).
 {% endhint %}

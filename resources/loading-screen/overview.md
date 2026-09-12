@@ -4,6 +4,8 @@ A full-featured FiveM loading screen with an in-game visual builder. Design cust
 
 **Version:** 1.0.0 | **Price:** $14.99
 
+**Product page:** [goonsquadstudios.com/loading-screen](https://goonsquadstudios.com/loading-screen) — full feature breakdown, FAQ and guides
+
 {% embed url="https://www.youtube.com/watch?v=L9knbJixkAc" %}
 
 ---

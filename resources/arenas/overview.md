@@ -2,7 +2,7 @@
 
 A deathmatch arena system for FiveM. **Standalone** — no dependencies required.
 
-**Price:** $20.00 | [Buy on Tebex](https://goonsquad-inc.tebex.io/)
+**Price:** $20.00 | [Buy on Tebex](https://store.goonsquadstudios.com/package/4622220)
 
 ---
 

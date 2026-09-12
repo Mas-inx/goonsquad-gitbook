@@ -4,6 +4,8 @@ GS Handling Studio is an in-game vehicle handling & engine-sound editor for Five
 
 **Price:** Free | [Get on Tebex](https://store.goonsquadstudios.com/package/7643007)
 
+**Product page:** [goonsquadstudios.com/handling-editor](https://goonsquadstudios.com/handling-editor) — full feature breakdown, FAQ and guides
+
 {% embed url="https://www.youtube.com/watch?v=-_mgHdu91PU" %}
 
 {% hint style="success" %}

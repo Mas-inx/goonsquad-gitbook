@@ -4,7 +4,9 @@ GS Cloth Designer is an in-game custom clothing studio for FiveM. Players can ch
 
 These pages document the **1.3.0 Release Candidate**.
 
-**Price:** $55.00 | [Buy on Tebex](https://goonsquad-inc.tebex.io/)
+**Price:** $55.00 | [Buy on Tebex](https://store.goonsquadstudios.com/package/clothdesigner)
+
+**Product page:** [goonsquadstudios.com/clothdesigner](https://goonsquadstudios.com/clothdesigner) — full feature breakdown, FAQ and guides
 
 {% embed url="https://www.youtube.com/watch?v=Y5hUNsV0j3o" %}
 

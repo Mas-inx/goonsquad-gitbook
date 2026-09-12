@@ -4,6 +4,8 @@ An advanced, server-authoritative banking system for FiveM with personal and sha
 
 **Version:** 1.0.0 | **Price:** $35.00 | [Buy on Tebex](https://store.goonsquadstudios.com/package/7619455)
 
+**Product page:** [goonsquadstudios.com/banking](https://goonsquadstudios.com/banking) — full feature breakdown, FAQ and guides
+
 {% embed url="https://www.youtube.com/watch?v=nSF-Qd6LCX0" %}
 
 ---

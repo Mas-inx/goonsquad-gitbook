@@ -2,9 +2,10 @@
 
 ## Getting Help
 
-- Join our [Discord](https://discord.gg) for real-time support
+- Join our [Discord](https://discord.gg/NbYFkb7QgM) for real-time support
 - Open a ticket in the `#support` channel
 - Check the relevant resource documentation first
+- Product pages, prices and buying guides live on [goonsquadstudios.com](https://goonsquadstudios.com)
 
 ## Before Asking
 

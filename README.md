@@ -4,32 +4,34 @@ Welcome to the official documentation for Goonsquad Studios' premium FiveM resou
 
 ## Resources
 
-| Resource | Price | Framework |
-|----------|-------|-----------|
-| [GS Banking](resources/banking/overview.md) | $35.00 | QBCore / ESX / Qbox |
-| [GS Garages](resources/garages/overview.md) | $19.99 | Qbox / QBCore / ESX / Standalone |
-| [ClothDesigner](resources/clothdesigner/overview.md) | $55.00 | QBCore / ESX / Qbox |
-| [DarkMet](resources/darkmet/overview.md) | $29.99 | QBCore / ESX / Qbox |
-| [Zombies V3](resources/zombies-v3/overview.md) | $25.00 | Standalone |
-| [Paintball](resources/paintball/overview.md) | $35.00 | QBCore / ESX |
-| [Fueling System](resources/fueling/overview.md) | $19.99 | Standalone |
-| [Arenas](resources/arenas/overview.md) | $20.00 | Standalone |
-| [Multicharacter (QBCore)](resources/multicharacter/overview.md) | $14.99 | QBCore |
-| [Zombies/Cannibals](resources/zombies-cannibals/overview.md) | $10.00 | Standalone (Deprecated) |
-| [Custom Sirens](resources/custom-sirens/overview.md) | TBD | Standalone |
-| [Player Rewards](resources/player-rewards/overview.md) | $14.99 | QBCore / ESX / Qbox |
-| [Loading Screen](resources/loading-screen/overview.md) | $14.99 | Standalone |
-| [GS Announcements](resources/announcements/overview.md) | $20.00 | Qbox / QBCore / ESX / Standalone |
-| [GS Handling Studio](resources/handling-studio/overview.md) | Free | Standalone |
-| [GS Weapon Designer](resources/weapondesigner/overview.md) | $29.99 | QBCore / ESX / Qbox / Standalone |
-| [GS Vehicle Designer](resources/vehicledesigner/overview.md) | TBD | QBCore / ESX / Qbox / Standalone |
-| [GS Appearance](resources/appearance/overview.md) | $9.99 | Qbox / QBCore / ESX / ox / Standalone |
-| [GS Map Studio](resources/map-studio/overview.md) | $14.99 (Open Source: $29.99) | Qbox / QBCore / ESX / Standalone |
+| Resource | Price | Framework | Website |
+|----------|-------|-----------|---------|
+| [GS Banking](resources/banking/overview.md) | $19.99 | QBCore / ESX / Qbox | [Product page](https://goonsquadstudios.com/banking) |
+| [GS Garages](resources/garages/overview.md) | $19.99 | Qbox / QBCore / ESX / Standalone | [Product page](https://goonsquadstudios.com/garages) |
+| [ClothDesigner](resources/clothdesigner/overview.md) | $44.99 | QBCore / ESX / Qbox | [Product page](https://goonsquadstudios.com/clothdesigner) |
+| [DarkMet](resources/darkmet/overview.md) | $19.99 | QBCore / ESX / Qbox | [Product page](https://goonsquadstudios.com/darkmet) |
+| [Zombies V3](resources/zombies-v3/overview.md) | $24.99 | Standalone | [Product page](https://goonsquadstudios.com/zombies) |
+| [Paintball](resources/paintball/overview.md) | $15.00 | QBCore / ESX | [Product page](https://goonsquadstudios.com/paintball) |
+| [Fueling System](resources/fueling/overview.md) | $19.99 | Standalone |  |
+| [Arenas](resources/arenas/overview.md) | $20.00 | Standalone |  |
+| [Multicharacter (QBCore)](resources/multicharacter/overview.md) | $14.99 | QBCore |  |
+| [Zombies/Cannibals](resources/zombies-cannibals/overview.md) | $10.00 | Standalone (Deprecated) |  |
+| [Custom Sirens](resources/custom-sirens/overview.md) | TBD | Standalone |  |
+| [Player Rewards](resources/player-rewards/overview.md) | $14.99 | QBCore / ESX / Qbox | [Product page](https://goonsquadstudios.com/playtime-rewards) |
+| [Loading Screen](resources/loading-screen/overview.md) | $14.99 | Standalone | [Product page](https://goonsquadstudios.com/loading-screen) |
+| [GS Announcements](resources/announcements/overview.md) | $19.99 | Qbox / QBCore / ESX / Standalone | [Product page](https://goonsquadstudios.com/announcements) |
+| [GS Handling Studio](resources/handling-studio/overview.md) | Free | Standalone | [Product page](https://goonsquadstudios.com/handling-editor) |
+| [GS Weapon Designer](resources/weapondesigner/overview.md) | $29.99 | QBCore / ESX / Qbox / Standalone | [Product page](https://goonsquadstudios.com/weapon-designer) |
+| [GS Vehicle Designer](resources/vehicledesigner/overview.md) | $125.00 (beta) | QBCore / ESX / Qbox / Standalone | [Product page](https://goonsquadstudios.com/vehicle-designer) |
+| [GS Appearance](resources/appearance/overview.md) | $9.99 | Qbox / QBCore / ESX / ox / Standalone | [Product page](https://goonsquadstudios.com/appearance) |
+| [GS Map Studio](resources/map-studio/overview.md) | $14.99 (Open Source: $29.99) | Qbox / QBCore / ESX / Standalone | [Product page](https://goonsquadstudios.com/map-studio) |
 
 ## Support
 
-- [Discord](https://discord.gg)
-- [Tebex Store](https://goonsquad-inc.tebex.io/)
+- [Website](https://goonsquadstudios.com) — product pages and FiveM guides
+- [Store](https://store.goonsquadstudios.com/) — checkout with instant delivery
+- [Goonsquad Tools](https://tools.goonsquadstudios.com/) — browser-based asset suite
+- [Discord](https://discord.gg/NbYFkb7QgM)
 
 ## Quick Links
 

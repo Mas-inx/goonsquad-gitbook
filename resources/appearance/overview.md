@@ -6,6 +6,8 @@ These pages document version **2.0.0**.
 
 **Price:** $9.99 | [Buy on Tebex](https://store.goonsquadstudios.com/package/7652989)
 
+**Product page:** [goonsquadstudios.com/appearance](https://goonsquadstudios.com/appearance) — full feature breakdown, FAQ and guides
+
 {% embed url="https://www.youtube.com/watch?v=ODhNO2fJ5H0" %}
 
 {% hint style="info" %}

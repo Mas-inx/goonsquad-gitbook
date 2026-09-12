@@ -6,6 +6,8 @@ These pages document version **0.2.0**.
 
 **Price:** $29.99 | [Buy on Tebex](https://store.goonsquadstudios.com/package/7644789) | [Open Source version](https://store.goonsquadstudios.com/package/7644806)
 
+**Product page:** [goonsquadstudios.com/weapon-designer](https://goonsquadstudios.com/weapon-designer) — full feature breakdown, FAQ and guides
+
 {% embed url="https://www.youtube.com/watch?v=xea1Ny8j3bw" %}
 
 {% hint style="info" %}

@@ -4,6 +4,8 @@ A season battlepass / playtime rewards system for FiveM. Players earn rewards ba
 
 **Version:** 1.0.0 | **Price:** $14.99
 
+**Product page:** [goonsquadstudios.com/playtime-rewards](https://goonsquadstudios.com/playtime-rewards) — full feature breakdown, FAQ and guides
+
 {% embed url="https://www.youtube.com/watch?v=Qa7bq5jLsQQ" %}
 
 ---

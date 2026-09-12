@@ -4,6 +4,8 @@ GS Map Studio is a complete in-game map editor for FiveM. Builders fly a noclip 
 
 **Version:** 1.0.0 | **Price:** $14.99 | [Buy on Tebex](https://store.goonsquadstudios.com/package/7661879) | Open Source edition: $29.99 | [Buy on Tebex](https://store.goonsquadstudios.com/package/7661883)
 
+**Product page:** [goonsquadstudios.com/map-studio](https://goonsquadstudios.com/map-studio) — full feature breakdown, FAQ and guides
+
 {% embed url="https://www.youtube.com/watch?v=PyASvD-hS7k" %}
 
 {% hint style="info" %}
