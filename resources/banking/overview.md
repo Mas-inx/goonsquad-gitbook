@@ -2,7 +2,7 @@
 
 An advanced, server-authoritative banking system for FiveM with personal and shared accounts, cards and ATMs, lending, savings, investments, business banking, taxes, administration tools, and compatibility bridges for existing resources.
 
-**Version:** 1.0.0 | **Price:** $35.00 | [Buy on Tebex](https://store.goonsquadstudios.com/package/7619455)
+**Version:** 1.0.0 | **Price:** $19.99 | [Buy on Tebex](https://store.goonsquadstudios.com/package/7619455)
 
 **Product page:** [goonsquadstudios.com/banking](https://goonsquadstudios.com/banking) — full feature breakdown, FAQ and guides
 

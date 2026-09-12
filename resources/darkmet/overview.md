@@ -2,7 +2,7 @@
 
 A feature-rich, immersive dark-web trading script for FiveM servers. Supports **QBCore**, **QBox**, and **ESX** out of the box.
 
-**Price:** $29.99 | [Buy on Tebex](https://store.goonsquadstudios.com/package/7365474)
+**Price:** $19.99 | [Buy on Tebex](https://store.goonsquadstudios.com/package/7365474)
 
 **Product page:** [goonsquadstudios.com/darkmet](https://goonsquadstudios.com/darkmet) — full feature breakdown, FAQ and guides
 
