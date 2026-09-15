@@ -24,6 +24,8 @@ Three layouts are accepted and can be mixed freely in the same folder:
 
 A model is discovered when some `vehicles.meta` in the tree declares it **and** the matching `<model>.yft` plus `<txdName>.ytd` exist somewhere in the tree. The folder depth and organisation do not matter.
 
+Use readable, unencrypted source models. The converter reads and rewrites their binary data; it cannot convert an already-escrowed model. Display-name Lua files are also read during discovery. See [File Layout](configuration.md#file-layout) for the escrow exclusions used when packaging vehicle assets.
+
 Tuning-part YFTs, wheel YDRs, animation YCDs, `+hi` YTDs, and other shared assets found alongside a model are carried along verbatim, so a pack's cars keep their mods and wheels.
 
 ---
@@ -76,16 +78,16 @@ UV0 and all other vertex data are preserved byte-for-byte and validated after co
 Each converted vehicle carries a content signature at `data/<model>/signature.json`. On every later boot the resource compares signatures and skips anything unchanged, so restarts after the first materialisation are effectively instant.
 
 - Changing a template reconverts only that vehicle.
-- Removing a template sweeps its generated assets on the next boot.
+- Removing a template sweeps its generated assets on the next rebuild, provided at least one valid template remains. If discovery finds no vehicles at all, generated files and the catalog are left untouched; missing templates still make database pool entries stale and prevent new slot allocation.
 - The published designs and pool row for a removed vehicle are preserved, so they come back intact if the template returns.
 
 ---
 
 ## Live Slots
 
-Each model gets 16 live finish slots. Publishing a design claims the first free slot; deleting or unpublishing releases it.
+Each model gets 16 live finish slots. Publishing a design claims the first free slot; deleting a design releases it. There is no separate unpublish action.
 
-Occupancy lives in a database bitmap in `gs_vehicledesigner_pool_vehicles`, and the effective occupancy always includes every published design, so the bitmap cannot drift out of sync with reality. Allocation and release are pure database operations, with no disk writes and no restart.
+Occupancy combines the bitmap in `gs_vehicledesigner_pool_vehicles` with every design that still has a slot assigned. Allocation and release are database operations, with no disk writes and no restart. Keep `SlotCapacity = 16`; changing that config value alone does not resize the allocator.
 
 Check occupancy from the server console:
 
@@ -152,7 +154,9 @@ To scan and report without converting anything:
 npm run pool:scan
 ```
 
-Both run the exact discovery and materialisation the server runs on boot, with no FiveM and no database required. Ship the generated `stream/`, `data/`, and `uv_output/` folders with the resource and the first live boot has nothing left to do.
+Install the tool dependencies with `npm ci` before running either command. Both use the same discovery and materialisation code as the server, with no FiveM or database required. Offline rebuilds preserve existing on-disk clones but do not allocate new ones from database occupancy.
+
+Ship `vehicle_templates/` together with the generated `stream/`, `data/`, and `uv_output/` folders if preparing a populated installation. The live boot still scans and synchronizes the database, but skips conversion when signatures match. Keep the original templates available: new slot allocation and future rebuilds depend on them.
 
 ---
 

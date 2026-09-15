@@ -15,9 +15,9 @@ Players open the studio with the command, an alias, or the keybind:
 
 The default keybind is **F6**. It is registered through FiveM's key mapping system, so players can rebind it in the game's keyboard settings.
 
-If `Designer.requireStation` is enabled, the studio only opens near a configured station. Markers are drawn within `drawDistance`, and pressing **E** inside `interactDistance` opens it.
+If `Designer.requireStation` is enabled and stations are configured, the studio only opens near one of them. Markers are drawn within `drawDistance`, and pressing **E** inside `interactDistance` opens it.
 
-The studio picks up the vehicle the player is sitting in, or the closest vehicle within roughly 6 metres. That vehicle is preselected in the library. The studio still opens with no vehicle nearby; the player just picks one from the catalog instead.
+The studio opens with no vehicle selected. Pick one from the catalog; no nearby vehicle is required. Nearby-vehicle details are sent during bootstrap but are not used to preselect a library card in the current UI.
 
 {% hint style="info" %}
 Only vehicles that were converted into the pool can be selected. A car that is streamed by another resource but never placed in `vehicle_templates/` will not appear. See [Adding Vehicles](vehicles.md).
@@ -32,10 +32,10 @@ The left pane has two tabs, plus a third for admins:
 | Tab | Contents |
 |---|---|
 | **Vehicles** | The converted vehicle catalog, with search and class filters |
-| **My Designs** | The player's own drafts and published finishes |
+| **My Designs** | The player's 100 most recently updated, non-archived designs |
 | **Review** | Pending designs awaiting approval (admins only) |
 
-Each vehicle card is rendered from that vehicle's own game files and shows its live slot occupancy. A card locks when the vehicle and every clone in its series are full. See [Slot Capacity](configuration.md#slot-capacity).
+Each vehicle card is rendered from that vehicle's own game files and shows its slot occupancy at bootstrap. **SLOTS FULL** means that model's own slots are exhausted; a clone may still have room. The card remains selectable for drafting, but a new print needs a free slot. Reopen the studio to refresh occupancy. See [Slot Capacity](configuration.md#slot-capacity).
 
 ---
 
@@ -65,11 +65,13 @@ Both surfaces edit the same layer document, so you can switch between them at an
 
 ### Image Uploads and Imports
 
-The studio accepts PNG, JPEG, WebP, and GIF. Animated GIFs play on the runtime texture when `Runtime.AllowAnimatedGifs` is enabled; the editor canvas shows their first frame.
+The studio accepts PNG, JPEG, WebP, and GIF. Animated GIFs play on the runtime texture when `Runtime.AllowAnimatedGifs` is enabled; the editor canvas shows their first frame. When an animated layer exists, the first animated image is used as the entire runtime texture. Other layers, transforms, and effects are not composited into that animation.
 
-Files above `MaxUploadBytes` are rejected. HTTPS URL imports are validated server-side, and private, loopback, and link-local addresses are refused.
+Asset sizes are checked server-side. HTTP and HTTPS URL imports also undergo hostname checks and do not follow redirects. See [Uploads and Media](configuration.md#uploads-and-media) for the checks and their limits.
 
-Uploads, URL imports, and render hosting share the `upload` queue. A full queue returns the configured busy message rather than starting more expensive work.
+Hosted-media requests share the `upload` queue; URL downloads and database storage do not. A full hosting queue returns the configured busy message, with database fallback for editable assets.
+
+Local image upload and asset-list refresh require full framework/ACE/job access. A pass alone can use the URL-import route when it is enabled, but does not grant the local-upload permission.
 
 ### AI and Other Studio Tools
 
@@ -81,17 +83,19 @@ In a limited pass session, each successful generation consumes one AI allowance,
 
 ## Save and Print
 
-**Save** stores a draft. Drafts are unlimited and can be reopened and edited freely.
+**Save** stores the layered document and a new version snapshot. A new design starts as a draft; saving an existing published design keeps its published status. Draft storage is unlimited, while limited passes can edit only designs created in their current session.
 
 **Print Livery** publishes the design, claims a live slot for that vehicle model, captures a render of the vehicle wearing the finish, and adds the inventory item.
 
-Every publish also writes an immutable version snapshot. Older versions can be previewed and restored from the design's history.
+Every print attempt saves a version snapshot before publication and inventory checks. Older versions can be loaded from the design's history and saved as a new version.
 
 {% hint style="info" %}
-Printed items are immutable. Editing the source design afterwards never changes an already printed item or a vehicle that has the livery fitted. Fitting an item always applies the exact version that was printed.
+Printed items store their exact design version, and fitting requests that saved version. Different versions of the same design still share one model/slot texture replacement, so nearby vehicles using different versions can overwrite each other's visible finish. Use separate designs, each with its own slot, when both looks need to appear at the same time.
 {% endhint %}
 
 If the vehicle has no free slot, printing fails with a slot message. Deleting an unused published design frees its slot immediately, with no restart.
+
+Deletion archives the design and is blocked while an owned-vehicle installation record still references it. There is no built-in remove-livery action. Items for an archived design can no longer be fitted, even though their version metadata is retained.
 
 ---
 
@@ -110,10 +114,12 @@ The item is consumed on a successful fit unless `Inventory.consumeOnApply` is se
 
 | Vehicle | Behavior |
 |---|---|
-| Owned (in the framework's vehicle table) | The livery is stored and restored across restarts, garages, and impounds |
+| Owned (in the framework's vehicle table) | The livery is stored and restored for existing vehicles at startup and through the bundled garage hook |
 | Not owned | The livery lasts until the entity is gone |
 
-Finishes are visible to other players within `Runtime.renderDistance`.
+QBCore/Qbox ownership uses `player_vehicles`; ESX uses `owned_vehicles`. The bundled respawn hook listens to `qbx_garages:server:vehicleSpawned`. For other garages or impounds, adapt the open `server/vehicle_liveries.lua` bridge to call `GSVD.VehicleLiveries.RestoreEntity(entity)` after the vehicle and its plate are ready.
+
+The periodic runtime scan prepares finishes within `Runtime.renderDistance`. State-bag updates can also apply them, and textures already loaded remain active until released or the resource stops.
 
 ---
 
@@ -157,10 +163,10 @@ An online buyer is taken straight into the studio when `AutoOpenOnPurchase` is e
 Within a limited session:
 
 - A player may only edit designs created during that session.
-- Printing consumes one livery allowance. Reprinting the same design does not consume a second.
+- Printing consumes one livery allowance. Reprinting the same design during that session does not consume a second.
 - AI generations consume the separate AI allowance.
 
-Full-access players are never limited and have no counters. See [Tebex Integration](tebex.md).
+Closing the studio keeps the pass session active. Claiming again starts a fresh session; disconnecting or restarting the resource clears it. Full-access players normally use the studio without a pass. See [Tebex Integration](tebex.md).
 
 ---
 
@@ -194,7 +200,7 @@ Slot 17 is reserved for these permanent bakes, which is why 16 live slots remain
 |---|---|---|
 | `/vehicledesigner`, `/gsvd` | Open the studio | Player |
 | `/gsvd_claim_designer [package]` | Claim the next or named Tebex pass | Player |
-| `gsvd_tebex_grant <package> <target> <transaction>` | Grant a configured Tebex pass | Console or Tebex |
+| `gsvd_tebex_grant <package> <target> <transaction>` | Grant a configured Tebex pass | Console, or `gsvd.tebex` in game |
 | `gsvd_whoami <serverId>` | Print how the designer sees a player's permissions | Server console only |
 | `gsvd_rescan` | Rescan vehicle templates | Restricted command ACE |
 | `gsvd_rebuild_pool` | Rescan and rebuild the vehicle pool | Restricted command ACE |

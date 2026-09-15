@@ -53,7 +53,7 @@ Each vehicle is signed at `data/<model>/signature.json`. If a template changed b
 
 ### A vehicle shows as locked or full
 
-Every model has 16 live slots. When the model and all of its series clones are occupied, the card locks and the next rebuild mints a new series clone automatically.
+Every model has 16 live slots. A card shows **SLOTS FULL** when that model's slots are occupied, even if a clone has room. When the model and all its clones are full, the next rebuild mints a new series clone automatically.
 
 - Delete unused published designs to free slots immediately, with no restart.
 - Run `gsvd_expand <model>` to force the next clone now, then restart so it streams.
@@ -65,7 +65,7 @@ The converter reports any paint-family shader it cannot convert, per vehicle, at
 
 ### A car pack's tuning parts or wheels are missing
 
-Extra streamables are attached to the nearest model folder that contains a model YFT. A flat folder holding several models' YFTs cannot attach parts by folder, so only `<model>*` name prefixes are matched there. Use a per-model folder layout for packs with shared, ambiguously named parts.
+Extra streamables are attached to the nearest model folder that contains a model YFT. In a flat folder with several models, matching uses `<model>*` name prefixes; unclaimed files are copied to `stream/_shared/`. Check that folder and the discovery warnings for duplicate filenames. Per-model folders make ownership clearer. Standalone exports copy the main YFT, optional high-detail YFT, model YTD, and model metadata; tuning parts, shared assets, and shared layouts need to be packaged separately.
 
 ---
 
@@ -154,7 +154,7 @@ AI images need a hosted provider. With `AssetUploadProvider = 'database'` the re
 
 ### The studio opens with no vehicle selected
 
-The studio only preselects a vehicle that exists in the converted pool. A car streamed by another resource, but never placed in `vehicle_templates/`, is not recognised. With `RequireDriverSeat = true` the player must also be in the driver's seat.
+This is expected: opening the studio resets the selection. Choose a vehicle from the catalog. `RequireDriverSeat` filters the nearby-vehicle context but does not select a card or prevent catalog-based editing.
 
 ### Painting does nothing on part of the model
 
@@ -168,7 +168,7 @@ Only converted paint surfaces accept paint. Glass, interior meshes, and unconver
 
 1. Other players only see finishes within `Runtime.renderDistance`.
 2. Check F8 for runtime texture binding lines; binding retries run for `retryWindowMs`.
-3. Confirm the design is still published. Deleting or unpublishing releases the slot and the finish stops resolving.
+3. Confirm the design is still published. Archived designs cannot be fitted again or restored through the owned-vehicle bridge. Already-loaded runtime textures are not immediately removed by deletion.
 
 ### The livery disappears after a restart
 
@@ -176,9 +176,11 @@ Only owned vehicles persist. A vehicle whose plate is not in the framework's own
 
 Confirm the row exists in `gs_vehicledesigner_vehicle_liveries` and that the vehicle respawns with the same plate.
 
+Automatic respawn restoration is wired to `qbx_garages:server:vehicleSpawned`. Other garages and impounds need a hook in the open `server/vehicle_liveries.lua` bridge after the vehicle and plate are ready. The startup scan only restores entities that already exist when it runs.
+
 ### An edited design changed an already printed item
 
-It should not. Printed items store the exact version they were printed at, and fitting always applies that version. If you see otherwise, capture the design ID, the item metadata, and the version numbers involved.
+Printed metadata keeps the exact version, but all versions of a design share one live texture slot. Two nearby vehicles fitted with different versions can overwrite that slot's visible image. Publish separate designs when both looks need to appear together. Capture the design ID, item metadata, and version numbers when reporting a mismatch.
 
 ---
 

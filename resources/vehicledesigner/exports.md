@@ -18,7 +18,7 @@ Returns `true` when the studio opened. This does not bypass access control: stat
 
 ### `closeDesigner()`
 
-Closes the studio and releases NUI focus.
+Closes the studio and releases NUI focus. It does not clear an active server-side designer-pass session.
 
 ```lua
 exports['gs-vehicledesigner']:closeDesigner()
@@ -72,7 +72,7 @@ A closed studio returns `{ ok = false, message = 'The design studio is not open.
 
 ### `useLiveryItem(data, item)`
 
-The `ox_inventory` client export declared in the item definition. It resolves the target vehicle from the item metadata, consumes the item through ox, and fits the livery. It is called by `ox_inventory`, not by integration code.
+The `ox_inventory` client export declared in the item definition. It resolves the target vehicle from item metadata and sends the slot reference to `livery:applyItem`. The server validates and fits the livery, then consumes the item when `Inventory.consumeOnApply` is enabled. The client does not call `ox_inventory:useItem`, which would remove it too early.
 
 ---
 
@@ -86,7 +86,7 @@ Returns how the server currently sees a player's access.
 local state = exports['gs-vehicledesigner']:getDesignerAccessState(source)
 ```
 
-A full-access player returns:
+A full-access player without an active pass session returns:
 
 ```lua
 { mode = 'full', limited = false }
@@ -125,10 +125,12 @@ local result = exports['gs-vehicledesigner']:ExportDesignPack(42, {
 | Option | Description |
 |---|---|
 | `slotIndex` | Native livery slot to bake into. Auto-allocated from slot 2 upward when omitted, preserving the transparent default. |
-| `exportMode` | `new` starts a fresh pack, `update` extends the most recent one. |
-| `version` | Export a specific stored version instead of the current one. |
+| `exportMode` | `update` reuses this design's existing slot when possible; `new` allocates another free slot. Both use the first existing pack by numeric index, creating pack 001 only when none exists. Omission defaults to `update`. |
+| `version` | Request a stored version instead of the current one. Check that it exists first: an unavailable version falls back to the current render. |
 
 On success the result carries `resourceName`, `model`, `slotIndex`, and `liveryIndex`. On failure it returns `{ ok = false, message = ... }`.
+
+The exporter copies the main model YFT, optional high-detail YFT, `<model>.ytd`, and that model's metadata folder. It does not collect tuning parts, shared assets/layouts, or a clone's base metadata dependencies. Supply those separately when needed. Models whose texture dictionary has a different name from the model also need adaptation before export or baking, because this path expects `<model>.ytd`.
 
 {% hint style="warning" %}
 An exported pack streams the same model as the designer's own generated pack. Do not ensure both for the same vehicle at the same time.
@@ -143,6 +145,8 @@ local result = exports['gs-vehicledesigner']:BakeDesignSlot(42, 17)
 ```
 
 Valid slots are 1 to 17. Slot 17 is reserved for permanent bakes and is never allocated to a live design.
+
+Export and bake slots are **one-based**; live pool `slotIndex` values and native livery indices are **zero-based**. For example, baked slot 17 is native livery index 16. Bakes and standalone exports currently require a stored PNG render, so animated GIF designs cannot be exported directly. A template reconversion can replace an in-resource bake with transparent slots.
 
 ### `ListExportPacks()`
 
@@ -189,6 +193,8 @@ local ok, reason = exports['gs-vehicledesigner']:registerStudioTool({
 ```
 
 `id` and `eventName` are required; everything else has a default. Supplying `resourceName` lets the studio remove the tool automatically when its provider stops. `timeoutMs` defaults to 270000.
+
+The tool event runs locally on the client. Forward the request to your own server handler when generation needs credentials or server-side work. The UI reads `imageData` or `imageUrl` from a successful result; `fitToCanvas` is not currently read by the studio and images use its normal placement behavior.
 
 The provider receives its configured event with:
 
@@ -252,6 +258,8 @@ local ok, entitlement = exports['gs-vehicledesigner']:grantTebexPackage(
 
 `packageRef` may match the config key, Tebex package ID, package name, or label. `target` may be an online server ID or a stored identifier. Reusing the same non-empty transaction ID for the same package returns the existing entitlement instead of granting it twice.
 
+This export creates the entitlement only. Automatic opening and purchase notifications belong to the grant command; custom integrations can call `claimTebexPackage` afterwards for an online player.
+
 ### `claimTebexPackage(source, packageRef)`
 
 ```lua
@@ -304,9 +312,9 @@ Do not call the allocate and release exports directly to manage designs. Publish
 | `gsvd_pool_status` | `command.gsvd_pool_status` |
 | `gsvd_expand` | `command.gsvd_expand` |
 | `gsvd_fill_slots` | `command.gsvd_fill_slots`; development only |
-| `gsvd:exportpack` | Admin ACE, or the server console |
-| `gsvd:bakeslot` | Admin ACE, or the server console |
-| `gsvd:exportlist` | Admin ACE, or the server console |
+| `gsvd:exportpack` | `command.gsvd:exportpack` and admin status, or the server console |
+| `gsvd:bakeslot` | `command.gsvd:bakeslot` and admin status, or the server console |
+| `gsvd:exportlist` | `command.gsvd:exportlist` and admin status, or the server console |
 | `gsvd_whoami` | Server console only |
 | Configured Tebex grant command | Console, or `gsvd.tebex` in game |
 

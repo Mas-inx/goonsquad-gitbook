@@ -110,7 +110,7 @@ The definitions reference `gs_vehicle_livery.png`. Place an image with that name
 | Jaksam / AK47 | That inventory's item image folder |
 
 {% hint style="info" %}
-The fallback image is only used before a design is printed. Once a livery is printed with the `discord` or `fivemanage` media provider, the item shows a real render of that vehicle wearing the finish.
+Supply your own `gs_vehicle_livery.png`; the repository does not include that icon. Printed items use a vehicle render when hosting succeeds and the inventory supports `metadata.imageurl`. Otherwise they keep the fallback icon, including when using the `database` provider.
 {% endhint %}
 
 {% hint style="warning" %}
@@ -149,7 +149,7 @@ Choose a provider in `shared/config.lua`:
 AssetUploadProvider = 'discord' -- 'database', 'fivemanage', or 'discord'
 ```
 
-The shipped default is `discord`, which needs a webhook before uploads succeed. Switch it to `database` for a zero-configuration install.
+The shipped default is `discord`. Configure your own webhook before using hosted uploads. Editable assets still fall back to database storage if hosting fails. Switch it to `database` for a zero-configuration install.
 
 ### Discord
 
@@ -276,7 +276,6 @@ add_ace group.admin command.gsvd_rescan allow
 add_ace group.admin command.gsvd_rebuild_pool allow
 add_ace group.admin command.gsvd_pool_status allow
 add_ace group.admin command.gsvd_expand allow
-add_ace group.admin command.gsvd_fill_slots allow
 add_ace group.admin command.gsvd:exportpack allow
 add_ace group.admin command.gsvd:bakeslot allow
 add_ace group.admin command.gsvd:exportlist allow
@@ -300,7 +299,7 @@ add_ace group.admin gs_vehicledesigner.admin allow
 4. Join and open the studio with `/vehicledesigner`.
 5. Select a vehicle and confirm the 3D preview loads.
 6. Paint something, then save a draft.
-7. Print the livery and confirm the item arrives with a vehicle render as its image.
+7. Print the livery and confirm the item arrives. With working hosted media and a compatible inventory, confirm it uses a vehicle render; otherwise check the fallback icon.
 8. Spawn the matching vehicle model, stand next to it, and use the item.
 9. Confirm the finish appears and that another nearby player can see it.
 

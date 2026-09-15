@@ -9,7 +9,7 @@ These pages document version **0.1.0**.
 **Product page:** [goonsquadstudios.com/vehicle-designer](https://goonsquadstudios.com/vehicle-designer) — full feature breakdown, FAQ and guides
 
 {% hint style="info" %}
-The release is protected by FiveM Asset Escrow. Configuration, credentials, install snippets, the SQL schema, the NUI bundle, and the framework, inventory, owned-vehicle, and notification bridge files remain open and editable. See [Configuration](configuration.md#file-layout).
+The manifest is configured for FiveM Asset Escrow. Configuration, credentials, install snippets, and framework, inventory, owned-vehicle, and notification bridges stay editable. Vehicle integration assets stay readable for conversion, previews, and exports. JavaScript and NUI files are outside Cfx's currently supported escrow formats. See [Configuration](configuration.md#file-layout).
 {% endhint %}
 
 ---
@@ -24,7 +24,7 @@ The release is protected by FiveM Asset Escrow. Configuration, credentials, inst
 - **UV Layout** mode exposes the flat texture for precise layer placement and the complete 2D toolset
 - Live Three.js preview rendered from the vehicle's own game files, with no spawned entity and no game camera
 - Reusable per-player image asset library, custom font loading, and finishing filters
-- Local file uploads and HTTPS image imports, with private and loopback addresses rejected server-side
+- Local file uploads and HTTP/HTTPS image imports with server-side hostname checks
 - Optional studio-tool contract for AI or other external image generators
 
 ### Vehicle Pool
@@ -38,7 +38,7 @@ The release is protected by FiveM Asset Escrow. Configuration, credentials, inst
 
 ### Access and Monetization
 
-- ACE, job, and grade gating, enforced on every server action
+- ACE, job, and grade checks for studio access, with ownership checks for saved designs
 - Optional in-world designer stations with marker prompts and proximity gating
 - Configurable Tebex packages with persistent entitlements, online auto-open, and offline claiming
 - Separate livery-print and AI-generation allowances per package
@@ -48,8 +48,8 @@ The release is protected by FiveM Asset Escrow. Configuration, credentials, inst
 
 - Printed items are non-stackable and carry design, version, target model, and display metadata
 - Printing captures a render of the actual vehicle wearing the finish and uses it as the inventory item image
-- Printed items are immutable: editing the source design never changes an already printed livery or a fitted vehicle
-- Liveries fitted to owned vehicles persist across restarts, garages, and impounds
+- Printed items retain their saved design version; use separate designs for different looks that must appear concurrently
+- Owned-vehicle livery storage, startup restoration, and a bundled Qbox garage respawn hook
 - Distance-aware runtime textures and replicated state bags show finishes to nearby players
 - Unlimited stored draft designs, with immutable version history and restore
 
@@ -78,9 +78,11 @@ The framework is detected automatically. No framework files need to be edited.
 | CodeM Inventory | Supported |
 | Quasar Advanced Inventory (`qs-inventory`) | Supported |
 | AK47 Inventory (`ak47_inventory`) | Supported |
-| ESX inventory | Supported |
+| ESX inventory | Bridge included; per-item metadata must be preserved by the inventory |
 
 `ox_inventory` uses the client export flow declared in its item definition. Every other backend registers a server-side usable handler that bounces to the client to locate the target vehicle. See [Installation](installation.md#3-inventory-setup) for the required item definition for each backend.
+
+When several backends are running, detection checks Jaksam, CodeM, Quasar, AK47, then `ox_inventory`, followed by framework-native items. Use the open inventory bridge for custom metadata handling.
 
 ### Media Providers
 

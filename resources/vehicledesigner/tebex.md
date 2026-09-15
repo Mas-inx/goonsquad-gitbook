@@ -171,9 +171,13 @@ A pass grants a limited session rather than full studio access:
 - The player may only edit designs created during that session.
 - Printing consumes one livery allowance; reprinting the same design does not consume another.
 - AI generations consume the separate AI allowance and can be refunded by the provider when generation fails.
-- Full-access players are never limited and have no counters.
+- Players with normal full access do not need a pass. If they claim one anyway, the public state reports that pass and successful prints can still consume its allowance; full access bypasses the normal design and AI permission checks.
 
-The session ends when the studio closes or the player disconnects. The remaining allowance stays in the database for the next claim.
+Closing the studio does not end the server-side session. It lasts until disconnect, resource restart, or another claim replaces it. Each new claim resets the session's list of created and printed designs, while the remaining allowance stays in the database. Designs from an earlier session cannot be edited with a pass alone.
+
+Station gating still applies to automatic opening and claims. A pass can become active even when the player is too far from a required station to open the studio. Move to a station and use the normal designer command.
+
+Local image upload and asset-list refresh require full access. URL imports accept an active pass when `AllowAssetUrlImports` is enabled.
 
 ---
 

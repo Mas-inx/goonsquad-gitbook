@@ -20,6 +20,19 @@ These files stay open and editable under FiveM Asset Escrow, together with the b
 | `client/notify.lua` | Notification output |
 | `install/*.lua` | Item definition snippets |
 
+Vehicle integration assets also stay readable:
+
+| Path | Purpose |
+|---|---|
+| `vehicle_templates/**/*.lua` | Vehicle display-name lists read during discovery |
+| `vehicle_templates/**/*.yft` | Source models read and rewritten during conversion |
+| `uv_output/**/*.yft` | Model copies decoded by the browser preview |
+| `stream/**/*.yft` | Generated models reused by clones and standalone exports |
+
+The model patterns apply recursively within each listed folder. Keep these exclusions when uploading a build with vehicle assets; the converter and browser preview need readable model bytes. Assets generated after installation remain readable as well.
+
+Other resource Lua scripts are eligible for escrow protection. JavaScript, NUI files, JSON, SQL, and vehicle metadata remain readable because those formats are outside the currently supported [Cfx Asset Escrow formats](https://docs.fivem.net/docs/server-manual/asset-escrow/).
+
 {% hint style="warning" %}
 Keep API tokens and webhook URLs in `server/credentials.lua`. Never move secrets into either shared file.
 {% endhint %}
@@ -40,7 +53,7 @@ RequireDriverSeat = false
 | `Debug` | Adds detailed client and server diagnostics. Use it while installing or investigating an issue; disable it for normal production use. |
 | `Command` | Command that opens the studio. It is also the name bound to the **F6** keybind, so players can rebind it in FiveM's key settings. |
 | `CommandAliases` | Extra commands that open the studio. |
-| `RequireDriverSeat` | When `true`, the studio only picks up the vehicle the player is driving. When `false`, it also accepts the closest vehicle within roughly 6 metres. |
+| `RequireDriverSeat` | Filters the nearby-vehicle context sent during bootstrap. When `true`, only the vehicle the player is driving qualifies. The current UI still opens with no vehicle selected, so players choose from the catalog. |
 
 `StateBagKey`, `CallbackEvent`, and `CallbackResponseEvent` are protocol settings. Change them only when another resource conflicts and every integration is updated to match.
 
@@ -96,7 +109,7 @@ Designer = {
 | `requireStation` | When `true`, the command and keybind only work near a configured station. |
 | `stations` | World locations where the studio can be opened. |
 
-With no stations configured, or with `requireStation = false`, the studio opens anywhere and the station loop stays idle.
+With no stations configured, or with `requireStation = false`, the studio opens anywhere. The marker loop stays idle only when the station list is empty; configured stations still draw markers and accept **E** when proximity gating is off.
 
 ```lua
 stations = {
@@ -144,7 +157,7 @@ Installation = {
 | `maxDistance` | How far the player may stand from the target vehicle when using the item. |
 
 {% hint style="info" %}
-`requirePlayerOwnedVehicle` does not require the installer to own the car. Any owned vehicle qualifies. Owned vehicles keep their livery across restarts, garages, and impounds; unowned vehicles receive a non-persistent finish that lasts until the entity is gone.
+`requirePlayerOwnedVehicle` does not require the installer to own the car. Any matching owned vehicle qualifies. Ownership uses `player_vehicles` on QBCore/Qbox and `owned_vehicles` on ESX. Standalone installs need a custom ownership bridge to use this requirement. See [Persistence](usage.md#persistence) for garage restoration; unowned vehicles receive a non-persistent finish that lasts until the entity is gone.
 {% endhint %}
 
 ---
@@ -155,13 +168,13 @@ Installation = {
 SlotCapacity = 16
 ```
 
-Stored drafts are unlimited. `SlotCapacity` is the number of **published** designs for one model that can be mounted at the same time without displacing another networked vehicle already using a runtime slot.
+Stored drafts are unlimited. The allocator and converter currently use a fixed capacity of **16 live designs per model**. Keep `SlotCapacity = 16`: changing this config value changes reported capacity and messages, but does not resize the allocator or generated texture slots.
 
 The converter registers 17 native livery slots per model. Slot 17 is reserved for permanent bakes made with `gsvd:bakeslot`, which is why the live capacity is 16.
 
-Publishing claims the first free slot for the model; deleting or unpublishing releases it. Occupancy is tracked by a database-backed bitmap that always includes every published design, so it cannot drift out of sync.
+Publishing claims the first free slot for the model; deleting a design releases it. There is no separate unpublish action. Occupancy combines the database bitmap with every design that still has a slot assigned. Manual database changes or development slot reservations can leave bits occupied.
 
-The studio's vehicle cards show per-model occupancy and lock a vehicle when its whole series is full. When that happens, the next rebuild provisions a **series clone**. See [Adding Vehicles](vehicles.md#series-clones).
+The studio's vehicle cards show per-model occupancy and mark that model **SLOTS FULL** when its own slots are exhausted. When a model and all its existing clones are full, the next rebuild provisions a **series clone**. See [Adding Vehicles](vehicles.md#series-clones).
 
 ---
 
@@ -182,17 +195,19 @@ SupportedMimeTypes = {
 
 | Setting | Description |
 |---|---|
-| `AllowFileUploads` | Allows local image selection and drag-and-drop uploads. |
+| `AllowFileUploads` | Controls the studio's upload button and image-tool picker. The server upload callback does not independently enforce this flag. |
 | `AllowAssetUrlImports` | Allows players to import public HTTP or HTTPS image URLs. |
 | `AssetUploadProvider` | `database`, `fivemanage`, or `discord`. Any other value falls back to `database`. |
 | `MaxUploadBytes` | Maximum uploaded asset size. |
 | `SupportedMimeTypes` | Accepted image types. GIF is accepted for animated layers. |
 
-URL imports are validated server-side. Non-HTTP schemes, credentials in the authority, and private, loopback, and link-local hosts are rejected, so an import cannot be pointed at internal infrastructure.
+URL imports accept HTTP and HTTPS. The server rejects embedded credentials, bracketed IPv6 hosts, `localhost`, `127.0.0.1`, selected local hostname suffixes, and common private IPv4 ranges. Redirects are disabled. This is a hostname check, not DNS-resolution filtering, so it is not a complete barrier to internal addresses.
 
 {% hint style="info" %}
 When a hosted provider fails, the uploaded image is still stored in the database rather than being discarded. The player's work is never lost because a webhook was rate-limited.
 {% endhint %}
+
+Editable asset bytes are retained in the database even when hosting succeeds. Hosted storage supplies a public URL; it does not remove the local copy.
 
 ### FiveManage
 
@@ -263,7 +278,7 @@ Queues = {
 | `maxPending` | Waiting jobs accepted before new requests receive `busyMessage`. |
 | `busyMessage` | Error shown when the pending queue is full. |
 
-The `upload` queue covers asset uploads, URL imports, design previews, and generated-media hosting. The `export` queue bounds standalone pack builds, which are disk-heavy and should stay at one at a time.
+The `upload` queue bounds hosted-media requests for assets, item previews, and generated images. URL downloads and database storage happen outside this queue. The `export` queue bounds pack builds requested through the studio; console commands and direct exports do not enter it. All export and bake operations are still serialized by the server's internal export queue.
 
 ---
 
@@ -309,8 +324,8 @@ Runtime = {
 | `retryIntervalMs` | Delay between binding retries. |
 | `retryWindowMs` | Total retry window before the attempt is abandoned. |
 | `scanIntervalMs` | Milliseconds between nearby-vehicle scans. |
-| `renderDistance` | Maximum distance at which a client prepares another vehicle's finish. |
-| `callbackTimeoutMs` | Timeout for the publish callback, which carries the full render payload. |
+| `renderDistance` | Distance used by the periodic nearby-vehicle scan. State-bag updates can apply a finish outside that distance, and existing textures are not released just because a vehicle moves away. |
+| `callbackTimeoutMs` | Timeout for saves, publishing, large asset/version requests, and runtime image retrieval. |
 
 {% hint style="info" %}
 On a high-population server, reduce `renderDistance` before making scans more frequent. Raising the DUI resolution or the render distance increases client memory and CPU use.
@@ -330,11 +345,11 @@ Limits = {
 
 | Setting | Description |
 |---|---|
-| `nameLength` | Maximum design name length. |
+| `nameLength` | Maximum design name length in bytes; longer names are truncated. |
 | `maxLayersJsonBytes` | Maximum serialized layer document size. |
-| `maxPreviewBytes` | Maximum generated render or preview size. Vehicle renders are larger than flat texture previews, which is why this is higher than `MaxUploadBytes`. |
+| `maxPreviewBytes` | Maximum saved runtime preview data URL length, including its base64 text. The separate inventory vehicle render is checked against `MaxUploadBytes` using its decoded size. |
 
-These are server-side limits, applied again after the UI's own checks so a modified NUI cannot bypass them.
+These limits are enforced server-side when a design is saved or printed.
 
 ---
 
