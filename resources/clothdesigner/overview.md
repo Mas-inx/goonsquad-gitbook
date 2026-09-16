@@ -6,6 +6,8 @@ These pages document the **1.3.0 Release Candidate**.
 
 **Price:** $44.99 | [Buy on Tebex](https://store.goonsquadstudios.com/package/clothdesigner)
 
+**Open Source:** $150.00 | [Buy on Tebex](https://store.goonsquadstudios.com/package/7517299)
+
 **Product page:** [goonsquadstudios.com/clothdesigner](https://goonsquadstudios.com/clothdesigner) — full feature breakdown, FAQ and guides
 
 {% embed url="https://www.youtube.com/watch?v=Y5hUNsV0j3o" %}

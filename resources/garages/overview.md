@@ -4,6 +4,8 @@ A drag-and-drop, server-authoritative garage system for FiveM with an AAA racing
 
 **Version:** 1.0.0 | **Price:** $19.99 | [Buy on Tebex](https://store.goonsquadstudios.com/package/7641428)
 
+**Open Source:** $44.99 | [Buy on Tebex](https://store.goonsquadstudios.com/package/7641437)
+
 **Product page:** [goonsquadstudios.com/garages](https://goonsquadstudios.com/garages) — full feature breakdown, FAQ and guides
 
 {% embed url="https://www.youtube.com/watch?v=9GhWrYPadbE" %}

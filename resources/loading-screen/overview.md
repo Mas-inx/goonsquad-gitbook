@@ -2,7 +2,7 @@
 
 A full-featured FiveM loading screen with an in-game visual builder. Design custom loading screens with drag-and-drop widgets, customize backgrounds, themes, audio, and server content.
 
-**Version:** 1.0.0 | **Price:** $14.99
+**Version:** 1.0.0 | **Price:** $14.99 | [Buy on Tebex](https://store.goonsquadstudios.com/package/7512004)
 
 **Product page:** [goonsquadstudios.com/loading-screen](https://goonsquadstudios.com/loading-screen) — full feature breakdown, FAQ and guides
 

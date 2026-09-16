@@ -2,7 +2,7 @@
 
 A season battlepass / playtime rewards system for FiveM. Players earn rewards based on hours played across Free and Prime tracks.
 
-**Version:** 1.0.0 | **Price:** $14.99
+**Version:** 1.0.0 | **Price:** $14.99 | [Buy on Tebex](https://store.goonsquadstudios.com/package/7480778)
 
 **Product page:** [goonsquadstudios.com/playtime-rewards](https://goonsquadstudios.com/playtime-rewards) — full feature breakdown, FAQ and guides
 

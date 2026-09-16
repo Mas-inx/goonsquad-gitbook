@@ -4,9 +4,11 @@ GS Vehicle Designer is an in-game vehicle livery studio for FiveM. Players pick 
 
 These pages document version **0.1.0**.
 
-**Price:** TBD | [Buy on Tebex](https://store.goonsquadstudios.com/)
+**Price:** $55.00 | [Buy on Tebex](https://store.goonsquadstudios.com/package/7654694)
 
 **Product page:** [goonsquadstudios.com/vehicle-designer](https://goonsquadstudios.com/vehicle-designer) — full feature breakdown, FAQ and guides
+
+{% embed url="https://www.youtube.com/watch?v=S4I-TqTnBxc" %}
 
 {% hint style="info" %}
 The manifest is configured for FiveM Asset Escrow. Configuration, credentials, install snippets, and framework, inventory, owned-vehicle, and notification bridges stay editable. Vehicle integration assets stay readable for conversion, previews, and exports. JavaScript and NUI files are outside Cfx's currently supported escrow formats. See [Configuration](configuration.md#file-layout).

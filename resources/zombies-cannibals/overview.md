@@ -1,6 +1,8 @@
 # Goonsquad Zombies/Cannibals
 
-**Price:** $10.00
+**Price:** $10.00 | [Legacy package on Tebex](https://store.goonsquadstudios.com/package/4377463)
+
+{% embed url="https://www.youtube.com/watch?v=uD3h_AlBqQ8" %}
 
 ---
 
