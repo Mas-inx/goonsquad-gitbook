@@ -139,3 +139,13 @@
 - [Administration](resources/map-studio/administration.md)
 - [API & Exports](resources/map-studio/exports.md)
 - [Troubleshooting](resources/map-studio/troubleshooting.md)
+
+### GS Minimap Designer
+- [Overview](resources/minimapdesigner/overview.md)
+- [Installation](resources/minimapdesigner/installation.md)
+- [Configuration](resources/minimapdesigner/configuration.md)
+- [Usage](resources/minimapdesigner/usage.md)
+- [Custom Maps & Streaming Exports](resources/minimapdesigner/custom-maps.md)
+- [AI Companion](resources/minimapdesigner/ai.md)
+- [API & Exports](resources/minimapdesigner/exports.md)
+- [Troubleshooting](resources/minimapdesigner/troubleshooting.md)

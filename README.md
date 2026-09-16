@@ -25,6 +25,7 @@ Welcome to the official documentation for Goonsquad Studios' premium FiveM resou
 | [GS Vehicle Designer](resources/vehicledesigner/overview.md) | $125.00 (beta) | QBCore / ESX / Qbox / Standalone | [Product page](https://goonsquadstudios.com/vehicle-designer) |
 | [GS Appearance](resources/appearance/overview.md) | $9.99 | Qbox / QBCore / ESX / ox / Standalone | [Product page](https://goonsquadstudios.com/appearance) |
 | [GS Map Studio](resources/map-studio/overview.md) | $14.99 (Open Source: $29.99) | Qbox / QBCore / ESX / Standalone | [Product page](https://goonsquadstudios.com/map-studio) |
+| [GS Minimap Designer](resources/minimapdesigner/overview.md) | TBD | QBCore / ESX / Qbox / Standalone |  |
 
 ## Support
 
@@ -34,6 +35,8 @@ Welcome to the official documentation for Goonsquad Studios' premium FiveM resou
 - [Discord](https://discord.gg/NbYFkb7QgM)
 
 ## Quick Links
+
+- [GS Minimap Designer Installation](resources/minimapdesigner/installation.md)
 
 - [GS Banking Installation](resources/banking/installation.md)
 - [GS Garages Installation](resources/garages/installation.md)
