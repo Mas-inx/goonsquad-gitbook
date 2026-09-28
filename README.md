@@ -28,6 +28,7 @@ Prices are listed in USD. Follow the package link for the current checkout price
 | [GS Appearance](resources/appearance/overview.md) | $9.99 | Qbox / QBCore / ESX / ox / Standalone | [Product page](https://goonsquadstudios.com/appearance) · [Tebex](https://store.goonsquadstudios.com/package/7652989) · [Video](https://www.youtube.com/watch?v=ODhNO2fJ5H0) |
 | [GS Map Studio](resources/map-studio/overview.md) | $14.99 (Open Source: $29.99) | Qbox / QBCore / ESX / Standalone | [Product page](https://goonsquadstudios.com/map-studio) · [Tebex](https://store.goonsquadstudios.com/package/7661879) · [Video](https://www.youtube.com/watch?v=PyASvD-hS7k) |
 | [GS Minimap Designer](resources/minimapdesigner/overview.md) | $19.99 | QBCore / ESX / Qbox / Standalone | [Tebex](https://store.goonsquadstudios.com/package/7679716) · [Video](https://www.youtube.com/watch?v=PfnapYIN6AY) |
+| [GS DJ Studio](resources/dj-studio/overview.md) | $9.99 | Qbox / QBCore / ESX / Standalone | [Tebex](https://store.goonsquadstudios.com/package/7702129) · [Video](https://youtu.be/lnJylwJQwZw) |
 
 ## Support
 
@@ -38,6 +39,7 @@ Prices are listed in USD. Follow the package link for the current checkout price
 
 ## Quick Links
 
+- [GS DJ Studio Installation](resources/dj-studio/installation.md)
 - [GS Minimap Designer Installation](resources/minimapdesigner/installation.md)
 - [GS Banking Installation](resources/banking/installation.md)
 - [GS Garages Installation](resources/garages/installation.md)

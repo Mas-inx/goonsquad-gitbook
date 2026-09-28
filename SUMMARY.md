@@ -149,3 +149,12 @@
 - [AI Companion](resources/minimapdesigner/ai.md)
 - [API & Exports](resources/minimapdesigner/exports.md)
 - [Troubleshooting](resources/minimapdesigner/troubleshooting.md)
+
+### GS DJ Studio
+- [Overview](resources/dj-studio/overview.md)
+- [Installation](resources/dj-studio/installation.md)
+- [Configuration](resources/dj-studio/configuration.md)
+- [Usage](resources/dj-studio/usage.md)
+- [Administration](resources/dj-studio/administration.md)
+- [API & Exports](resources/dj-studio/exports.md)
+- [Troubleshooting](resources/dj-studio/troubleshooting.md)

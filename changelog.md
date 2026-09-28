@@ -2,6 +2,21 @@
 
 All notable changes to Goonsquad Studios resources will be documented here.
 
+## GS DJ Studio 1.0.0
+
+- Added DJ stations with one server-owned queue per station, played in sync for every listener in range, with periodic drift correction.
+- Added YouTube links played as video, direct `.mp3` / `.ogg` / `.wav` links, uploads from the DJ's PC, and a server music library indexed from `data/media/` with `/gsdj scan`.
+- Added optional YouTube search by name with exact track lengths through a YouTube Data API v3 key, and automatic title lookup for pasted links without a key.
+- Added positional audio from real speakers with coverage radius, directionality, vertical fade, linear, quadratic, or exponential falloff, HRTF panning, and a low-pass filter outside the club.
+- Added the light show: lights, spotlights, lasers, fog, fire jets, and sparklers with six animation presets, beam, wash, and bulb shapes, coloured haze, and a live light board in the DJ panel.
+- Added screens that show the station's live picture, in drawn mode for any flat prop or texture mode for known render targets.
+- Added the in-game venue creator with a freecam, a 3D move and aim gizmo, box select, grab, duplicate, snapping, and nine one-click stage templates.
+- Added personal playlists, "Recently played here" and "Top songs on this server" recommendations, and a ten-clip original soundboard.
+- Added per-station DJ access by ace, job and grade, identifier, or Discord role, a single DJ lock per booth with take-over, and station ownership.
+- Added station export and import, config-station overlays with `/gsdj reset`, and automatic model fallbacks for older game builds.
+- Added personal volume and streamer mode, `/gsdj diag` diagnostics, client and server exports, and a per-station state bag.
+- Added Qbox, QBCore, ESX, and standalone support, JSON or oxmysql storage, four interaction styles including ox_target, qb-target, and qtarget, and six interface languages.
+
 ## GS Map Studio 1.0.0
 
 - Added the in-game map editor with a noclip freecam, FLY and EDIT camera modes, ped walk mode, focus-on-selection, and go-to-coordinates.
