@@ -2,6 +2,19 @@
 
 All notable changes to Goonsquad Studios resources will be documented here.
 
+## GS OnlyShots 1.0.0
+
+- Added the creator career with an orbiting selfie/POV camera, five shot presets, twelve poses, captions and a searchable content gallery.
+- Added photo collections with rank-based size limits and bonuses for collection size, creator rank and capture hotspots.
+- Added NPC sales with rejection, theft chases, recovery, tips, viral payouts and follower changes.
+- Added player purchase offers with server-calculated prices and collector metadata that preserves original authorship.
+- Added ten ranks, five hotspots, daily and weekly challenges, ten achievements, lifetime stats and an earnings leaderboard.
+- Added Qbox, QBCore, ESX and standalone bridges, supported external inventories and an internal metadata inventory.
+- Added SQL or JSON persistence, SQL/hosted image storage, optional role access and activity feeds, and five languages.
+- Prepared the release with Lua configuration and integration adapters open under Asset Escrow; removed the temporary forced-theft recording command, its unused outcome override and obsolete command-suggestion cleanup.
+
+See [GS OnlyShots](resources/onlyshots/overview.md) for installation, configuration, gameplay and integration documentation.
+
 ## GS DJ Studio 1.0.0
 
 - Added DJ stations with one server-owned queue per station, played in sync for every listener in range, with periodic drift correction.

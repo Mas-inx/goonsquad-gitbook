@@ -7,6 +7,16 @@
 
 ## Resources
 
+### GS OnlyShots
+
+- [Overview](resources/onlyshots/overview.md)
+- [Installation](resources/onlyshots/installation.md)
+- [Configuration](resources/onlyshots/configuration.md)
+- [Usage](resources/onlyshots/usage.md)
+- [Integrations](resources/onlyshots/integrations.md)
+- [API & Exports](resources/onlyshots/exports.md)
+- [Troubleshooting](resources/onlyshots/troubleshooting.md)
+
 ### GS Banking
 - [Overview](resources/banking/overview.md)
 - [Installation](resources/banking/installation.md)
