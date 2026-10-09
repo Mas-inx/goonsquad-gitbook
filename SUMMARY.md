@@ -7,6 +7,26 @@
 
 ## Resources
 
+### GS BellaBody
+
+- [Overview](resources/bellabody/overview.md)
+- [Installation](resources/bellabody/installation.md)
+- [Configuration](resources/bellabody/configuration.md)
+- [Usage](resources/bellabody/usage.md)
+- [Integrations](resources/bellabody/integrations.md)
+- [API & Exports](resources/bellabody/exports.md)
+- [Troubleshooting](resources/bellabody/troubleshooting.md)
+
+### GS GlowUp
+
+- [Overview](resources/glowup/overview.md)
+- [Installation](resources/glowup/installation.md)
+- [Configuration](resources/glowup/configuration.md)
+- [Usage](resources/glowup/usage.md)
+- [Integrations](resources/glowup/integrations.md)
+- [API & Exports](resources/glowup/exports.md)
+- [Troubleshooting](resources/glowup/troubleshooting.md)
+
 ### GS OnlyShots
 
 - [Overview](resources/onlyshots/overview.md)

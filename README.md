@@ -8,6 +8,8 @@ Prices are listed in USD. Follow the package link for the current checkout price
 
 | Resource | Price | Framework | Links |
 |----------|-------|-----------|---------|
+| [GS BellaBody](resources/bellabody/overview.md) | — | Qbox / QBCore / ESX / Standalone | [Installation](resources/bellabody/installation.md) · [Usage](resources/bellabody/usage.md) |
+| [GS GlowUp](resources/glowup/overview.md) | — | Qbox / QBCore / ESX / Standalone | [Installation](resources/glowup/installation.md) · [Usage](resources/glowup/usage.md) |
 | [GS OnlyShots](resources/onlyshots/overview.md) | — | Qbox / QBCore / ESX / Standalone | [Installation](resources/onlyshots/installation.md) · [Usage](resources/onlyshots/usage.md) |
 | [GS Banking](resources/banking/overview.md) | $19.99 | QBCore / ESX / Qbox | [Product page](https://goonsquadstudios.com/banking) · [Tebex](https://store.goonsquadstudios.com/package/7619455) · [Video](https://www.youtube.com/watch?v=nSF-Qd6LCX0) |
 | [GS Garages](resources/garages/overview.md) | $19.99 | Qbox / QBCore / ESX / Standalone | [Product page](https://goonsquadstudios.com/garages) · [Tebex](https://store.goonsquadstudios.com/package/7641428) · [Video](https://www.youtube.com/watch?v=9GhWrYPadbE) |
@@ -39,6 +41,10 @@ Prices are listed in USD. Follow the package link for the current checkout price
 - [Discord](https://discord.gg/NbYFkb7QgM)
 
 ## Quick Links
+
+- [GS BellaBody Installation](resources/bellabody/installation.md)
+
+- [GS GlowUp Installation](resources/glowup/installation.md)
 
 - [GS OnlyShots Installation](resources/onlyshots/installation.md)
 

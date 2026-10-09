@@ -2,6 +2,30 @@
 
 All notable changes to Goonsquad Studios resources will be documented here.
 
+## GS BellaBody 1.0.0
+
+- Added a cosmetic clinic career with a supply cart, portable shot crafting and a deployable animated stretcher.
+- Added five walk-in customer variants, Small/Big BBL requests, upgrades, synchronized patient/surgeon scenes and cinematic treatment cameras.
+- Added ten ranks, daily/weekly goals, six achievements, statistics and an earnings leaderboard.
+- Added framework/inventory bridges, an internal bag, SQL/JSON persistence and five languages.
+- Prepared twelve explicit Lua escrow exceptions and private server-only webhook configuration.
+- Set the new standalone wallet to $35,000 so the initial clinic setup is affordable, corrected configurable brand text and tightened patient/proximity validation.
+
+See [GS BellaBody](resources/bellabody/overview.md) for installation, configuration, gameplay and integration documentation.
+
+## GS GlowUp 1.0.0
+
+- Added the makeup studio career with a supplier cart, nineteen materials, two deployable custom machines and eleven cosmetic recipes.
+- Added folding workbench placement, mixer snapping, camera-led START interaction, animated dispensing and batches of one to five.
+- Added NPC sales and a pop-up stand with refusal, theft, recovery, rank payouts and tips.
+- Added ten ranks, rotating daily/weekly goals, six achievements, personal statistics and an earnings leaderboard.
+- Added optional cosmetic application with temporary freemode makeup overlays, animation sequences and configurable consumption.
+- Added Qbox, QBCore, ESX and standalone bridges, external inventories, a built-in bag, SQL/JSON persistence and five languages.
+- Prepared Lua-only escrow exceptions for configuration and integration files, moved webhook settings to server-only configuration and disabled legacy import by default.
+- Set the new standalone wallet to $25,000 so players can afford the initial studio setup; corrected configurable interface branding and blocked recovery before a theft sale resolves.
+
+See [GS GlowUp](resources/glowup/overview.md) for installation, configuration, gameplay and integration documentation.
+
 ## GS OnlyShots 1.0.0
 
 - Added the creator career with an orbiting selfie/POV camera, five shot presets, twelve poses, captions and a searchable content gallery.
