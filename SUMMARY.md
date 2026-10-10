@@ -7,6 +7,16 @@
 
 ## Resources
 
+### GS Baddie Hub
+
+- [Overview](resources/baddiehub/overview.md)
+- [Installation](resources/baddiehub/installation.md)
+- [Configuration](resources/baddiehub/configuration.md)
+- [Usage](resources/baddiehub/usage.md)
+- [Integrations](resources/baddiehub/integrations.md)
+- [API & Exports](resources/baddiehub/exports.md)
+- [Troubleshooting](resources/baddiehub/troubleshooting.md)
+
 ### GS BellaBody
 
 - [Overview](resources/bellabody/overview.md)

@@ -2,6 +2,16 @@
 
 All notable changes to Goonsquad Studios resources will be documented here.
 
+## GS Baddie Hub 1.0.0
+
+- Added the members lounge, profiles, friendships, persistent chat and private messages.
+- Added starter pack/vehicle claims, ten season rewards, daily/chat XP and two usable items.
+- Added character and Discord-role gates, moderation, blocking, directories, themes and five languages.
+- Prepared nine explicit Lua escrow exceptions and server-only private integration settings.
+- Tightened database startup, reward failure handling, claim locks, vehicle identity/position checks and item consumption.
+
+See [GS Baddie Hub](resources/baddiehub/overview.md) for installation, configuration, usage and integrations.
+
 ## GS BellaBody 1.0.0
 
 - Added a cosmetic clinic career with a supply cart, portable shot crafting and a deployable animated stretcher.
