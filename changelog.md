@@ -2,6 +2,38 @@
 
 All notable changes to Goonsquad Studios resources will be documented here.
 
+## GS Nails 1.0.0
+
+- Added five paired manicure stations, six nail shapes, 18 presets per gender and a layered custom nail studio.
+- Added personal/salon design libraries, paid technician sessions, optional self-application, image-host integrations and inspect/show gestures.
+- Prepared prebuilt female/male packs, four explicit Lua escrow exceptions and a production UI/server bundle.
+- Removed development commands and browser mocks, disabled debug defaults and blanked release credentials.
+- Tightened charge/token/distance validation, slot checks, failed-payment rollback, layer JSON and public-image downloads; handled empty new-install libraries.
+
+See [GS Nails](resources/nails/overview.md) for installation, configuration, usage and integrations.
+
+## GS La Flavia 1.0.0
+
+- Added hands-on 3D drink preparation, twelve recipes, quality metadata, bottle-volume consumption and an animated ice-machine workflow.
+- Added four customer tablets, paid orders/trays, staff order monitor, public TV, 25 supply-shop entries, pickup/courier delivery and shared storage.
+- Added four job grades, hiring/grade management, a SQL society account and lift floor access integration.
+- Prepared 27 explicit Lua escrow exceptions, removed seven development commands and browser previews, and built production UI assets.
+- Tightened finite quantities, overlapping transactions, pickup hooks, metadata capability and failed reward/payout rollback; preserved offline refunds and corrected Qbox staff membership handling.
+- Disabled automatic legacy balance import for the new release.
+
+See [GS La Flavia](resources/laflavia/overview.md) for installation, configuration, usage and integrations.
+
+## GS Cloth Designer 1.5.0
+
+- Updated installation, configuration, usage, Tebex, exports and troubleshooting documentation for the current runtime.
+- Documented public access, five prints per six-hour character window, default approval and nine editable languages.
+- Added an update guide that preserves existing designs, entitlements, generated apparel and private integration settings.
+- Required server authorization for limited-pass grants so clients cannot create or reset allowances.
+- Removed development commands, disabled debug mode, rebuilt the UI and bundled/minified the server pipeline for the runtime-only package.
+- Narrowed Lua escrow exceptions and retained the raw YDD template exception required by runtime generation.
+
+See [GS Cloth Designer](resources/clothdesigner/overview.md) and [Updating to 1.5.0](resources/clothdesigner/updating.md).
+
 ## GS Baddie Hub 1.0.0
 
 - Added the members lounge, profiles, friendships, persistent chat and private messages.

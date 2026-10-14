@@ -8,6 +8,8 @@ Prices are listed in USD. Follow the package link for the current checkout price
 
 | Resource | Price | Framework | Links |
 |----------|-------|-----------|---------|
+| [GS Nails](resources/nails/overview.md) | — | Qbox | [Installation](resources/nails/installation.md) · [Usage](resources/nails/usage.md) |
+| [GS La Flavia](resources/laflavia/overview.md) | — | Qbox / QBCore / ESX | [Installation](resources/laflavia/installation.md) · [Usage](resources/laflavia/usage.md) |
 | [GS Baddie Hub](resources/baddiehub/overview.md) | — | Qbox / QBCore / ESX / Standalone | [Installation](resources/baddiehub/installation.md) · [Usage](resources/baddiehub/usage.md) |
 | [GS BellaBody](resources/bellabody/overview.md) | — | Qbox / QBCore / ESX / Standalone | [Installation](resources/bellabody/installation.md) · [Usage](resources/bellabody/usage.md) |
 | [GS GlowUp](resources/glowup/overview.md) | — | Qbox / QBCore / ESX / Standalone | [Installation](resources/glowup/installation.md) · [Usage](resources/glowup/usage.md) |
@@ -54,7 +56,7 @@ Prices are listed in USD. Follow the package link for the current checkout price
 - [GS Banking Installation](resources/banking/installation.md)
 - [GS Garages Installation](resources/garages/installation.md)
 - [ClothDesigner Installation](resources/clothdesigner/installation.md)
-- [ClothDesigner 1.3.0 RC Changelog](changelog.md)
+- [ClothDesigner 1.5.0 Update Guide](resources/clothdesigner/updating.md)
 - [GS Vehicle Designer Installation](resources/vehicledesigner/installation.md)
 - [GS Vehicle Designer: Adding Vehicles](resources/vehicledesigner/vehicles.md)
 - [GS Appearance Installation](resources/appearance/installation.md)

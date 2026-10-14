@@ -2,7 +2,7 @@
 
 {% embed url="https://www.youtube.com/watch?v=BOuWPZYtwQw" %}
 
-This guide covers a new GS Cloth Designer 1.3.0 RC installation. Existing installations can keep their database; startup migrations add new columns and tables automatically.
+This guide covers a new GS Cloth Designer 1.5.0 installation. Existing installations should follow [Updating to 1.5.0](updating.md). Keep the database; startup migrations add missing columns and tables automatically.
 
 ---
 
@@ -33,7 +33,7 @@ For a manual or managed deployment, the complete schema is available at:
 gs-clothdesigner/sql/schema.sql
 ```
 
-The 1.3.0 migrations include Tebex entitlements, design approval fields, prop support, and `previous_appearance_json` for restoring the clothing or prop that was worn before a custom design.
+The 1.5.0 migrations include Tebex entitlements, design approval fields, prop support, and `previous_appearance_json` for restoring the clothing or prop that was worn before a custom design.
 
 ---
 
@@ -55,7 +55,7 @@ Ready-to-use definitions are included in `gs-clothdesigner/install/`:
 
 ### QBCore
 
-Add the contents of `install/qbcore.lua` to `qb-core/shared/items.lua`. Make sure `gs_customshirt.png` exists in the image directory used by your inventory UI.
+Add the contents of `install/qbcore.lua` to `qb-core/shared/items.lua`. Copy `install/images/gs_customshirt.png` to the image directory used by your inventory UI.
 
 ### ox_inventory and Qbox
 
@@ -73,7 +73,7 @@ Add `install/codem_inventory.lua` to `codem-inventory/config/itemlist.lua`. The 
 
 ### Quasar Advanced Inventory
 
-For QB, add `install/qs_inventory.lua` to `qb-core/shared/items.lua`. For ESX, add it to `qs-inventory/shared/items.lua`. Place `gscd_custom_design.png` in `qs-inventory/html/images/` so the fallback item image resolves.
+For QB, add `install/qs_inventory.lua` to `qb-core/shared/items.lua`. For ESX, add it to `qs-inventory/shared/items.lua`. Copy `install/images/gscd_custom_design.png` in `qs-inventory/html/images/` so the fallback item image resolves.
 
 ### AK47 Inventory
 
@@ -94,8 +94,10 @@ If you change `Config.InventoryItemName`, update the item name in both `shared/c
 Choose a provider in `shared/config.lua`:
 
 ```lua
-AssetUploadProvider = 'fivemanage' -- 'database', 'fivemanage', or 'discord'
+AssetUploadProvider = 'discord'
 ```
+
+The shipped default is Discord. Configure a webhook before uploading, or select `database` for storage without credentials. Choose `fivemanage` to use a FiveManage token.
 
 ### FiveManage
 
@@ -144,6 +146,9 @@ Edit the jobs and stations in `shared/config.lua`:
 
 ```lua
 Designer = {
+    AllowEveryone = true,
+    PrintLimit = 5,
+    PrintLimitResetHours = 6,
     jobs = {
         clothingdesigner = 0,
         ambulance = 0,
@@ -160,7 +165,7 @@ Designer = {
 }
 ```
 
-The regular station and `openDesigner()` flow validate the player's job and grade. To grant a one-time limited session from another resource, use `summonDesigner()` instead. See [API & Exports](exports.md#limited-designer-access).
+The default `AllowEveryone = true` opens the studio to every supported framework player. Set it to `false` for job/grade restrictions. The default print quota is five successful prints per character every six hours, including paid-pass users. To grant a limited session, call `summonDesigner(target, componentAmount, aiGenAmount)` from trusted server code. See [API & Exports](exports.md#limited-designer-access).
 
 ---
 
@@ -174,11 +179,11 @@ Wardrobe = {
     Command = 'gscd_wardrobe',
     AdminCommand = 'gscd_clothing_review',
     AdminAce = 'gscd.clothdesigner.admin',
-    RequireApproval = false,
+    RequireApproval = true,
 }
 ```
 
-To require review before clothing is published, set `RequireApproval = true` and grant the configured ACE:
+Review is enabled by default. Grant the configured ACE so staff can approve requests; setting `RequireApproval = false` allows immediate publishing:
 
 ```cfg
 add_ace group.admin gscd.clothdesigner.admin allow
@@ -190,7 +195,7 @@ See [Usage](usage.md#approval-workflow) for the full player and admin flow.
 
 ## 7. First Start
 
-On the first start, Cloth Designer discovers the `.ydd` files in `cloth_templates/` and materializes the generated apparel pool. When the console asks for a restart, restart once more so FiveM registers the generated clothing resource.
+On the first start, Cloth Designer discovers the `.ydd` files in `cloth_templates/` and materializes the generated apparel pool. When the console asks for a restart, restart once more so FiveM registers the generated apparel.
 
 ```text
 [gs-clothdesigner] New packs were materialised.
@@ -222,24 +227,32 @@ The following examples allow an admin group to run protected maintenance command
 ```cfg
 add_ace group.admin command.gscd_rescan allow
 add_ace group.admin command.gscd_rebuild_pool allow
-add_ace group.admin command.gscd_fill_slots allow
 add_ace group.admin command.gscd_delete_design allow
 add_ace group.admin gscd.clothdesigner.admin allow
 add_ace group.admin gscd.tebex allow
 ```
 
-`gscd_fill_slots` is a development command and should not be granted on a production server.
 
 ---
 
 ## 10. Verify the Installation
 
 1. Confirm there are no `oxmysql` or missing-item errors during startup.
-2. Join with a supported freemode ped and an allowed job.
+2. Join with a supported freemode ped; if public access is disabled, use an allowed job or authorized pass.
 3. Open the default station and load a template.
 4. Upload an image below the configured limit.
-5. Save and print a design.
+5. Save a draft and request a print. With default approval enabled, approve it from a staff account before testing the item.
 6. Use the item twice to verify equip and unequip.
 7. Reconnect and confirm equipped custom clothing is restored.
 
 See [Troubleshooting](troubleshooting.md) if any step fails.
+
+---
+
+## Release Files and Escrow
+
+The customer package contains prebuilt NUI and a bundled server script. No npm install or UI build is required. Keep the resource name `gs-clothdesigner`. Configure language through `Config.Locale` and edit `locales/*.json`.
+
+The open Lua files are `shared/config.lua`, `shared/tebex.lua`, `server/credentials.lua`, the client/server framework adapters, `client/notify.lua`, `client/zones.lua`, `server/inventory.lua`, and the six Lua item definitions under `install/`. Core Lua is processed by the Cfx portal.
+
+`cloth_templates/**/*.ydd` must also stay outside encryption: discovery and apparel generation read and patch their raw bytes. Removing that exception breaks the generator. JSON catalogs and companion YTDs remain editable; they are outside the currently supported escrow file types. The portal does not encrypt the NUI or server JavaScript; they ship as production bundles.

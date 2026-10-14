@@ -14,11 +14,11 @@ Opens the normal designer for the local player.
 local opened, result = exports['gs-clothdesigner']:openDesigner()
 ```
 
-This does not bypass access control. The server still requires a job and grade from `Config.Designer.jobs`, or an active limited-access session.
+This does not bypass access control. The server applies `Config.Designer.AllowEveryone`, configured job/grade access and active server-authorized limited passes.
 
 ### Limited Designer Access
 
-`summonDesigner(componentAmount, aiGenAmount)` opens a limited designer session for the local player:
+`summonDesigner(componentAmount, aiGenAmount)` opens a limited designer session that has already been granted by server code:
 
 ```lua
 local opened, result = exports['gs-clothdesigner']:summonDesigner(2, 4)
@@ -38,7 +38,7 @@ exports['gs-clothdesigner']:openLimitedDesigner(2, 4)
 Values are rounded down and negative or invalid values become `0`. The session ends when the designer closes or the player disconnects. Use the Tebex integration when allowances must persist in the database.
 
 {% hint style="info" %}
-These client exports are suitable when your trusted client flow already received a server-authorized entitlement. For purchases, rewards, or admin grants, call the server export so the server chooses the target and limits.
+These client exports only open a previously granted server session. Their amount arguments cannot grant or reset an allowance. Purchases, rewards and admin grants must use the server export, after the integrating server code has validated eligibility. Calling only the client export without a grant is rejected.
 {% endhint %}
 
 ### `openWardrobe()`
@@ -95,7 +95,7 @@ The context contains `designName`, `designId`, `article`, `activeTemplateGuideUr
 
 ### `summonDesigner(target, componentAmount, aiGenAmount)`
 
-Opens a limited designer session for an online player:
+Grants a limited designer session on the server and opens it for an online player:
 
 ```lua
 local ok, reason = exports['gs-clothdesigner']:summonDesigner(source, 2, 4)
@@ -107,7 +107,7 @@ local ok, reason = exports['gs-clothdesigner']:summonDesigner(source, 2, 4)
 exports['gs-clothdesigner']:summonDesignerForPlayer(source, 2, 4)
 ```
 
-The server form always requires the target player's server ID as the first argument.
+The server form always requires an online target player's server ID as the first argument. Only call it after validating the purchase, reward or admin permission in your integrating server code. It sets the authoritative allowances before opening the client. A new server grant intentionally replaces the current session; do not issue a new grant every time the player opens a menu.
 
 ### `printShirtItem(source, designId)`
 
@@ -122,7 +122,7 @@ local ok, result = exports['gs-clothdesigner']:printShirtItem(source, 42)
 | `source` | number | Online player's server ID. |
 | `designId` | number | Published design ID. |
 
-The call fails when the player is offline, the design is not printable, the item definition is missing, or the inventory rejects the item.
+The call fails when the player is offline, the design is not printable, the item definition is missing, the inventory rejects the item, or the character's print quota is exhausted. Successful calls count towards the same quota as studio printing.
 
 ### `deleteDesign(designId, actorIdentifier?, actorName?)`
 
@@ -165,7 +165,7 @@ Limited-state fields include:
 }
 ```
 
-A normal job-authorized player returns `mode = 'job'` and `limited = false`. A player without access returns `mode = 'none'`.
+Public access returns `mode = 'public'` and `limited = false`. Job access returns `mode = 'job'`. A player without access returns `mode = 'none'`.
 
 ---
 
@@ -241,7 +241,7 @@ If generation fails before a usable image is returned, refund it:
 local refunded, access = exports['gs-clothdesigner']:refundAiGeneration(source)
 ```
 
-Job-authorized, non-limited players are allowed without a counter. Limited and Tebex sessions enforce both the AI limit and, when configured, the requirement that clothing uses remain.
+Public and job-authorized, non-limited players are allowed without an AI counter. Limited and Tebex sessions enforce both the AI limit and, when configured, the requirement that clothing uses remain.
 
 ### Unregister a Tool
 
@@ -322,7 +322,6 @@ The server always uses the sending player's source, so a client cannot clear ano
 | `gscd_delete_design` | `command.gscd_delete_design` |
 | `gscd_rescan` | `command.gscd_rescan` |
 | `gscd_rebuild_pool` | `command.gscd_rebuild_pool` |
-| `gscd_fill_slots` | `command.gscd_fill_slots`; development only |
 | Configured wardrobe admin command | `Config.Wardrobe.AdminAce` |
 | Configured Tebex grant command | Console or `gscd.tebex` |
 

@@ -16,6 +16,10 @@ With the recommended rules, clothing allowance is consumed when the final item i
 
 ---
 
+The default studio is public. For paid-pass-only access, set `Config.Designer.AllowEveryone = false` and remove free job access from `Designer.jobs`. The character print quota still applies to paid passes in addition to their package allowance. AI requires a separately installed studio-tool provider.
+
+---
+
 ## 1. Enable Tebex
 
 Open `shared/tebex.lua` and set:

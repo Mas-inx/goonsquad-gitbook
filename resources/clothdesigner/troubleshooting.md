@@ -4,6 +4,8 @@ Enable `Config.Debug = true` while investigating, reproduce the problem once, an
 
 ---
 
+Switch debug mode back to `false` after collecting diagnostics. Never include credentials in a support report.
+
 ## Startup and Database
 
 ### `oxmysql exports are not available`
@@ -28,9 +30,31 @@ The item in `Config.InventoryItemName` does not exist in the detected inventory 
 
 ---
 
+## Access, Print Quota and Approval
+
+### A client limited-designer export no longer grants a pass
+
+Version 1.5.0 requires the grant to originate from trusted server code. Validate the purchase or permission there and call `exports['gs-clothdesigner']:summonDesigner(source, pieces, aiUses)`. A client opening cannot create or refill a pass. See [Updating](updating.md#limited-pass-integrations).
+
+### Everyone can open the studio
+
+`Designer.AllowEveryone` defaults to `true`. Set it to `false` to enforce jobs or paid passes. For paid-only access, also remove free jobs from `Designer.jobs`.
+
+### Printing stops after five items or an approval is refused
+
+The default quota is five successful prints per character in a shared six-hour window. Approval charges the owner, including offline owners. Reprints and server-export prints count. Reconnecting does not clear it; a resource restart does. Set `PrintLimit = 0` to disable the quota.
+
+### Printing creates a pending request rather than an item
+
+`Wardrobe.RequireApproval = true` is the shipped default. Grant staff `gscd.clothdesigner.admin` and use `/gscd_clothing_review`, or disable approval deliberately in configuration.
+
+---
+
 ## Templates and Pack Generation
 
 ### No silhouettes appear
+
+After portal processing, confirm `cloth_templates/**/*.ydd` is still excluded from escrow. The generator requires raw, readable template bytes.
 
 - Confirm templates are under `cloth_templates/<gender>/<category>/`.
 - Confirm the gender and category names match configured folders.
@@ -51,7 +75,7 @@ This means a drawable or texture reference inside the source assets could not be
 - A stale generated assignment points to a source file that changed or was removed.
 - The asset is damaged or uses an unsupported structure.
 
-The 1.3.0 generator logs the exact source YDD, expected companion YTD, and generated YDD involved. It skips a stale invalid assignment so valid pack items can continue. Use the printed file names to inspect or replace the source pair, then rescan and rebuild or restart.
+The 1.5.0 generator logs the exact source YDD, expected companion YTD, and generated YDD involved. It skips a stale invalid assignment so valid pack items can continue. Use the printed file names to inspect or replace the source pair, then rescan and rebuild or restart.
 
 When requesting support, include the full diagnostic block. A message such as only `references unknown` does not identify the failing asset.
 
@@ -63,9 +87,14 @@ Each generated drawable has 26 texture variants. Cloth Designer can allocate ano
 
 ## Uploads and Media
 
+### Uploads fail on a fresh installation
+
+The default provider is Discord, and the release credentials are blank. Configure `server/credentials.lua` with a valid webhook, or set `AssetUploadProvider = 'database'` for storage without credentials. Never put private tokens in shared configuration.
+
+
 ### File is too large
 
-`MaxUploadBytes` defaults to 4 MB. In 1.3.0 the NUI checks file size before `FileReader`, so the player should immediately see that the image exceeds the allowed size. The server performs a second check for security.
+`MaxUploadBytes` defaults to 4 MB. In 1.5.0 the NUI checks file size before `FileReader`, so the player should immediately see that the image exceeds the allowed size. The server performs a second check for security.
 
 If the warning does not appear, confirm clients received the latest `web/dist` build and clear any stale FiveM NUI cache before retesting.
 
@@ -117,7 +146,7 @@ AI model execution belongs to the registered studio-tool resource. Inspect that 
 
 ### UI pauses when opening
 
-The 1.3.0 UI mounts only library content near the visible scroll region and unloads previews that move far off-screen. It also manages 3D renderer lifecycle. A short initial cost can still occur while the first visible images, fonts, and selected model load.
+The 1.5.0 UI mounts only library content near the visible scroll region and unloads previews that move far off-screen. It also manages 3D renderer lifecycle. A short initial cost can still occur while the first visible images, fonts, and selected model load.
 
 If the pause is severe:
 
@@ -131,7 +160,7 @@ If the pause is severe:
 
 Older builds created more 3D renderers than the Chromium NUI context limit allowed. When the limit was reached, Chromium destroyed the oldest context, leaving a blank or broken preview.
 
-The 1.3.0 UI reuses and disposes WebGL renderers and virtualizes off-screen previews. If the warning continues after updating:
+The 1.5.0 UI reuses and disposes WebGL renderers and virtualizes off-screen previews. If the warning continues after updating:
 
 1. Confirm no old `web/dist` files were mixed into the release.
 2. Clear the client cache and reconnect.
@@ -148,11 +177,11 @@ The black/light-gray selection is stored in the NUI browser's local storage. Cle
 
 ### Item equips but does not unequip on second use
 
-The same printed design should toggle off on second use. Confirm both the server and web/client files are from 1.3.0, and make sure only one `gs-clothdesigner` resource copy is started. Mixed versions can leave the inventory and wardrobe state out of sync.
+The same printed design should toggle off on second use. Confirm both the server and web/client files are from 1.5.0, and make sure only one `gs-clothdesigner` resource copy is started. Mixed versions can leave the inventory and wardrobe state out of sync.
 
 ### Clothing disappears for a second and returns
 
-This usually indicates stale persisted wearable state or a delayed retry from an older build. The 1.3.0 flow invalidates stale retries and synchronizes inventory and wardrobe actions. Update the complete resource, restart it, then use the item or wardrobe to remove the design again.
+This usually indicates stale persisted wearable state or a delayed retry from an older build. The 1.5.0 flow invalidates stale retries and synchronizes inventory and wardrobe actions. Update the complete resource, restart it, then use the item or wardrobe to remove the design again.
 
 ### Shoes do not restore correctly
 
@@ -183,7 +212,7 @@ Shoes appearing while other components do not usually means the database state w
 
 ### Wardrobe and item disagree about equipped state
 
-Both paths use the same server wearable records in 1.3.0. Update all files together, restart the resource, and verify there is only one resource copy. Avoid directly editing `gs_clothdesigner_active_wearables`; use the item, wardrobe, or clear event.
+Both paths use the same server wearable records in 1.5.0. Update all files together, restart the resource, and verify there is only one resource copy. Avoid directly editing `gs_clothdesigner_active_wearables`; use the item, wardrobe, or clear event.
 
 ---
 

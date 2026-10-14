@@ -1,12 +1,12 @@
 # Usage
 
-This page covers the player, designer, and admin workflows in GS Cloth Designer 1.3.0 RC.
+This page covers the player, designer, and admin workflows in GS Cloth Designer 1.5.0.
 
 ---
 
 ## Open the Designer
 
-Players with a configured job and grade can approach a designer station and press the interaction key. The default station is at:
+Public access is enabled by default. Every supported framework player can approach a station and press the interaction key. With `AllowEveryone = false`, the normal flow requires a configured job/grade or an authorized pass. The default station is at:
 
 ```text
 -1194.96, -767.87, 17.32
@@ -14,9 +14,9 @@ Players with a configured job and grade can approach a designer station and pres
 
 A server owner can also open the UI through an integration:
 
-- `openDesigner()` opens the normal job-validated studio.
-- `summonDesigner(componentAmount, aiGenAmount)` opens a limited session for the local player.
-- The matching server export opens a limited session for a target server ID.
+- `openDesigner()` opens the normal studio using the configured access policy.
+- Client `summonDesigner(componentAmount, aiGenAmount)` opens an already server-authorized limited session for the local player.
+- The server export grants the limits and opens a limited session for a target server ID. Client-supplied limits cannot create or reset allowances.
 
 See [API & Exports](exports.md#limited-designer-access).
 
@@ -58,7 +58,7 @@ In a limited session:
 
 **Save** stores a draft that the creator can continue editing.
 
-**Print** publishes the design and adds a metadata-bearing custom clothing item, unless approval is required. With the recommended limited-pass setting, a clothing use is consumed only when printing succeeds or an admin approves the print request.
+**Print** submits a review request with the shipped defaults. Approval publishes the design and attempts to add a metadata-bearing custom clothing item. If `RequireApproval = false`, a successful print publishes and grants the item immediately. With the recommended limited-pass setting, a clothing use is consumed only when printing succeeds or an admin approves the print request.
 
 The active allowance appears in the limited designer UI:
 
@@ -102,7 +102,7 @@ Equipped designs are restored after supported QBCore, Qbox, and ESX player-load 
 
 ## Approval Workflow
 
-Set `Wardrobe.RequireApproval = true` to moderate prints.
+`Wardrobe.RequireApproval = true` is the shipped default.
 
 ### Player Flow
 
@@ -126,7 +126,7 @@ The review UI shows the oldest pending requests first. Admins can preview, appro
 add_ace group.admin gscd.clothdesigner.admin allow
 ```
 
-For limited or Tebex sessions, approval consumes the clothing use. This can happen while the creator is offline. If the item cannot be delivered, the approved design is still available through the player's wardrobe when they return.
+For limited or Tebex sessions, approval consumes the clothing use. This can happen while the creator is offline. Approval also spends the creator's print quota. If the item cannot be delivered, the approved design is still available through the player's wardrobe when they return.
 
 ---
 
@@ -144,9 +144,17 @@ The command name is configurable. See [Tebex Integration](tebex.md).
 
 ---
 
+## Print Quota
+
+Every character can complete five prints per six-hour shared window by default. The quota applies to public access, jobs, paid passes, reprints and the server print export. Saving a draft or submitting a pending request is free. Approval charges the creator and is refused if their quota is exhausted.
+
+Reconnects do not clear usage. A resource restart resets this in-memory quota. The six-hour boundary is shared across characters and anchored to resource startup. Staff can change `Designer.PrintLimit` and `Designer.PrintLimitResetHours`; `PrintLimit = 0` disables it.
+
+---
+
 ## Template Capacity
 
-Each generated drawable has 26 texture variants. Cloth Designer allocates additional drawables when a silhouette runs out of texture slots. A template can temporarily show as full until pool expansion is materialized and the generated clothing resource is restarted.
+Each generated drawable has 26 texture variants. Cloth Designer allocates additional drawables when a silhouette runs out of texture slots. A template can temporarily show as full until pool expansion is materialized and the server is restarted.
 
 To add a template, place its YDD and any companion YTD in the correct `cloth_templates/<gender>/<category>/` folder, then restart. See [Installation](installation.md#adding-templates-later).
 
@@ -163,6 +171,5 @@ To add a template, place its YDD and any companion YTD in the correct `cloth_tem
 | `gscd_delete_design <designId>` | Delete a design and release its wearable state and slot | Protected command ACE |
 | `gscd_rescan` | Rescan source templates | Protected command ACE |
 | `gscd_rebuild_pool` | Reattach and rebuild the generated pool | Protected command ACE |
-| `gscd_fill_slots [sourceKey]` | Fill slots for development testing | Development only |
 
 Maintenance commands are advanced tools. Normal template installation still ends with a server restart so FiveM can register generated apparel.

@@ -7,6 +7,26 @@
 
 ## Resources
 
+### GS Nails
+
+- [Overview](resources/nails/overview.md)
+- [Installation](resources/nails/installation.md)
+- [Configuration](resources/nails/configuration.md)
+- [Usage](resources/nails/usage.md)
+- [Integrations](resources/nails/integrations.md)
+- [API & Exports](resources/nails/exports.md)
+- [Troubleshooting](resources/nails/troubleshooting.md)
+
+### GS La Flavia
+
+- [Overview](resources/laflavia/overview.md)
+- [Installation](resources/laflavia/installation.md)
+- [Configuration](resources/laflavia/configuration.md)
+- [Usage](resources/laflavia/usage.md)
+- [Integrations](resources/laflavia/integrations.md)
+- [API & Exports](resources/laflavia/exports.md)
+- [Troubleshooting](resources/laflavia/troubleshooting.md)
+
 ### GS Baddie Hub
 
 - [Overview](resources/baddiehub/overview.md)
@@ -68,6 +88,7 @@
 
 ### ClothDesigner
 - [Overview](resources/clothdesigner/overview.md)
+- [Updating to 1.5.0](resources/clothdesigner/updating.md)
 - [Installation](resources/clothdesigner/installation.md)
 - [Configuration](resources/clothdesigner/configuration.md)
 - [Usage](resources/clothdesigner/usage.md)

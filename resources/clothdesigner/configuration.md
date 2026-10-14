@@ -17,18 +17,22 @@ Keep API tokens and webhook URLs in `server/credentials.lua`. Never move secrets
 ## General
 
 ```lua
-Debug = true
+Debug = false
+Locale = 'en'
 InventoryItemName = 'gs_customshirt'
 InventoryItemLabel = 'Custom Clothing'
 ```
 
 | Setting | Description |
 |---|---|
+| `Locale` | Selects the matching editable JSON catalog under `locales/`; missing or invalid catalogs fall back to English. |
 | `Debug` | Adds detailed client and server diagnostics. Use it while installing or investigating an issue; disable it for normal production use. |
 | `InventoryItemName` | Item added when clothing is printed. It must match the active inventory definition. |
 | `InventoryItemLabel` | Fallback display label used by integrations and notifications. |
 
 `StateBagKey`, `CallbackEvent`, and `CallbackResponseEvent` are protocol settings. Change them only when another resource conflicts and every integration is updated to match.
+
+Available locale codes are `en`, `es`, `fr`, `pt-br`, `de`, `it`, `nl`, `pl` and `tr`. Restart the resource after changing `Locale` or a catalog. Keep the English message keys and formatting placeholders unchanged when translating; missing entries fall back to English. No UI rebuild is needed.
 
 ---
 
@@ -140,6 +144,43 @@ Set `AssetUploadProvider = 'database'`. Assets and previews are stored as data i
 
 ---
 
+## Image Optimization
+
+```lua
+ImageOptimization = {
+    enabled = true,
+    maxDimension = 1024,
+    quality = 0.9,
+    skipBelowBytes = 200 * 1024,
+    textureFormat = 'webp',
+    textureQuality = 0.92,
+}
+```
+
+The studio resizes large uploads while preserving their proportions; small images below `skipBelowBytes` are left untouched. `quality` controls upload encoding. Printed runtime textures use WebP by default; `textureQuality` controls their compression. PNG is used when hybrid rendering or standalone pack export requires baking. These settings reduce transfer and image memory costs; the server's separate payload and layer limits still apply.
+
+---
+
+## Large-Payload Transport
+
+```lua
+Network = {
+    callbackTimeoutMs = 30000,
+    chunkBytes = 32768,
+    uploadBytesPerSecond = 65536,
+    uploadBurstBytes = 196608,
+    chunkAckTimeoutMs = 15000,
+    uploadResponseTimeoutMs = 180000,
+    transferIdleTimeoutMs = 30000,
+}
+```
+
+Large layer documents and images use acknowledged chunks. `chunkBytes` is capped at 61,440 bytes; upload pace and burst settings are per player. The callback timeout covers ordinary calls, while the longer upload-response timeout lets a completed upload finish processing. Missing acknowledgements and idle transfers time out and release buffered data.
+
+Keep the default upload budget unless your server's event limits and other resources have been checked together. Raising the budget can make uploads faster but can also trigger connection rate limits. Optional `Network.maxTransferBytes` sets an explicit total payload ceiling; otherwise it is derived from the configured image and layer limits.
+
+---
+
 ## Layer Validation
 
 ```lua
@@ -184,9 +225,19 @@ Runtime = {
     duiWidth = 1024,
     duiHeight = 1024,
     imageRequestCooldown = 2500,
+    imageRetryMaxMs = 30000,
+    imageFetchTimeoutMs = 10000,
+    imageCacheIdleMs = 5 * 60 * 1000,
     duiInitialDelayMs = 450,
     duiRetryIntervalMs = 500,
     duiRetryWindowMs = 2500,
+    duiCreateIntervalMs = 100,
+    duiReadyTimeoutMs = 5000,
+    backgroundPromotion = true,
+    promotionStartDelayMs = 5000,
+    promotionChunkRows = 8,
+    promotionChunkIntervalMs = 1000,
+    promotionTimeoutMs = 10 * 60 * 1000,
 }
 ```
 
@@ -204,8 +255,17 @@ Runtime = {
 | `duiInitialDelayMs` | Initial wait before binding a new DUI texture. |
 | `duiRetryIntervalMs` | Delay between binding retries. |
 | `duiRetryWindowMs` | Total retry window. |
+| `imageRetryMaxMs` | Ceiling for exponential backoff after failed image requests. |
+| `imageFetchTimeoutMs` | Background image-fetch timeout. Local equip preparation still observes `preApplyTimeoutMs`. |
+| `imageCacheIdleMs` | Keeps unused downloaded images for five minutes by default; `0` releases them immediately. |
+| `duiCreateIntervalMs` | Spaces browser-surface creation during bursts. Local-player work receives priority. |
+| `duiReadyTimeoutMs` | Time allowed for the browser canvas to acknowledge drawing its image. |
+| `backgroundPromotion` | Gradually moves an immediately visible DUI image into a pooled runtime texture. |
+| `promotionStartDelayMs` | Initial delay before background texture promotion. |
+| `promotionChunkRows`, `promotionChunkIntervalMs` | Rows per acknowledged transfer and delay between transfers. Defaults spread a 1024-pixel texture across roughly two minutes. |
+| `promotionTimeoutMs` | Promotion deadline, including queue time. |
 
-The 1.3.0 UI automatically virtualizes library previews and reuses or disposes WebGL renderers. There is no separate switch for those optimizations.
+The 1.5.0 UI automatically virtualizes library previews and reuses or disposes WebGL renderers. There is no separate switch for those optimizations.
 
 {% hint style="info" %}
 For a high-population server, reduce `prepareDistance` before making scans more frequent. Raising DUI resolution, distance, or queue concurrency increases resource use.
@@ -213,10 +273,13 @@ For a high-population server, reduce `prepareDistance` before making scans more 
 
 ---
 
-## Designer Stations and Jobs
+## Designer Access, Print Quota and Stations
 
 ```lua
 Designer = {
+    AllowEveryone = true,
+    PrintLimit = 5,
+    PrintLimitResetHours = 6,
     jobs = {
         clothingdesigner = 0,
         ambulance = 0,
@@ -233,7 +296,11 @@ Designer = {
 }
 ```
 
-`jobs` maps a framework job name to its minimum grade. Add any number of stations. `openDesigner()` uses the same server-side job validation; limited designer exports create a separate allowance-based session.
+`AllowEveryone = true` allows every supported framework player to use the normal studio. Set it to `false` to require the configured `jobs` and minimum grades, or an authorized limited pass. Add any number of stations.
+
+`PrintLimit` defaults to five successful prints per character in a shared six-hour window; set `0` to disable this quota. `PrintLimitResetHours` changes the interval. Reprints and the `printShirtItem` server export count; drafts and approval submissions do not. Approval charges the creator, even while offline, and refuses approval when their window is full. The quota also applies to job users and paid passes. It survives reconnects, but is held in memory and resets when the resource restarts. Failed item delivery outside approval refunds the reserved print.
+
+For a paid-pass-only setup, set `AllowEveryone = false` and remove free jobs from `jobs`. Pass allowances and the print quota are separate limits.
 
 ---
 
@@ -245,7 +312,7 @@ Wardrobe = {
     Command = 'gscd_wardrobe',
     AdminCommand = 'gscd_clothing_review',
     AdminAce = 'gscd.clothdesigner.admin',
-    RequireApproval = false,
+    RequireApproval = true,
 }
 ```
 
@@ -315,4 +382,4 @@ Package allowances and claiming rules live in `shared/tebex.lua`, not the main c
 
 ## AI and Studio Tools
 
-There is no `Config.AI` or Google API key in GS Cloth Designer 1.3.0. AI appears when another resource registers a studio tool through `registerStudioTool`. That integration should consume or refund an AI allowance through the server exports documented in [API & Exports](exports.md#studio-tool-and-ai-integration).
+There is no `Config.AI` or Google API key in GS Cloth Designer 1.5.0. AI appears when another resource registers a studio tool through `registerStudioTool`. That integration should consume or refund an AI allowance through the server exports documented in [API & Exports](exports.md#studio-tool-and-ai-integration).

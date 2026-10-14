@@ -2,7 +2,7 @@
 
 GS Cloth Designer is an in-game custom clothing studio for FiveM. Players can choose a garment or prop template, build a texture with layered editing tools, preview it on a 3D freemode ped, and print the result as wearable inventory clothing.
 
-These pages document the **1.3.0 Release Candidate**.
+These pages document the **1.5.0 update**.
 
 **Price:** $44.99 | [Buy on Tebex](https://store.goonsquadstudios.com/package/clothdesigner)
 
@@ -22,12 +22,14 @@ These pages document the **1.3.0 Release Candidate**.
 - Live 3D preview using the selected GTA clothing template
 - Black or light-gray preview background, saved locally for the next session
 - Male and female freemode libraries with clothing components and ped props
+- Nine editable languages: English, Spanish, French, Brazilian Portuguese, German, Italian, Dutch, Polish and Turkish
 - Lazy-loaded library previews and managed WebGL contexts to reduce UI load and context-loss warnings
 - Optional external studio tools, including AI image generation integrations
 
 ### Access and Monetization
 
-- Job and grade access at configurable world stations
+- Public access by default, with optional job and grade restrictions at configurable world stations
+- Five successful prints per character in a shared six-hour window by default; applies to public, job and paid-pass users
 - Client and server exports for opening a limited designer session
 - Separate clothing-print and AI-generation allowances
 - Configurable Tebex packages with persistent entitlements, online auto-open, and offline claiming
@@ -38,7 +40,7 @@ These pages document the **1.3.0 Release Candidate**.
 - Player wardrobe UI for previewing, wearing, and removing created clothing
 - Inventory items toggle the matching clothing on first use and off on second use
 - Inventory and wardrobe actions share the same equipped state
-- Optional admin approval queue before a design is published or printed
+- Admin approval enabled by default before a design is published or printed
 - Approved clothing remains available in the creator's wardrobe even if an inventory item could not be delivered while they were offline
 
 ### Runtime Wearables
@@ -82,7 +84,7 @@ Uploaded assets and saved previews can use one of three storage providers:
 |---|---|
 | Database | None |
 | FiveManage | `FiveManageApiKey` |
-| Discord webhook | `DiscordWebhookUrl` |
+| Discord webhook (default) | `DiscordWebhookUrl` |
 
 ---
 
@@ -104,7 +106,8 @@ The AI tool is registered by a companion or third-party studio-tool resource. GS
 
 ## Next Steps
 
-1. Follow [Installation](installation.md).
-2. Review [Configuration](configuration.md).
-3. Set up paid passes with [Tebex Integration](tebex.md), if needed.
-4. Connect custom resources through [API & Exports](exports.md).
+1. Existing customers: follow [Updating to 1.5.0](updating.md) before replacing files.
+2. New customers: follow [Installation](installation.md).
+3. Review [Configuration](configuration.md).
+4. Set up paid passes with [Tebex Integration](tebex.md), if needed.
+5. Connect custom resources through [API & Exports](exports.md).
