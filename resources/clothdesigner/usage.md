@@ -78,6 +78,8 @@ If a pass allows two clothing pieces, the player chooses which two templates to 
 
 ### Inventory Item
 
+Equipping waits for image/texture preparation, checks the actual native clothing result and confirms the change with the server before recording success. Failed replacement restores the previously confirmed appearance.
+
 Use a printed item once to equip its design. Use that same item again while its design is equipped to remove it and restore the previous component or prop appearance.
 
 When several matching custom items exist and the inventory backend cannot identify the exact used slot, Cloth Designer opens a picker so the player can select the intended design.

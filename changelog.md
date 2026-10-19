@@ -2,11 +2,33 @@
 
 All notable changes to Goonsquad Studios resources will be documented here.
 
+## GS ScaleMenu 1.0.0 — Free Release
+
+- Added height/body-shape controls, live/manual preview, comparison ghost, orbit camera, ruler, presets, profiles and six languages.
+- Supports standalone, Qbox, QBCore and ESX, JSON persistence and optional SQL storage.
+- Prepared two Lua escrow exceptions, removed the public debug command and excluded saved test characters.
+- Tightened finite values, profile access, lifecycle hooks, same-bucket hit validation and failed storage retries.
+
+See [GS ScaleMenu](resources/scalemenu/overview.md).
+
+## ClothDesigner 1.5.0 and Minimap Designer 0.2.0 — Update Packages
+
+- Kept the existing version numbers and refreshed production UI/server bundles and runtime-only packages.
+- Verified ClothDesigner access, apparel allocation, equipping/rollback, transfer handling, inventory metadata, image caching, runtime binding and localization.
+- Fixed Minimap save/publish acknowledgements, protected rename/duplicate destinations, storage failure handling and path/polygon/heal-only baking.
+- Removed Minimap browser samples, narrowed its escrow exceptions to six explicit Lua files and blanked release access lists/credentials.
+- Added a Minimap update guide preserving sheets, the active pointer, custom maps, completed exports and integrations; refreshed ClothDesigner runtime confirmation docs.
+
+See [ClothDesigner updating](resources/clothdesigner/updating.md) and [Minimap Designer updating](resources/minimapdesigner/updating.md).
+
 ## GS Nails 1.0.0
+
+- Refreshed the release with automatic/explicit Qbox, QBCore and ESX Legacy selection, framework-specific job/duty/boss integration and per-character legacy metadata storage.
+- Added the shared editable bridge, skin reload support and update instructions; checked failed metadata clearing and character lifecycle handling.
 
 - Added five paired manicure stations, six nail shapes, 18 presets per gender and a layered custom nail studio.
 - Added personal/salon design libraries, paid technician sessions, optional self-application, image-host integrations and inspect/show gestures.
-- Prepared prebuilt female/male packs, four explicit Lua escrow exceptions and a production UI/server bundle.
+- Prepared prebuilt female/male packs, five explicit Lua escrow exceptions and a production UI/server bundle.
 - Removed development commands and browser mocks, disabled debug defaults and blanked release credentials.
 - Tightened charge/token/distance validation, slot checks, failed-payment rollback, layer JSON and public-image downloads; handled empty new-install libraries.
 

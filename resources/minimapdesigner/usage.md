@@ -105,3 +105,7 @@ The active sheet cannot be deleted. Publish another sheet first. Use a new name 
 | `Esc` | Cancel drawing, deselect, or close, depending on the current state |
 
 For streaming output, continue with [Custom Maps & Streaming Exports](custom-maps.md). For image generation, see [AI Companion](ai.md).
+
+## Persistence Feedback
+
+**Save draft** and **Publish** now wait for server confirmation. Failure messages keep work unsaved instead of showing a false success. Editing while a save is in progress keeps the newer edits dirty. Project rename/duplicate refuses an existing destination name. Rename moves the published pointer only after the destination is saved; the original is kept if destination persistence fails.

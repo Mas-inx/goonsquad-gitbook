@@ -24,6 +24,7 @@ These pages document the **1.5.0 update**.
 - Male and female freemode libraries with clothing components and ped props
 - Nine editable languages: English, Spanish, French, Brazilian Portuguese, German, Italian, Dutch, Polish and Turkish
 - Lazy-loaded library previews and managed WebGL contexts to reduce UI load and context-loss warnings
+- Confirmed clothing equip after texture/native checks, with rollback on failed image loading, confirmation or persistence
 - Optional external studio tools, including AI image generation integrations
 
 ### Access and Monetization

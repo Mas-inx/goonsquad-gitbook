@@ -255,3 +255,7 @@ Pass Tebex's unique transaction value as the third command argument. Cloth Desig
 - Whether the problem happens before or after reconnecting
 
 Remove API keys, webhooks, database credentials, and player-private identifiers before sharing logs publicly.
+
+### Equip Reports Failure or Reverts
+
+An equip is confirmed only after texture preparation, native clothing readback and server persistence. Check collection availability, image-host connectivity and F8/server errors. A failed change keeps or restores the previous confirmed item. Do not disable the confirmation/rollback path to hide an error; use matching client/server/UI files and check the configured runtime deadlines.

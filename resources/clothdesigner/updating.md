@@ -74,3 +74,9 @@ See [API & Exports](exports.md) and [Tebex Integration](tebex.md).
 8. Confirm locale text, nearby-player texture visibility and console stability on the processed portal build.
 
 The removed development commands are not part of the update. The remaining administrative deletion, rescan and rebuild commands are ACE-restricted. See [Usage](usage.md#commands).
+
+## Runtime Confirmation in This Build
+
+The refreshed 1.5.0 build checks texture readiness and native component/prop readback before confirming an equip. Lost confirmation, a character change during loading, invalid collections and database failures return failure and restore the prior confirmed appearance. Nearby-player texture refresh avoids stripping or locally redressing their peds. Keep the updated client, server and DUI page together.
+
+The optional `gscd-ai` companion has its own editable `config.lua` escrow exception and ships separately with blank credentials. Its existing version is preserved.

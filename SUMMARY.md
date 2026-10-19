@@ -7,10 +7,23 @@
 
 ## Resources
 
+### GS ScaleMenu (Free)
+
+- [Overview](resources/scalemenu/overview.md)
+- [Installation](resources/scalemenu/installation.md)
+- [Configuration](resources/scalemenu/configuration.md)
+- [Usage](resources/scalemenu/usage.md)
+- [Integrations](resources/scalemenu/integrations.md)
+- [API & Exports](resources/scalemenu/exports.md)
+- [Updating](resources/scalemenu/updating.md)
+- [Troubleshooting](resources/scalemenu/troubleshooting.md)
+
+
 ### GS Nails
 
 - [Overview](resources/nails/overview.md)
 - [Installation](resources/nails/installation.md)
+- [Updating](resources/nails/updating.md)
 - [Configuration](resources/nails/configuration.md)
 - [Usage](resources/nails/usage.md)
 - [Integrations](resources/nails/integrations.md)
@@ -203,6 +216,7 @@
 
 ### GS Minimap Designer
 - [Overview](resources/minimapdesigner/overview.md)
+- [Updating to 0.2.0](resources/minimapdesigner/updating.md)
 - [Installation](resources/minimapdesigner/installation.md)
 - [Configuration](resources/minimapdesigner/configuration.md)
 - [Usage](resources/minimapdesigner/usage.md)

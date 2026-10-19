@@ -2,7 +2,7 @@
 
 ## Resource Does Not Start
 
-Check that `oxmysql`, `ox_lib`, `qbx_core` and `ox_target` are started, OneSync is enabled, and the server supports Node 22. Keep the resource named `gs_nails`. Use the portal-delivered asset associated with your server account for an escrowed purchase.
+Check that `oxmysql`, `ox_lib`, `ox_target` and your chosen core (`qbx_core`, `qb-core` or `es_extended`) are started, OneSync is enabled, and the server supports Node 22. Keep the resource named `gs_nails`. Use the portal-delivered asset associated with your server account for an escrowed purchase.
 
 ## No Catalog or Nails
 
@@ -18,11 +18,11 @@ The default stations expect the separate Fable nail salon interior. Check that m
 
 Check the active job name/grade, optional duty requirement and worker-chair reservation. A worker must use their station while the customer is seated in its armchair. A customer using **Design Nails** reserves the chair for self-design and is not available for a technician session until leaving.
 
-If automatic job registration is disabled, define the job in Qbox before assigning it. Check console output for job-registration failures. Inspect-only gestures do not grant technician access.
+If automatic job registration is disabled, define the job in your framework before assigning it. Check console output for job-registration failures. Inspect-only gestures do not grant technician access.
 
 ## Boss Menu or Duty Target
 
-Verify `Config.Management` coordinates and enabled fields, manager/boss flags and the optional `qbx_management` resource. Defaults are near the salon; verify their exact in-game placement. The target must belong to your installed interior, and the player must have the nail job.
+Verify `Config.Management` coordinates and enabled fields, manager/boss flags and the correct optional management resource (`qbx_management`, `qb-management` or `esx_society`). ESX manager grades must be named `boss` for its standard society menu; restart once after creating the addon-account row. Defaults are near the salon; verify their exact in-game placement. The target must belong to your installed interior, and the player must have the nail job.
 
 ## Payment Fails or Does Not Finish
 
@@ -55,3 +55,7 @@ J and O are default gesture keys. Existing players can have saved bindings; chan
 ## Support
 
 Provide version 1.0.0, server/framework versions, relevant console/F8 errors, configured interior/gender pack and clear reproduction steps. Remove credentials from anything shared. See [Support & Discord](../../support.md).
+
+## Wrong Framework or Missing Saved Nails
+
+Start the chosen core before GS Nails. Set `Config.Framework` explicitly if auto-detection picks another installed core. Keep `Config.MetadataKey` unchanged. On older ESX builds, restore the server resource KVP along with SQL backups; copying only the resource folder does not restore that storage. Custom ESX metadata APIs must implement both saving and clearing.

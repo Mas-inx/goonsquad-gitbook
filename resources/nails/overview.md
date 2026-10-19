@@ -40,16 +40,16 @@ One painted design appears on all ten fingers. Custom slots are shared by people
 
 | Component | Requirement |
 |---|---|
-| Framework | Qbox / `qbx_core` |
+| Framework | Qbox / QBCore / ESX Legacy |
 | Target / notifications | `ox_target` / `ox_lib` |
 | Database | `oxmysql` and MySQL/MariaDB |
 | Characters | Female/male freemode peds |
-| Boss menu | Optional `qbx_management` |
+| Boss menu | Optional `qbx_management`, `qb-management` or `esx_society` |
 | State awareness | OneSync enabled |
 
-QBCore, ESX and standalone operation are not included framework modes. The editable bridges are integration points, not a claim of built-in support for other frameworks.
+`Config.Framework = 'auto'` selects a running core in this order: Qbox, QBCore, ESX. If none is running, detection falls back to an installed core. Start your chosen framework before GS Nails; set `qbox`, `qb` or `esx` explicitly when multiple cores are installed. A supported framework is required.
 
-The release contains finished streamed packs and production browser assets. No npm installation, runtime asset generation or raw nail templates are needed. Four explicit Lua files remain editable for configuration and integration; the other Lua files are prepared for Cfx portal processing.
+The release contains finished streamed packs and production browser assets. No npm installation, runtime asset generation or raw nail templates are needed. Five explicit Lua files remain editable for configuration and integration; the other Lua files are prepared for Cfx portal processing.
 
 ## Quick Start
 

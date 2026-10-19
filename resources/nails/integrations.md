@@ -5,29 +5,30 @@
 | File | Purpose |
 |---|---|
 | `config.lua` | Job, locations, appearance events, limits, media options, locale and UI title |
+| `shared/bridge.lua` | Framework detection, boss-menu resource selection and grade helpers |
 | `client/bridge.lua` | Player data, duty toggle and boss-menu entry |
 | `server/bridge.lua` | Player lookup, cash/bank removal/addition, character metadata and job registration |
 | `server/credentials.lua` | Server-only image-host credentials |
 
-These four explicit Lua files are the complete escrow exceptions. The resource's supported framework is Qbox. Replacing a bridge for another framework also requires matching lifecycle, identity, job and metadata conventions; it is not a built-in compatibility mode.
+These five explicit Lua files are the complete escrow exceptions. Qbox, QBCore and ESX Legacy have built-in bridges. Keep the normalized character identity, job, money, metadata and lifecycle contracts when adapting them. Changing frameworks can change character identifiers; migrate SQL design ownership and worn metadata explicitly rather than expecting automatic conversion.
 
 ## Economy and Character Metadata
 
 The server validates selection, job, distance, charge bounds, customer identity and a one-use payment token. Charges reject nonfinite values. Failed technician payouts/metadata saves attempt to refund the customer, and exhausted custom slots prevent application before money is removed.
 
-Bridge money methods must return true on success and false on failure. Metadata methods must return false on failure. Keep money changes synchronous when adapting these methods; coordinate persistence and refunds with your economy system.
+Bridge money methods must return true on success and false on failure. Metadata methods must return false on failure, including failed clearing during rollback. Current ESX metadata support needs `getMeta`, `setMeta` and `clearMeta`; older builds without metadata use per-character resource KVP. A custom partial metadata API needs a coherent get/set/clear implementation. Keep money changes synchronous when adapting these methods; coordinate persistence and refunds with your economy system.
 
-Worn metadata values are preset ids such as `001_a` or `custom:12`. The authoritative server publishes a descriptor under the configured player-state key; custom leases are published in global state. Designs and editor documents live in SQL. Back up both SQL and character metadata.
+Worn metadata values are preset ids such as `001_a` or `custom:12`. The authoritative server publishes a descriptor under the configured player-state key; custom leases are published in global state. Designs and editor documents live in SQL. Back up SQL, framework character metadata and server resource KVP when used by older ESX builds.
 
 ## Appearance and Clothing
 
-The provided `Config.AppearanceEvents` includes `illenium-appearance:client:reloadSkin` and `qb-clothing:client:loadPlayerClothing`. Add the appropriate local event for another appearance system. The client waits briefly, captures the underlying decal and reapplies saved nails.
+The provided `Config.AppearanceEvents` includes `illenium-appearance:client:reloadSkin`, `qb-clothing:client:loadPlayerClothing` and `skinchanger:modelLoaded`. Add the appropriate local event for another appearance system. The client waits briefly, captures the underlying decal and reapplies saved nails.
 
 The nails use addon collections `mp_f_gs_nails` and `mp_m_gs_nails` on component 10. Do not let another resource continuously replace that component. Consider [API & Exports](exports.md) when another activity needs to block chair exit or stop a gesture.
 
 ## Target, Management and Interior
 
-`ox_target` is required for chairs, kiosks, duty and management points. `ox_lib` handles prompts, notifications, keybinds and callbacks. `qbx_management` is optional; disable the boss target or leave it configured only after installing that resource.
+`ox_target` is required for chairs, kiosks, duty and management points. `ox_lib` handles prompts, notifications, keybinds and callbacks. The optional boss-menu resource is `qbx_management` for Qbox, `qb-management` for QBCore, or `esx_society` for ESX. Start it and its dependencies before GS Nails, or disable the boss target. See [Installation](installation.md) for ESX job and society setup.
 
 The salon map is separate. The default station positions were built for the Fable nail salon interior. Manicure clips, gesture clips and brush prop are included in `stream/anim/`; the salon building/furniture map is not. Measure new seats, origins, target points and cameras when relocating.
 

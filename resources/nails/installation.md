@@ -3,11 +3,12 @@
 ## Requirements
 
 - A FiveM GTA V server with OneSync state awareness and a server build supporting Node 22
-- `qbx_core`, `oxmysql`, `ox_lib` and `ox_target`
+- One supported core: `qbx_core`, `qb-core` or `es_extended`
+- `oxmysql`, `ox_lib` and `ox_target`
 - A configured database connection with permission to create/alter the designs table
 - Female/male freemode characters; female is enabled by default
 - The Fable nail salon map for the default measured stations, or relocated configuration and matching furniture
-- Optional `qbx_management` for the manager's boss menu
+- Optional `qbx_management`, `qb-management` or `esx_society` for your framework's boss menu
 
 ## Install the Resource
 
@@ -21,6 +22,7 @@ set onesync on
 ensure oxmysql
 ensure ox_lib
 ensure qbx_core
+# For QBCore use qb-core; for ESX use es_extended instead.
 ensure ox_target
 # Ensure your nail salon map here.
 # Optional: ensure qbx_management
@@ -33,11 +35,11 @@ The delivered browser assets are already built. Customers do not need Node/npm o
 
 The resource creates `gs_nails_designs` automatically. It stores ownership, scope, shape, gender, editor layers, image/host reference, thumbnail, deletion status and creation time. It also adds `image_ref` if an older table lacks it. No manual SQL import is required.
 
-Keep this table and your character metadata in backups. Worn nails use `Config.MetadataKey` (default `gs_nails`) in Qbox character metadata. Do not change that key after launch without migrating existing values.
+Keep this table and your character metadata in backups. Worn nails use `Config.MetadataKey` (default `gs_nails`) in Qbox/QBCore character metadata or ESX player metadata. Older ESX builds without metadata use server resource KVP, keyed by character identifier; include this KVP storage in backups. Do not change that key after launch without migrating existing values.
 
 ## Job
 
-`Config.AutoRegisterJob = true` registers `Config.JobName` using `Config.JobDefinition` at resource start. Grades 0–3 are Trainee, Technician, Senior Tech and Manager, with configured wages of 50/75/100/125. Manager has `isboss` and `bankAuth` enabled.
+`Config.AutoRegisterJob = true` registers `Config.JobName` using `Config.JobDefinition` at resource start. Qbox uses `CreateJob`; QBCore adds a runtime job with string grade keys; ESX creates missing `jobs` and `job_grades` rows, then refreshes its job cache. Existing job/grade definitions are preserved. Grades 0–3 are Trainee, Technician, Senior Tech and Manager, with configured wages of 50/75/100/125. Manager has `isboss` and `bankAuth` enabled.
 
 Assign the job with your normal admin tools. A trusted server integration can use:
 
@@ -45,7 +47,9 @@ Assign the job with your normal admin tools. A trusted server integration can us
 exports.qbx_core:SetJob(playerSource, 'nailsalon', 0)
 ```
 
-To maintain the job yourself in Qbox's persistent/shared job definitions, set `Config.AutoRegisterJob = false` and register the same name/grades there. Runtime job creation is repeated on resource start.
+For QBCore or ESX, assign jobs using your framework's normal admin tools. To maintain the job yourself, set `Config.AutoRegisterJob = false` and register the same name/grades before starting GS Nails. Qbox/QBCore runtime job registration repeats at resource start.
+
+For ESX management, start `esx_society` and its dependencies first. Automatic registration names manager grades `boss`, registers the salon society and creates a missing `society_<job>` addon-account row. Restart the server once after that first account is created so `esx_addonaccount` loads it. With automatic job registration disabled, register both the job and society yourself. Existing ESX manager grades must be named `boss` for the standard society menu. Service charges pay the technician directly; the society account belongs to the external management menu.
 
 ## First Salon Check
 
@@ -55,6 +59,6 @@ Enable the male pack explicitly before testing male customers. Verify that the i
 
 ## Asset Escrow
 
-The editable Lua files are `config.lua`, `client/bridge.lua`, `server/bridge.lua` and `server/credentials.lua`. Raw nail models, the asset generator, web source and development tools are absent from the release. Finished stream files are used directly and are not parsed by a runtime generator.
+The editable Lua files are `config.lua`, `shared/bridge.lua`, `client/bridge.lua`, `server/bridge.lua` and `server/credentials.lua`. Raw nail models, the asset generator, web source and development tools are absent from the release. Finished stream files are used directly and are not parsed by a runtime generator.
 
 For the seller, upload the prepared ZIP and wait for Cfx processing before distributing the portal-delivered asset. Lua and supported models are processed by Asset Escrow; NUI and JavaScript are outside its supported encryption formats. See the [official Cfx Asset Escrow guide](https://docs.fivem.net/docs/server-manual/asset-escrow/).

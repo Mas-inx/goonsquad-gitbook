@@ -37,7 +37,7 @@ There is no public export to grant a free set, create currency or approve a cust
 
 | Data | Location |
 |---|---|
-| Worn selection | Qbox player metadata under `Config.MetadataKey` |
+| Worn selection | Framework character metadata under `Config.MetadataKey`; resource KVP on older ESX |
 | Worn descriptor | Replicated player state under the same key |
 | Station occupancy | Global state `gsn_station:<stationId>` |
 | Custom slot lease | Global state `gsn:<gender-letter><drawable>:<texture>` |

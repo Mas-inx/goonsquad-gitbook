@@ -52,4 +52,4 @@ These are the only intentional resource chat commands in the default release. Pl
 
 ## Management
 
-Configured duty targets allow staff to clock in/out. The boss target requires manager/boss status and the separately started `qbx_management` resource. Personnel/economy behavior in that boss menu comes from your management resource; GS Nails does not implement a separate society account.
+Configured duty targets allow staff to clock in/out when their framework exposes a duty state. Older ESX builds hide that target and count salon staff as on duty. The boss target requires manager/boss status and `qbx_management`, `qb-management` or `esx_society`, according to your framework. Personnel and society-account behavior comes from that management resource. GS Nails service payments credit the technician directly when `PayWorker` is enabled.

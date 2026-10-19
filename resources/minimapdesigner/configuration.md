@@ -8,15 +8,15 @@
 | `config/server.lua` | Admin identifier allowlist | No |
 | `server/credentials.lua` | Hosted media credentials | No |
 
-These files stay editable under Asset Escrow. Integration files and data are also excluded:
+Six explicit Lua files stay editable under Asset Escrow. The integration files are:
 
 | File or path | Purpose |
 |---|---|
 | `server/storage.lua` | Storage adapter and persistence |
 | `server/media.lua` | Media provider selection and upload bridge |
 | `client/postals.lua` | Postal exports, waypoint command and HUD readout |
-| `data/**` | Saved JSON designs, active pointer and thumbnails |
-| `custom_maps/**` | User-supplied map packs |
+
+Saved JSON designs, active pointers, thumbnails and custom YTD map packs remain runtime data. They do not need broad escrow exceptions. Preserve `data/` and `custom_maps/` when updating.
 
 The companion's `config.lua` has its own escrow exclusion. Other core Lua scripts remain eligible for escrow protection. JavaScript and NUI files are outside the currently supported [Cfx Asset Escrow formats](https://docs.fivem.net/docs/server-manual/asset-escrow/).
 
@@ -39,7 +39,7 @@ Config.Debug = false
 | `Command` | In-game command that opens the designer |
 | `AcePermission` | ACE that grants editor access; `false` disables this access path |
 | `DefaultDesign` | Fallback sheet name when there is no valid active pointer |
-| `SyncOnJoin` | Requests the published sheet on `playerSpawned`; resource start also requests it |
+| `SyncOnJoin` | Requests the published sheet once per session; later respawns reapply the cached design |
 | `Debug` | Additional server diagnostic output |
 
 `data/active.json` stores the published sheet name. It takes precedence over `DefaultDesign`. Use the editor's Publish action to switch the live sheet.

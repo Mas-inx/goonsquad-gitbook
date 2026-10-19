@@ -24,6 +24,7 @@ The release includes the compiled interface and the map renderer needed for live
 - Add text, images, snips and feathered heal patches to the map imagery
 - Manage layers, hide individual elements, duplicate selections, and undo or redo edits
 - Save multiple sheets with thumbnails and a catalogue that marks the published sheet as **LIVE**
+- Confirm saves/publishes with the server, protect rename/duplicate destinations and bake path/polygon/heal-only sheets
 
 ### Map Styling and Postals
 

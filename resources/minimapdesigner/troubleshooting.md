@@ -29,7 +29,7 @@ The release does not need `web/src/`, npm or `node_modules`. If the server rejec
 
 Text, images, postals, paths, polygons and heal patches need baked tiles. Native markers and circle/rectangle zones use a separate drawing path.
 
-In version 0.2.0, automatic baking is triggered by a changed base or theme, enabled postals, images, or text. A sheet containing only paths, polygons or heal patches on an otherwise unchanged vanilla map may not trigger a bake; use a non-vanilla base or a visible theme adjustment for those sheets.
+This 0.2.0 update also triggers automatic baking for visible paths, polygons and heal patches on an unchanged vanilla map. Keep **Bake onto radar tiles** enabled. Hidden layers do not trigger an imagery bake by themselves.
 
 The message mentioning `extra-map-tiles v2` refers to an unavailable tile overlay. The renderer is already bundled; check the streamed asset and conflicts rather than installing a second copy.
 
@@ -101,6 +101,12 @@ The export contains baked imagery, not native blips, circle/rectangle zone blips
 If files are not written, check resource-folder write permissions, use a valid export name and inspect both the client and server console. Exporting with an existing name replaces that output folder.
 
 ---
+
+## Saves, Renames or Publishing Fail
+
+The editor reports success only after the server confirms persistence. A failed save keeps the sheet dirty. A failed active-pointer write does not change the published sheet. Writes are serialized; retry a busy operation after the current upload/database request completes.
+
+Rename and duplicate require an unused destination name. If saving the destination or its thumbnail fails, the source is retained. Active sheets cannot be deleted. Restore write permissions/database connectivity and retry; keep a backup before moving existing projects.
 
 ## Getting Help
 

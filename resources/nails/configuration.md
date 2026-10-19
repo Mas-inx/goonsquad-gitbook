@@ -6,6 +6,7 @@ Edit `config.lua` for locations, limits, prices, presentation and language. Rest
 
 | Setting | Default | Purpose |
 |---|---|---|
+| `Framework` | `auto` | Detect the framework, or choose `qbox`, `qb`, `esx` |
 | `JobName` | `nailsalon` | Staff job identifier |
 | `AutoRegisterJob` | `true` | Register configured job at start |
 | `JobDefinition` | Four grades | Label, duty policy, wages and boss flags |
@@ -14,7 +15,9 @@ Edit `config.lua` for locations, limits, prices, presentation and language. Rest
 | `MinCharge / MaxCharge` | `1 / 5000` | Server-validated service charge range |
 | `Debug` | `false` | Additional diagnostics; no development commands are included |
 
-This release has no salon society-payment account. With `PayWorker = false`, service charges are removed from customers without a technician payout. Modify the server bridge if your economy requires separate routing.
+Service payments do not route to a salon society account. With `PayWorker = false`, service charges are removed from customers without a technician payout. Modify the server bridge if your economy requires separate routing.
+
+When `RequireOnDuty` is enabled, staff with an explicit off-duty state are denied technician access. Older ESX builds without `job.onDuty` count staff as on duty and hide the clock-in/out target.
 
 ## Nail Packs and Custom Designs
 
