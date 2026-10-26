@@ -233,3 +233,19 @@
 - [Administration](resources/dj-studio/administration.md)
 - [API & Exports](resources/dj-studio/exports.md)
 - [Troubleshooting](resources/dj-studio/troubleshooting.md)
+
+### GS Boombox + CarPlay
+
+- [Overview](resources/boombox-carplay/overview.md)
+- [Installation](resources/boombox-carplay/installation.md)
+- [Configuration](resources/boombox-carplay/configuration.md)
+- [Commands & Usage](resources/boombox-carplay/usage.md)
+- [Permissions & Administration](resources/boombox-carplay/permissions.md)
+- [Inventory Integration](resources/boombox-carplay/inventory.md)
+- [Radio & Custom Models](resources/boombox-carplay/models.md)
+- [Phones & QR Remotes](resources/boombox-carplay/phones.md)
+- [Audio Sources & Limits](resources/boombox-carplay/audio.md)
+- [Performance](resources/boombox-carplay/performance.md)
+- [Storage & Updates](resources/boombox-carplay/storage.md)
+- [API & Exports](resources/boombox-carplay/exports.md)
+- [Troubleshooting](resources/boombox-carplay/troubleshooting.md)

@@ -2,6 +2,24 @@
 
 All notable changes to Goonsquad Studios resources will be documented here.
 
+## GS Boombox + CarPlay 1.0.0
+
+- Added portable custom speakers, fitted car screens, shared queues, radio, linked playback and phone controls.
+- Added dashboard maps, vehicle features, real-phone pairing and guest queue QR codes.
+- Prepared production UI and optional NPWD app packages, seven explicit Lua escrow exceptions and clean default configuration.
+- Removed the public screen-test command, isolated saved simulator fixtures and corrected failed inventory transaction/refund handling.
+
+See [GS Boombox + CarPlay](resources/boombox-carplay/overview.md).
+
+## GS Minimap Designer 1.0.1
+
+- Updated the resource and UI package version to 1.0.1 and rebuilt the production interface.
+- Retained confirmed save/publish results, destination protection, empty-table migration and path/polygon/heal-only baking.
+- Corrected the map-renderer diagnostic to refer to the bundled renderer and streamed-asset conflicts.
+- Refreshed the runtime-only main/AI packages, six explicit Lua escrow exceptions, update guide and versioned marketing artwork.
+
+See [Minimap Designer updating](resources/minimapdesigner/updating.md).
+
 ## GS ScaleMenu 1.0.0 — Free Release
 
 - Added height/body-shape controls, live/manual preview, comparison ghost, orbit camera, ruler, presets, profiles and six languages.

@@ -1,6 +1,6 @@
-# Updating to 0.2.0
+# Updating to 1.0.1
 
-This is an update to an existing GS Minimap Designer installation. Keep the resource name `gs-minimapdesigner`. Replace the Lua/JavaScript runtime and compiled UI together; this update adds server-confirmed save/publish responses.
+This is an update to an existing GS Minimap Designer installation. Keep the resource name `gs-minimapdesigner`. Replace the Lua/JavaScript runtime and compiled UI together; version 1.0.1 includes server-confirmed save/publish responses and the current editor, storage and tile-baking fixes.
 
 ---
 
@@ -29,7 +29,7 @@ Changing storage backends does not migrate the full catalog. Keep the current ba
 
 ## Changes to Check
 
-- Version remains **0.2.0**, with author **Goonsquad Studios**.
+- Version is **1.0.1**, with author **Goonsquad Studios**.
 - Debug logging is off; normal editor/postal commands remain.
 - The manifest has six explicit Lua-only escrow exceptions. Runtime data/custom YTD maps need no broad ignore entries.
 - Saves/publishes report persistence failures; failed saves and edits made during a save remain dirty.

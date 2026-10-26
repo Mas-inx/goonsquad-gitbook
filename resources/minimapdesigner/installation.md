@@ -2,7 +2,7 @@
 
 This guide covers the release package for GS Minimap Designer. The compiled interface is included.
 
-Already installed? Follow [Updating to 0.2.0](updating.md) to preserve sheets, the published pointer, custom maps and credentials.
+Already installed? Follow [Updating to 1.0.1](updating.md) to preserve sheets, the published pointer, custom maps and credentials.
 
 ---
 

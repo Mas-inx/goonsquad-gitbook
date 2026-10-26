@@ -29,7 +29,7 @@ The release does not need `web/src/`, npm or `node_modules`. If the server rejec
 
 Text, images, postals, paths, polygons and heal patches need baked tiles. Native markers and circle/rectangle zones use a separate drawing path.
 
-This 0.2.0 update also triggers automatic baking for visible paths, polygons and heal patches on an unchanged vanilla map. Keep **Bake onto radar tiles** enabled. Hidden layers do not trigger an imagery bake by themselves.
+This 1.0.1 update also triggers automatic baking for visible paths, polygons and heal patches on an unchanged vanilla map. Keep **Bake onto radar tiles** enabled. Hidden layers do not trigger an imagery bake by themselves.
 
 The message mentioning `extra-map-tiles v2` refers to an unavailable tile overlay. The renderer is already bundled; check the streamed asset and conflicts rather than installing a second copy.
 

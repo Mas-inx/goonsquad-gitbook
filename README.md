@@ -8,6 +8,7 @@ Prices are listed in USD. Follow the package link for the current checkout price
 
 | Resource | Price | Framework | Links |
 |----------|-------|-----------|---------|
+| [GS Boombox + CarPlay](resources/boombox-carplay/overview.md) | — | Standalone / Qbox / QBCore / ESX | [Installation](resources/boombox-carplay/installation.md) · [Usage](resources/boombox-carplay/usage.md) |
 | [GS ScaleMenu](resources/scalemenu/overview.md) | Free | Standalone / Qbox / QBCore / ESX | [Installation](resources/scalemenu/installation.md) · [Usage](resources/scalemenu/usage.md) |
 | [GS Nails](resources/nails/overview.md) | — | Qbox / QBCore / ESX | [Installation](resources/nails/installation.md) · [Usage](resources/nails/usage.md) |
 | [GS La Flavia](resources/laflavia/overview.md) | — | Qbox / QBCore / ESX | [Installation](resources/laflavia/installation.md) · [Usage](resources/laflavia/usage.md) |
