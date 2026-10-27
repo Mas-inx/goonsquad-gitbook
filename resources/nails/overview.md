@@ -5,7 +5,7 @@ GS Nails brings a working nail salon and a custom nail-art studio to FiveM. Seat
 **Version:** 1.0.0 | **Author:** Goonsquad Studios | **Resource:** `gs_nails`
 
 {% hint style="info" %}
-The default five manicure stations are aligned to the separately installed Fable nail salon interior near -590, -1134. The interior is not included. Female nails are enabled by default; the included male pack can be enabled in configuration.
+The default five manicure stations are aligned to the separately installed Silhouette nail salon interior near -590, -1134. The interior is not included. Female nails are enabled by default; the included male pack can be enabled in configuration.
 {% endhint %}
 
 ---

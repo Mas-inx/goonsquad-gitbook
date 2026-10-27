@@ -12,7 +12,7 @@ If the stream pack was replaced while the server was running, perform a full ser
 
 ## Chairs, Hands or Brush Do Not Align
 
-The default stations expect the separate Fable nail salon interior. Check that map, then measure the client/tech seat coordinates, headings, entry offsets, targets and hand-camera points. Other furniture can require different alignment. Confirm `stream/anim/` contains both animation dictionaries and the brush prop/type definition.
+The default stations expect the separate Silhouette nail salon interior. Check that map, then measure the client/tech seat coordinates, headings, entry offsets, targets and hand-camera points. Other furniture can require different alignment. Confirm `stream/anim/` contains both animation dictionaries and the brush prop/type definition.
 
 ## Staff Cannot Open the Menu
 

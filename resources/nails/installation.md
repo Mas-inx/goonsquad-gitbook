@@ -7,7 +7,7 @@
 - `oxmysql`, `ox_lib` and `ox_target`
 - A configured database connection with permission to create/alter the designs table
 - Female/male freemode characters; female is enabled by default
-- The Fable nail salon map for the default measured stations, or relocated configuration and matching furniture
+- The Silhouette nail salon map for the default measured stations, or relocated configuration and matching furniture
 - Optional `qbx_management`, `qb-management` or `esx_society` for your framework's boss menu
 
 ## Install the Resource

@@ -30,7 +30,7 @@ The nails use addon collections `mp_f_gs_nails` and `mp_m_gs_nails` on component
 
 `ox_target` is required for chairs, kiosks, duty and management points. `ox_lib` handles prompts, notifications, keybinds and callbacks. The optional boss-menu resource is `qbx_management` for Qbox, `qb-management` for QBCore, or `esx_society` for ESX. Start it and its dependencies before GS Nails, or disable the boss target. See [Installation](installation.md) for ESX job and society setup.
 
-The salon map is separate. The default station positions were built for the Fable nail salon interior. Manicure clips, gesture clips and brush prop are included in `stream/anim/`; the salon building/furniture map is not. Measure new seats, origins, target points and cameras when relocating.
+The salon map is separate. The default station positions were built for the Silhouette nail salon interior. Manicure clips, gesture clips and brush prop are included in `stream/anim/`; the salon building/furniture map is not. Measure new seats, origins, target points and cameras when relocating.
 
 ## Hosted Images
 
