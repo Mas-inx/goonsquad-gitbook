@@ -105,6 +105,12 @@ Hosted images must remain accessible to players. Backing up the design JSON pres
 
 ---
 
+## Tile Resolution
+
+`Config.TileResolution = 1024` controls the width and height of each live baked tile. The UI accepts values from 256 to 2048 and rounds them to whole pixels. A value of 2048 moves four times the pixel data of 1024. Streaming exports remain 2048 × 2048 regardless of this setting.
+
+---
+
 ## Radar and Postal HUD
 
 ```lua

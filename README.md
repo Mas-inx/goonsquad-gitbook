@@ -8,6 +8,9 @@ Prices are listed in USD. Follow the package link for the current checkout price
 
 | Resource | Price | Framework | Links |
 |----------|-------|-----------|---------|
+| [GS Ice Cream Parlour](resources/icecream-parlour/overview.md) | — | Qbox / QBCore / ESX | [Installation](resources/icecream-parlour/installation.md) · [Usage](resources/icecream-parlour/usage.md) |
+| [GS Nail Salon — Silhouette](resources/silhouette/overview.md) | — | Standalone / optional Qbox, QBCore, ESX | [Installation](resources/silhouette/installation.md) · [Updating](resources/silhouette/updating.md) |
+| [GS Coastline Customs](resources/coastline-customs/overview.md) | — | Standalone | [Installation](resources/coastline-customs/installation.md) · [Doors](resources/coastline-customs/doors.md) |
 | [GS Boombox + CarPlay](resources/boombox-carplay/overview.md) | — | Standalone / Qbox / QBCore / ESX | [Installation](resources/boombox-carplay/installation.md) · [Usage](resources/boombox-carplay/usage.md) |
 | [GS ScaleMenu](resources/scalemenu/overview.md) | Free | Standalone / Qbox / QBCore / ESX | [Installation](resources/scalemenu/installation.md) · [Usage](resources/scalemenu/usage.md) |
 | [GS Nails](resources/nails/overview.md) | — | Qbox / QBCore / ESX | [Installation](resources/nails/installation.md) · [Usage](resources/nails/usage.md) |
@@ -46,6 +49,12 @@ Prices are listed in USD. Follow the package link for the current checkout price
 - [Discord](https://discord.gg/NbYFkb7QgM)
 
 ## Quick Links
+
+- [GS Ice Cream Parlour Installation](resources/icecream-parlour/installation.md)
+
+- [GS Nail Salon — Silhouette Installation](resources/silhouette/installation.md)
+
+- [GS Coastline Customs Installation](resources/coastline-customs/installation.md)
 
 - [GS BellaBody Installation](resources/bellabody/installation.md)
 

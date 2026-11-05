@@ -74,6 +74,8 @@ For the stock map grid, the exported textures can run without the designer. Avoi
 
 It contains the baked raster imagery: the selected base, colour adjustments, polygon zones, paths, text, images, heal patches and postal artwork.
 
+The live renderer’s surrounding sea-colour fill beyond the tile grid is not part of the texture-only export. Uncovered areas inside exported tiles use the sampled base sea colour.
+
 Native blips, circular and rectangular zone blips, HUD colour overrides, `/postal` routing and the postal HUD are runtime features. They are not recreated by the texture-only export. Keep the designer running with the relevant design, or implement those features in your own integration.
 
 ### Cayo Perico

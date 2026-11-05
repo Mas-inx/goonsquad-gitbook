@@ -29,9 +29,13 @@ The release does not need `web/src/`, npm or `node_modules`. If the server rejec
 
 Text, images, postals, paths, polygons and heal patches need baked tiles. Native markers and circle/rectangle zones use a separate drawing path.
 
-This 1.0.1 update also triggers automatic baking for visible paths, polygons and heal patches on an unchanged vanilla map. Keep **Bake onto radar tiles** enabled. Hidden layers do not trigger an imagery bake by themselves.
+This 1.0.2 update also triggers automatic baking for visible paths, polygons and heal patches on an unchanged vanilla map. Keep **Bake onto radar tiles** enabled. Hidden layers do not trigger an imagery bake by themselves.
 
-The message mentioning `extra-map-tiles v2` refers to an unavailable tile overlay. The renderer is already bundled; check the streamed asset and conflicts rather than installing a second copy.
+The warning that the bundled map renderer is unavailable means the tile overlay could not be drawn. Check the streamed asset and conflicts.
+
+### The Outer Sea Has a Seam or Shows the Blurred World
+
+Install the 1.0.2 Lua runtime and compiled UI together, then apply or publish the sheet again. The interface sends the sampled, themed sea colour to the live renderer. Check atlas, satellite and custom imagery at the south edge and when fully zoomed out. The live surrounding fill is separate from exported YTD imagery; texture-only exports do not include those live fill bars.
 
 ### It Works on the Pause Map but Not the Small Radar
 

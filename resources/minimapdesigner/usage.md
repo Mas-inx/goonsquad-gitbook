@@ -59,6 +59,8 @@ Colour bands pull pixels near a sampled colour toward a target colour. Adjust th
 
 HUD colour overrides affect the map's vector colours separately.
 
+Version 1.0.2 samples the base imagery’s outer rim to match the sea colour in uncovered tile regions. The live renderer paints the surrounding area beyond the tile grid with that colour after applying your theme. It sits beneath map tiles and Cayo cells and clears with **Restore vanilla**.
+
 Keep **Bake onto radar tiles** enabled for text, images, paths, polygons, heal patches, postals and recoloured imagery to appear on the live map. Native blips and circular or rectangular zones are handled separately.
 
 **Restore vanilla** clears the local tile preview. To change what everyone sees or what loads next time, publish the intended sheet.
@@ -83,7 +85,7 @@ Use the full displayed code, including a configured prefix or zero-padding. The 
 
 Open the folder button beside the sheet name to switch, rename, duplicate or delete sheets. The **LIVE** marker identifies the published sheet.
 
-The active sheet cannot be deleted. Publish another sheet first. Use a new name for duplicates and renames: writing to an existing name can replace that saved design.
+The active sheet cannot be deleted. Publish another sheet first. Use a new name for duplicates and renames; existing destination names are refused. Saving a draft under an existing sheet name updates that sheet.
 
 ---
 

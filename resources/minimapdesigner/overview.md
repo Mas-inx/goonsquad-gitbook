@@ -2,7 +2,7 @@
 
 GS Minimap Designer is an in-game map design studio for FiveM. Build blips, zones, labels, images and postal grids over the map, recolour its imagery, preview the result on your radar, and publish it to everyone on the server.
 
-These pages document version **1.0.1**.
+These pages document version **1.0.2**.
 
 **Price:** $19.99 | [Buy on Tebex](https://store.goonsquadstudios.com/package/7679716)
 
@@ -28,6 +28,7 @@ The release includes the compiled interface and the map renderer needed for live
 
 ### Map Styling and Postals
 
+- Match uncovered imagery and the live map surround to the selected base’s sea colour, including theme adjustments
 - Remap individual colour bands and adjust global hue, saturation, lightness and contrast
 - Override HUD map colours separately from the baked imagery
 - Frame, rotate and number a postal grid, with configurable labels, lines and cell fills

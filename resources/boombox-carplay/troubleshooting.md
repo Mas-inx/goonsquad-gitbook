@@ -8,6 +8,7 @@ not PASS has a `fix:` line under it.
 | `/boombox` does nothing, F8: `the interface page has not loaded` | `web/dist` is missing (installed the source instead of the release zip) or another resource broke NUI; doctor line "Interface page (NUI)" |
 | Panel opens, no sound | muted (`/gsbc mute`), "My volume" at 0, FiveM muted in Windows, or doctor "Audio engine" not `running` |
 | Built-in tracks play, links do not | the link is not a direct audio file, is not https, or uses AAC; the red message names the browser's reason |
+| Built-in tracks play, live radio does not | Check the station’s current direct HTTPS MP3 address in `config/stations.lua` and provider access from your deployed server. The bundled SomaFM presets use the provider’s published `ice5.somafm.com` endpoints; verify updated presets in FiveM before launch. |
 | A link plays but has no direction | its host sends no CORS headers ([Audio Sources & Limits](audio.md)) |
 | Others hear a different part of the song | compare both players' doctor lines "Server sync" and "Speakers in range"; a file host without range requests ([Audio Sources & Limits](audio.md)) |
 | No dashboard screen in the car | `/gsbc doctor`: check the screen heartbeat, installed screen item and the model's position/rotation in `config/props.lua` |

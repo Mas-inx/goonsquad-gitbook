@@ -2,6 +2,32 @@
 
 All notable changes to Goonsquad Studios resources will be documented here.
 
+## GS Ice Cream Parlour 1.0.0
+
+- Prepared the three-location parlour job with four machines, orders/trays, supplies, boss management and per-job society accounts.
+- Blocked purchases before order/account restoration, guarded tray transfers during settlement and queued failed packing/deposit rollback credits for retry.
+- Honored explicit ESX operation failures, removed the machine hash-preview helper, bundled the local font and minified runtime UI.
+- Added 24 explicit Lua escrow exceptions and nine technical documentation pages.
+
+See [GS Ice Cream Parlour](resources/icecream-parlour/overview.md).
+
+## GS Nail Salon — Silhouette 1.0.1
+
+- Prepared the salon map and receptionist directory update with the original gs_nailsalon scenario path and build 3258 requirement.
+- Cancelled delayed opening on close, cleaned pending camera releases on stop and checked current directory access before actions.
+- Narrowed escrow exceptions to config, access and target adapters; minified runtime UI and retained font/icon notices.
+- Added installation, update, configuration, usage, integration and troubleshooting documentation.
+
+See [GS Nail Salon — Silhouette](resources/silhouette/overview.md).
+
+## GS Coastline Customs 1.0.0
+
+- Added standalone map installation and integration documentation under the public resource name gs_coastlinecustoms.
+- Documented nine custom door models, vanilla-object hides, local effects, ambient-pedestrian handling and room visibility.
+- Prepared the runtime-only map package with a single editable Lua hide-list exception and no commands.
+
+See [GS Coastline Customs](resources/coastline-customs/overview.md).
+
 ## GS Boombox + CarPlay 1.0.0
 
 - Added portable custom speakers, fitted car screens, shared queues, radio, linked playback and phone controls.
@@ -10,6 +36,14 @@ All notable changes to Goonsquad Studios resources will be documented here.
 - Removed the public screen-test command, isolated saved simulator fixtures and corrected failed inventory transaction/refund handling.
 
 See [GS Boombox + CarPlay](resources/boombox-carplay/overview.md).
+
+## GS Minimap Designer 1.0.2
+
+- Match uncovered atlas, satellite and custom-pack imagery to the base map’s median edge sea colour.
+- Fill the live radar/pause-map area beyond the tile grid with the themed sea colour, beneath map tiles and Cayo cells.
+- Rebuilt the production UI and refreshed runtime-only packages, update guidance and configuration documentation.
+
+See [Minimap Designer updating](resources/minimapdesigner/updating.md).
 
 ## GS Minimap Designer 1.0.1
 

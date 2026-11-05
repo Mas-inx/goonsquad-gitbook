@@ -7,6 +7,38 @@
 
 ## Resources
 
+### GS Ice Cream Parlour
+
+- [Overview](resources/icecream-parlour/overview.md)
+- [Installation](resources/icecream-parlour/installation.md)
+- [Configuration](resources/icecream-parlour/configuration.md)
+- [Usage](resources/icecream-parlour/usage.md)
+- [Economy & Storage](resources/icecream-parlour/economy.md)
+- [Integrations](resources/icecream-parlour/integrations.md)
+- [API & Exports](resources/icecream-parlour/exports.md)
+- [Replacing a Development Copy](resources/icecream-parlour/updating.md)
+- [Troubleshooting](resources/icecream-parlour/troubleshooting.md)
+
+
+### GS Nail Salon — Silhouette
+
+- [Overview](resources/silhouette/overview.md)
+- [Installation](resources/silhouette/installation.md)
+- [Updating to 1.0.1](resources/silhouette/updating.md)
+- [Configuration](resources/silhouette/configuration.md)
+- [Usage](resources/silhouette/usage.md)
+- [API & Integrations](resources/silhouette/exports.md)
+- [Troubleshooting](resources/silhouette/troubleshooting.md)
+
+
+### GS Coastline Customs
+
+- [Overview](resources/coastline-customs/overview.md)
+- [Installation](resources/coastline-customs/installation.md)
+- [Configuration & Integration](resources/coastline-customs/configuration.md)
+- [Doors](resources/coastline-customs/doors.md)
+- [Troubleshooting](resources/coastline-customs/troubleshooting.md)
+
 ### GS ScaleMenu (Free)
 
 - [Overview](resources/scalemenu/overview.md)

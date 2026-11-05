@@ -1,6 +1,6 @@
-# Updating to 1.0.1
+# Updating to 1.0.2
 
-This is an update to an existing GS Minimap Designer installation. Keep the resource name `gs-minimapdesigner`. Replace the Lua/JavaScript runtime and compiled UI together; version 1.0.1 includes server-confirmed save/publish responses and the current editor, storage and tile-baking fixes.
+This is an update to an existing GS Minimap Designer installation. Keep the resource name `gs-minimapdesigner`. Replace the Lua/JavaScript runtime and compiled UI together; version 1.0.2 improves sea-colour matching at imagery edges and fills the surrounding live map with the themed sea colour. Earlier save, storage and baking fixes are retained.
 
 ---
 
@@ -29,7 +29,8 @@ Changing storage backends does not migrate the full catalog. Keep the current ba
 
 ## Changes to Check
 
-- Version is **1.0.1**, with author **Goonsquad Studios**.
+- Version is **1.0.2**, with author **Goonsquad Studios**.
+- Uncovered atlas, satellite and custom-pack tile regions use the median sea colour sampled from that base. The live renderer fills the area beyond the tile grid with the themed sea colour, beneath tiles and Cayo cells.
 - Debug logging is off; normal editor/postal commands remain.
 - The manifest has six explicit Lua-only escrow exceptions. Runtime data/custom YTD maps need no broad ignore entries.
 - Saves/publishes report persistence failures; failed saves and edits made during a save remain dirty.
@@ -44,7 +45,7 @@ Changing storage backends does not migrate the full catalog. Keep the current ba
 2. Save a draft and publish it; confirm another player receives it.
 3. Rename/duplicate a test sheet, and confirm an existing destination is protected.
 4. Publish a sheet with only a path, polygon or heal patch on vanilla imagery; verify tiles bake.
-5. Test postals, HUD placement, radar/pause map, a custom map pack and a stream export.
+5. Test postals, HUD placement, radar/pause map, a custom map pack and a stream export. Zoom out on atlas/satellite and a recoloured map; check sea-colour continuity at the southern edge and beyond the tile grid, including Cayo. Confirm Restore vanilla removes the surrounding fill too.
 6. Restart/rejoin and confirm the preserved published pointer loads the expected sheet.
 7. If installed, test the companion with a real configured provider and two authorized users.
 
