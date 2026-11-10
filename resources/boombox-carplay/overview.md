@@ -2,7 +2,7 @@
 
 Portable speakers and a dashboard media system with shared server playback, portable speaker props, fitted screens and phone controls.
 
-**Version:** 1.0.0 | **Author:** Goonsquad Studios | **Resource:** `gs-boombox-carplay`
+**Version:** 1.0.2 | **Author:** Goonsquad Studios | **Resource:** `gs-boombox-carplay`
 
 ## Features
 

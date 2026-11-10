@@ -8,19 +8,19 @@
    add_ace group.admin gsbc.admin allow
    ```
    If you use ESX / QBCore / QBox / ox_inventory / oxmysql, start them **before** this line.
+   For the native ESX inventory, follow the item SQL and start order in [Inventory](inventory.md#native-esx-inventory).
 3. Make sure OneSync is on (`set onesync on`). It works without, but then the server has to
    believe clients about where they are (the doctor tells you).
 4. Start the server. The console prints one line:
    ```
-   [gsbc] INFO  started v1.0.0 | framework=standalone | items=standalone | store=file (...) | onesync=on | stations=6 | demo tracks=3
+   [gsbc] INFO  started v1.0.2 | framework=standalone | items=standalone | store=file (...) | onesync=on | stations=6 | demo tracks=3
    ```
    A typo in a config file is printed right below it as `[gsbc] WARN  config.lua: ...`.
 
-There is nothing to build and no database to set up. The folder `data/` inside the resource must
-stay there and be writable: playlists and queues are saved in it.
+The release comes prebuilt and uses file storage by default. Keep `data/` inside the resource writable so playlists and queues can be saved there.
 
 Requirements: a current FiveM server artifact (the manifest uses `lua54`). No framework is required. With no inventory, set `Config.Boombox.item.required = false` and
-`Config.Shop.enabled = false` so ordinary players can place speakers. The default shop requires `ox_inventory`.
+`Config.Shop.enabled = false` so ordinary players can place speakers. The speaker shop supports `ox_inventory` and native ESX inventory. See [Inventory](inventory.md#native-esx-inventory) for the native shop requirements.
 
 ## Inventory and First Use
 

@@ -144,10 +144,9 @@ The Boombox app is added by itself to the phone script the server runs - **lb-ph
 
 ### `Config.Shop` - the speaker shop
 
-A vendor who sells the speakers as items (ox_inventory: its own shop window, its money). They
-stand at `coords` with two of the speakers on show beside them and a blip on the map; the eye
-target on them opens the shop. The items must be in `ox_inventory/data/items.lua` ([Inventory](inventory.md)):
-one that is not is left out of the shop, with a warning in the server console.
+The vendor sells speakers and car screens at `coords`. Two speakers are on display and a blip marks the shop on the map. Use `ox_target` or `qb-target` to browse. With native ESX inventory, press **E** nearby if you do not use a target.
+
+Servers with `ox_inventory` use its shop window. With native ESX inventory, the shop uses `ox_lib` when available and falls back to `esx_context`. It requires OneSync and charges cash for each item. Define the items first using the [inventory setup](inventory.md). Undefined items are skipped with a server warning.
 
 | Option | Default | Meaning |
 |---|---|---|
@@ -159,7 +158,7 @@ one that is not is left out of the shop, with a warning in the server console.
 | `scenario` | `'WORLD_HUMAN_STAND_IMPATIENT'` | What the vendor does while waiting (`false`: stands still). |
 | `blip` | `sprite = 136, colour = 27, scale = 0.8` | The map blip; `false` for none. |
 | `display` | the party speaker and the RGB boombox | Speakers on show: `prop` (an id from `config/props.lua`), `offset` (`vector2`: metres to the vendor's right, forward) and `heading` (degrees, turned from the vendor's). |
-| `items` | the five GOONSQUAD speakers | What is for sale: `{ item = '...', price = ... }`. |
+| `items` | five speakers and four car screens | What is for sale: `{ item = '...', price = ... }`. |
 
 ### `Config.Car`
 

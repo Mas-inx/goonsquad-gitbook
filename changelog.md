@@ -2,6 +2,22 @@
 
 All notable changes to Goonsquad Studios resources will be documented here.
 
+## GS Boombox + CarPlay 1.0.2
+
+- Added the speaker and fitted screen vendor for native ESX inventory.
+- The vendor can use either supported menu provider and offers an **E** prompt when a target resource is absent.
+- The server checks vendor distance, stock, cash, and inventory capacity before completing a purchase. It refunds the debit if granting the item fails.
+
+See [Boombox + CarPlay inventory setup](resources/boombox-carplay/inventory.md#native-esx-inventory).
+
+## GS Boombox + CarPlay 1.0.1
+
+- Added native ESX inventory support for speakers, CarPlay kits and fitted screens, with SQL for all 11 default items.
+- Item use waits for the native inventory to close before opening placement or fitting controls. Hotbar use starts immediately when the inventory is closed.
+- Invalid item names are skipped with a warning so they do not stop registration of the remaining items.
+
+See [Boombox + CarPlay inventory setup](resources/boombox-carplay/inventory.md).
+
 ## GS Ice Cream Parlour 1.0.0
 
 - Prepared the three-location parlour job with four machines, orders/trays, supplies, boss management and per-job society accounts.
