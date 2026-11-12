@@ -7,6 +7,15 @@
 
 ## Resources
 
+### LUMA Café, Bar & Lounge
+
+- [Overview](resources/lumacafe/overview.md)
+- [Installation](resources/lumacafe/installation.md)
+- [Configuration](resources/lumacafe/configuration.md)
+- [Usage](resources/lumacafe/usage.md)
+- [API & Integrations](resources/lumacafe/exports.md)
+- [Troubleshooting](resources/lumacafe/troubleshooting.md)
+
 ### GS Ice Cream Parlour
 
 - [Overview](resources/icecream-parlour/overview.md)

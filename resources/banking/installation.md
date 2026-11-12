@@ -58,13 +58,10 @@ Only `oxmysql` is a hard resource dependency. Remove optional lines that your se
 
 ## Step 3: Secure the PIN Pepper
 
-Open `config/config.lua` and replace the shipped PIN pepper with a long, server-specific secret before players create PINs:
+Set a long, server-specific PIN pepper in `config/server.lua` before players create PINs:
 
 ```lua
-Config.Security = {
-    pepper = 'replace-this-with-a-long-random-server-secret',
-    -- other settings...
-}
+Config.Security.pepper = 'replace-this-with-a-long-random-server-secret'
 ```
 
 The pepper is mixed into every banking and card PIN hash.
@@ -73,7 +70,7 @@ The pepper is mixed into every banking and card PIN hash.
 Set the pepper once and keep it private. Changing it after players create PINs invalidates those PINs. Do not publish it in screenshots, logs, or public repositories.
 {% endhint %}
 
-If the shipped placeholder is left in place on a new installation, GS Banking generates and stores a random pepper. Supplying your own value before first use is still recommended because it makes backup and recovery behavior explicit.
+If the pepper is left blank on a new installation, GS Banking generates and stores a random pepper. Supplying your own value before first use is still recommended because it makes backup and recovery behavior explicit.
 
 ---
 
@@ -233,13 +230,9 @@ See [API & Exports](exports.md) for the supported compatibility surface.
 
 ---
 
-## Demo Mode
+## Updating from 1.0.0
 
-For UI previews on a development server:
-
-```lua
-Config.DemoMode = true
-```
-
-Demo mode uses bundled interface data, performs no database writes, and disables scheduled processing. Never use it on a live economy.
-
+1. Back up the banking database and your current config.
+2. Stop the resource and replace it with the 1.0.1 folder. Merge your custom settings into the new files.
+3. Move your custom PIN pepper and logging settings from `config/config.lua` to `config/server.lua`. Keep the exact PIN pepper so existing PINs still work. If you used the shipped default or an automatically generated pepper, leave the new field blank so the database can supply the existing value.
+4. Restart and verify the startup version, existing balances, PINs, and the invitation flow with two characters.

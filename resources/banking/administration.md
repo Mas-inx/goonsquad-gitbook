@@ -118,7 +118,7 @@ Framework checking balances are not duplicated. On Qbox, QBCore, and ESX, the de
 
 ## Economy Reports and Logging
 
-Configure category-specific Discord webhooks in `Config.Webhooks`.
+Configure category-specific Discord webhooks in `Config.Webhooks` in `config/server.lua`.
 
 | Category | Typical entries |
 |---|---|
@@ -135,7 +135,7 @@ Configure category-specific Discord webhooks in `Config.Webhooks`.
 
 Set `Config.EconomyReportAt = 'HH:MM'` to send a daily economy report using server time.
 
-Optional external sinks are available under `Config.LogServices` for FiveMerr, Datadog, and a generic JSON HTTP endpoint. Keep service keys file-side and private.
+Optional external sinks are available in `config/server.lua` under `Config.LogServices` for FiveMerr, Datadog, and a generic JSON HTTP endpoint. Keep service keys file-side and private.
 
 ---
 
@@ -170,16 +170,4 @@ One server scheduler handles:
 - Weekly maintenance fees, wealth tax, and dividends
 
 Daily jobs use persistent latches so a resource restart does not run the same settlement twice.
-
----
-
-## Demo and Development Data
-
-`Config.DemoMode = true` is safe for UI previews because it disables persistent mutations and the scheduler.
-
-Some development copies of the resource may include `server/dev_seed.lua` and the `/gsseed` command. That command creates or clears large amounts of demonstration banking data.
-
-{% hint style="warning" %}
-Before a production release, follow the comment in `fxmanifest.lua` and remove the development seed entry/file if it is still present. Never expose seed tooling to ordinary staff.
-{% endhint %}
 

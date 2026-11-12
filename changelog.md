@@ -2,6 +2,22 @@
 
 All notable changes to Goonsquad Studios resources will be documented here.
 
+## LUMA Café, Bar & Lounge 1.0.0
+
+- Added the four-level venue, from the ground-floor café to the rooftop bar and pool.
+- Added the synchronized lift, landing displays, cabin touchscreen and optional job rules.
+- Added standalone key prompts, optional target and notification adapters, and a setting for script-placed props on the lot.
+
+See [LUMA Café, Bar & Lounge](resources/lumacafe/overview.md).
+
+## GS Banking 1.0.1
+
+- Added pending shared-account invitations with Accept and Decline actions. Access starts only after the invitee accepts.
+- Moved the PIN pepper and logging credentials to server-only config and kept webhook overrides out of client sync.
+- Removed demo commands and sample data from the production build.
+
+See [GS Banking updating](resources/banking/installation.md#updating-from-100).
+
 ## GS Boombox + CarPlay 1.0.2
 
 - Added the speaker and fitted screen vendor for native ESX inventory.

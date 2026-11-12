@@ -34,8 +34,7 @@ Live overrides are stored in the database and applied over the Lua defaults afte
 The following stay file-only for security or because they require code/functions:
 
 - Framework and bridge forcing
-- `Config.Security.pepper`
-- `Config.DemoMode`
+- `Config.Security.pepper` in `config/server.lua`
 - PIN length
 - Loan score-to-rate function
 - External logging credentials
@@ -50,7 +49,6 @@ Settings marked as requiring a restart are saved immediately but bind after the 
 Config.Locale = 'en'
 Config.Currency = '$'
 Config.Debug = false
-Config.DemoMode = false
 
 Config.Branding = {
     bankName = 'Gruppe Sechs',
@@ -138,14 +136,13 @@ Config.Cash = {
 
 Config.OpenCommand = 'bank'
 Config.OpenKeybind = false
-Config.AtmCommand = false
 Config.InteractDist = 2.0
 Config.RequireCardAtAtm = false
 ```
 
 Set `Cash.asItem = true` only when carried cash is an inventory item. Deposits and withdrawals then add or remove `Config.Cash.item` through the inventory bridge.
 
-`OpenKeybind` registers a FiveM-mappable keybind. `AtmCommand` is intended for development; normal ATMs are opened by targeting configured ATM models.
+`OpenKeybind` registers a FiveM-mappable keybind. Players open ATMs by targeting configured ATM models.
 
 ---
 
@@ -416,7 +413,7 @@ The resource does not provide an ATM robbery minigame. A heist resource calls `D
 
 ## Logging and Performance
 
-`Config.Webhooks` provides separate Discord destinations for transactions, accounts, cards, loans, invoices, society actions, administration, security, economy reports, and reconciliation.
+`Config.Webhooks` in `config/server.lua` provides separate Discord destinations for transactions, accounts, cards, loans, invoices, society actions, administration, security, economy reports, and reconciliation.
 
 Empty webhook strings disable that category.
 

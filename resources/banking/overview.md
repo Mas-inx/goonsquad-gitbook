@@ -2,7 +2,7 @@
 
 An advanced, server-authoritative banking system for FiveM with personal and shared accounts, cards and ATMs, lending, savings, investments, business banking, taxes, administration tools, and compatibility bridges for existing resources.
 
-**Version:** 1.0.0 | **Price:** $19.99 | [Buy on Tebex](https://store.goonsquadstudios.com/package/7619455)
+**Version:** 1.0.1 | **Price:** $19.99 | [Buy on Tebex](https://store.goonsquadstudios.com/package/7619455)
 
 **Product page:** [goonsquadstudios.com/banking](https://goonsquadstudios.com/banking) — full feature breakdown, FAQ and guides
 
@@ -26,6 +26,7 @@ An advanced, server-authoritative banking system for FiveM with personal and sha
 - Invite-and-accept shared-account membership
 - Per-member permission matrix for view, deposit, withdraw, transfer, invoice, payroll, manage, and close access
 - Optional daily spending limits per member
+- Pending shared-account invitations with Accept and Decline actions
 - Account conversion and ownership transfer for eligible internal accounts
 - Automatically created job and gang accounts
 - Employee salary controls, payroll runs, business analytics, and audit attribution

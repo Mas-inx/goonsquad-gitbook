@@ -57,6 +57,10 @@ The server checks the product limit, total account cap, minimum deposit, funding
 | Business | Operating account with business tools |
 | Job/Gang | Society account created for an eligible organization |
 
+### Shared Account Invitations
+
+Open **Accounts → Pending invitations**. Select **Accept** to add the account to your list with the permissions assigned by the inviter. Select **Decline** to remove the invitation. The account stays off your list until you accept.
+
 ### Account Management
 
 Eligible owners and managers can:

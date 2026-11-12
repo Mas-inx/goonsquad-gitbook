@@ -48,7 +48,7 @@ Fix the reported field or restore its live override, then restart.
 
 ### Tables exist but nothing persists
 
-Confirm `Config.DemoMode = false`. Demo mode performs no banking database writes and disables scheduled jobs.
+Check the startup and database logs for write or permission errors. The resource needs permission to write to its configured database.
 
 ---
 
@@ -173,7 +173,7 @@ Confirm the configured item name matches the inventory definition exactly.
 
 ### Existing PINs stopped working after configuration changes
 
-Restore the original `Config.Security.pepper`. PIN hashes cannot be verified with a different pepper.
+Restore the original `Config.Security.pepper` in `config/server.lua`. PIN hashes cannot be verified with a different pepper.
 
 If the original is permanently lost, a deliberate PIN reset/migration is required. Back up the database and plan the reset rather than repeatedly changing the pepper.
 
@@ -273,7 +273,6 @@ Interest is scheduled at `Config.Savings.payoutHour` and uses balance snapshots.
 
 - Confirm investments are enabled.
 - Confirm `Config.Investments.tickMinutes` is valid.
-- Confirm `Config.DemoMode = false` so the scheduler runs.
 - Check the market tables and server console for tick errors.
 
 ---

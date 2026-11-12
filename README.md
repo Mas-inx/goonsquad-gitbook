@@ -8,6 +8,7 @@ Prices are listed in USD. Follow the package link for the current checkout price
 
 | Resource | Price | Framework | Links |
 |----------|-------|-----------|---------|
+| [LUMA Café, Bar & Lounge](resources/lumacafe/overview.md) | — | Standalone / optional Qbox, QBCore, ESX | [Installation](resources/lumacafe/installation.md) · [Usage](resources/lumacafe/usage.md) |
 | [GS Ice Cream Parlour](resources/icecream-parlour/overview.md) | — | Qbox / QBCore / ESX | [Installation](resources/icecream-parlour/installation.md) · [Usage](resources/icecream-parlour/usage.md) |
 | [GS Nail Salon — Silhouette](resources/silhouette/overview.md) | — | Standalone / optional Qbox, QBCore, ESX | [Installation](resources/silhouette/installation.md) · [Updating](resources/silhouette/updating.md) |
 | [GS Coastline Customs](resources/coastline-customs/overview.md) | — | Standalone | [Installation](resources/coastline-customs/installation.md) · [Doors](resources/coastline-customs/doors.md) |
@@ -49,6 +50,8 @@ Prices are listed in USD. Follow the package link for the current checkout price
 - [Discord](https://discord.gg/NbYFkb7QgM)
 
 ## Quick Links
+
+- [LUMA Installation](resources/lumacafe/installation.md)
 
 - [GS Ice Cream Parlour Installation](resources/icecream-parlour/installation.md)
 
